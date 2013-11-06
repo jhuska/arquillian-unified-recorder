@@ -14,15 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.extension.recorder.video.api;
+package org.arquillian.extension.recorder.video;
 
-import org.arquillian.extension.recorder.RecorderConfigurator;
+import org.arquillian.extension.recorder.RecorderStrategy;
 
 /**
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public abstract class VideoConfigurator extends RecorderConfigurator<VideoConfiguration> {
+public interface VideoRecorderStrategy extends RecorderStrategy {
 
-    public static final String EXTENSION_NAME = "recorder";
 }

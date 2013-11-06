@@ -16,10 +16,10 @@
  */
 package org.arquillian.extension.recorder.video.impl;
 
-import org.arquillian.extension.recorder.video.api.VideoConfiguration;
-import org.arquillian.extension.recorder.video.api.VideoMetaData;
-import org.arquillian.extension.recorder.video.api.VideoRecorderStrategy;
-import org.arquillian.extension.recorder.video.api.VideoType;
+import org.arquillian.extension.recorder.video.VideoConfiguration;
+import org.arquillian.extension.recorder.video.VideoMetaData;
+import org.arquillian.extension.recorder.video.VideoRecorderStrategy;
+import org.arquillian.extension.recorder.video.VideoType;
 import org.arquillian.extension.recorder.video.event.AfterVideoStart;
 import org.arquillian.extension.recorder.video.event.AfterVideoStop;
 import org.arquillian.extension.recorder.video.event.BeforeVideoStart;

@@ -14,16 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.extension.recorder.video.api;
+package org.arquillian.extension.recorder.video;
 
-import org.arquillian.extension.recorder.Resource;
+import org.arquillian.extension.recorder.RecorderConfigurationException;
 
 /**
- * Video abstraction.
- *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public abstract class Video extends Resource<VideoMetaData, VideoType> {
+public class VideoConfigurationException extends RecorderConfigurationException {
+
+    private static final long serialVersionUID = -1080233331757999768L;
 
 }

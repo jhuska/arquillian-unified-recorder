@@ -16,8 +16,8 @@
  */
 package org.arquillian.extension.recorder.video.event;
 
-import org.arquillian.extension.recorder.video.api.VideoMetaData;
-import org.arquillian.extension.recorder.video.api.VideoType;
+import org.arquillian.extension.recorder.video.VideoMetaData;
+import org.arquillian.extension.recorder.video.VideoType;
 import org.jboss.arquillian.core.spi.Validate;
 
 /**

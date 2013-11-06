@@ -16,8 +16,8 @@
  */
 package org.arquillian.extension.recorder.video.impl;
 
-import org.arquillian.extension.recorder.video.api.VideoConfiguration;
-import org.arquillian.extension.recorder.video.api.VideoRecorderStrategy;
+import org.arquillian.extension.recorder.video.VideoConfiguration;
+import org.arquillian.extension.recorder.video.VideoRecorderStrategy;
 import org.jboss.arquillian.core.spi.Validate;
 import org.jboss.arquillian.core.spi.event.Event;
 import org.jboss.arquillian.test.spi.TestResult;

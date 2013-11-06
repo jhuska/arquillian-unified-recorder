@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.extension.recorder.video.api;
+package org.arquillian.extension.recorder.video;
 
 import org.arquillian.extension.recorder.ResourceMetaData;
 

@@ -14,19 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.extension.recorder.video.api;
+package org.arquillian.extension.recorder.video;
 
-import org.arquillian.extension.recorder.Exporter;
-import org.arquillian.extension.recorder.ResourceIdentifier;
+import org.arquillian.extension.recorder.RecorderConfigurator;
 
 /**
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public abstract class VideoExporter extends Exporter<Video, ResourceIdentifier<Video>> {
+public abstract class VideoConfigurator extends RecorderConfigurator<VideoConfiguration> {
 
-    public VideoExporter(ResourceIdentifier<Video> idGenerator) {
-        super(idGenerator);
-    }
-
+    public static final String EXTENSION_NAME = "recorder";
 }
