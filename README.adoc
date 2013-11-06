@@ -1,0 +1,20 @@
+== Unified Arquillian Screenshooter
+
+=== arquillian-recorder
+
+* arquillian-recorder-api
+* arquillian-recorder-build
+* arquillian-recorder-depchain
+* arquillian-recorder-spi
+
+=== arquillian-recorder-screenshooter
+
+* arquillian-recorder-screenshooter-api
+* arquillian-recorder-screenshooter-depchain
+* arquillian-recorder-screenshooter-spi
+
+=== arquillian-recorder-video
+
+* arquillian-recorder-video-api
+* arquillian-recorder-video-depchain
+* arquillian-recorder-video-spi
