@@ -18,15 +18,30 @@ package org.arquillian.extension.recorder.screenshot;
 
 import org.arquillian.extension.recorder.RecorderConfigurationException;
 
-
 /**
  * Thrown in case {@link ScreenshooterConfiguration} validation of configuration has failed.
- *
+ * 
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- *
+ * 
  */
 public class ScreenshooterConfigurationException extends RecorderConfigurationException {
 
     private static final long serialVersionUID = 6129116369759365096L;
+
+    public ScreenshooterConfigurationException() {
+        super();
+    }
+
+    public ScreenshooterConfigurationException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public ScreenshooterConfigurationException(String message) {
+        super(message);
+    }
+
+    public ScreenshooterConfigurationException(Throwable cause) {
+        super(cause);
+    }
 
 }

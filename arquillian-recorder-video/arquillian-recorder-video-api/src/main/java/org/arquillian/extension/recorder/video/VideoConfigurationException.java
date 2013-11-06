@@ -20,10 +20,26 @@ import org.arquillian.extension.recorder.RecorderConfigurationException;
 
 /**
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- *
+ * 
  */
 public class VideoConfigurationException extends RecorderConfigurationException {
 
     private static final long serialVersionUID = -1080233331757999768L;
+
+    public VideoConfigurationException() {
+        super();
+    }
+
+    public VideoConfigurationException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public VideoConfigurationException(String message) {
+        super(message);
+    }
+
+    public VideoConfigurationException(Throwable cause) {
+        super(cause);
+    }
 
 }

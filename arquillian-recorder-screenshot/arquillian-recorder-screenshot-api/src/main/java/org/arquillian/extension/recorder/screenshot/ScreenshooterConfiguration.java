@@ -21,9 +21,9 @@ import org.arquillian.extension.recorder.Configuration;
 
 /**
  * Screenshooter configuration for every screenshooter extension implementation.
- *
+ * 
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- *
+ * 
  */
 public abstract class ScreenshooterConfiguration extends Configuration<ScreenshooterConfiguration> {
 
@@ -41,7 +41,7 @@ public abstract class ScreenshooterConfiguration extends Configuration<Screensho
 
     /**
      * By default set to "target"
-     *
+     * 
      * @return root folder where all screenshots will be placed. Directory structure is left on the extension itself
      */
     public File getRootFolder() {
@@ -50,7 +50,7 @@ public abstract class ScreenshooterConfiguration extends Configuration<Screensho
 
     /**
      * By default set to PNG.
-     *
+     * 
      * @return type of image we want to have our screenshots of, consult {@link ImageType}
      */
     public String getScreenshotType() {
@@ -59,7 +59,7 @@ public abstract class ScreenshooterConfiguration extends Configuration<Screensho
 
     /**
      * By default set to "false".
-     *
+     * 
      * @return
      */
     public String getTakeBeforeTest() {
@@ -68,7 +68,7 @@ public abstract class ScreenshooterConfiguration extends Configuration<Screensho
 
     /**
      * By default set to "false".
-     *
+     * 
      * @return
      */
     public String getTakeAfterTest() {
@@ -77,7 +77,7 @@ public abstract class ScreenshooterConfiguration extends Configuration<Screensho
 
     /**
      * By default set to "false".
-     *
+     * 
      * @return
      */
     public String getTakeWhenTestFailed() {
@@ -86,11 +86,31 @@ public abstract class ScreenshooterConfiguration extends Configuration<Screensho
 
     /**
      * By default set to "false".
-     *
+     * 
      * @return
      */
     public String getTakeWhenTestPassed() {
         return getProperty("takeWhenTestPassed", takeWhenTestPassed);
+    }
+
+    @Override
+    public void validate() throws ScreenshooterConfigurationException {
+        try {
+            if (!getRootFolder().exists()) {
+                getRootFolder().mkdir();
+            } else {
+                if (!getRootFolder().isDirectory()) {
+                    throw new ScreenshooterConfigurationException("Root directory you specified is not a directory.");
+                }
+                if (!getRootFolder().canWrite()) {
+                    throw new ScreenshooterConfigurationException(
+                        "You can not write to '" + getRootFolder().getAbsolutePath() + "'.");
+                }
+            }
+        } catch (SecurityException ex) {
+            throw new ScreenshooterConfigurationException(
+                "You are not permitted to operate on specified resource: " + getRootFolder().getAbsolutePath() + "'.");
+        }
     }
 
 }

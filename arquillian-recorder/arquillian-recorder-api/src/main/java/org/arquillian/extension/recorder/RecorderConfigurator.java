@@ -37,5 +37,12 @@ public abstract class RecorderConfigurator<T extends Configuration<T>> {
      * @param descriptor
      * @throws RecorderConfigurationException
      */
-    public abstract void configureExtension(ArquillianDescriptor descriptor) throws RecorderConfigurationException;
+    public abstract void configureExtension(ArquillianDescriptor descriptor);
+
+    /**
+     *
+     * @param configuration
+     * @throws RecorderConfigurationException
+     */
+    public abstract void validate(T configuration) throws RecorderConfigurationException;
 }

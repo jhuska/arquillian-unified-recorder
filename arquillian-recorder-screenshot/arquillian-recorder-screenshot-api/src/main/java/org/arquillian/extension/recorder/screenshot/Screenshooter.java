@@ -24,6 +24,12 @@ package org.arquillian.extension.recorder.screenshot;
 public interface Screenshooter<S extends Screenshot, T extends ScreenshooterConfiguration> {
 
     /**
+     * 
+     * @param configuration
+     */
+    public void setConfiguration(T configuration);
+    
+    /**
      * @return configuration class of this screenshooter implementation
      */
     public Class<T> getConfigurationClass();

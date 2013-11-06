@@ -23,4 +23,21 @@ package org.arquillian.extension.recorder;
 public class RecorderConfigurationException extends RuntimeException {
 
     private static final long serialVersionUID = 4317821301508277575L;
+
+    public RecorderConfigurationException() {
+        super();
+    }
+
+    public RecorderConfigurationException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public RecorderConfigurationException(String message) {
+        super(message);
+    }
+
+    public RecorderConfigurationException(Throwable cause) {
+        super(cause);
+    }
+
 }
