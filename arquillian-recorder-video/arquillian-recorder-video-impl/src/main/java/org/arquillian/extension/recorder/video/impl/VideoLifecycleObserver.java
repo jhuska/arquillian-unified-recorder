@@ -43,7 +43,7 @@ import org.jboss.arquillian.test.spi.event.suite.TestLifecycleEvent;
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public class VideoRecorderLifecycleObserver {
+public class VideoLifecycleObserver {
 
     @Inject
     private Instance<VideoConfiguration> configuration;
