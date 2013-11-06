@@ -21,7 +21,7 @@ import org.arquillian.extension.recorder.ResourceIdentifier;
 
 /**
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- * 
+ *
  */
 public abstract class ScreenshotExporter extends Exporter<Screenshot, ResourceIdentifier<Screenshot>> {
 

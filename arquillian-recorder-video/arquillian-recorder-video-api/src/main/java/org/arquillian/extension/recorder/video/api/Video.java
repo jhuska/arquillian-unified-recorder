@@ -20,9 +20,9 @@ import org.arquillian.extension.recorder.Resource;
 
 /**
  * Video abstraction.
- * 
+ *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- * 
+ *
  */
 public abstract class Video extends Resource<VideoMetaData, VideoType> {
 

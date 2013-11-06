@@ -21,9 +21,9 @@ import org.arquillian.extension.recorder.Configuration;
 
 /**
  * Video configuration for every recorder extension implementation.
- * 
+ *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- * 
+ *
  */
 public abstract class VideoConfiguration extends Configuration<VideoConfiguration> {
 
@@ -39,7 +39,7 @@ public abstract class VideoConfiguration extends Configuration<VideoConfiguratio
 
     /**
      * By default set to "target"
-     * 
+     *
      * @return root folder where all videos will be placed. Directory structure is left on the extension itself.
      */
     public File getRootFolder() {
@@ -48,7 +48,7 @@ public abstract class VideoConfiguration extends Configuration<VideoConfiguratio
 
     /**
      * By default set to "MPEG".
-     * 
+     *
      * @return type of video we want our screenshots to be of
      */
     public String getVideoType() {
@@ -57,7 +57,7 @@ public abstract class VideoConfiguration extends Configuration<VideoConfiguratio
 
     /**
      * By default set to "false".
-     * 
+     *
      * @return
      */
     public String getStartBeforeTest() {
@@ -66,7 +66,7 @@ public abstract class VideoConfiguration extends Configuration<VideoConfiguratio
 
     /**
      * By default set to "false".
-     * 
+     *
      * @return
      */
     public String getStartBeforeClass() {
@@ -75,7 +75,7 @@ public abstract class VideoConfiguration extends Configuration<VideoConfiguratio
 
     /**
      * By default set to "false".
-     * 
+     *
      * @return
      */
     public String getStartBeforeSuite() {

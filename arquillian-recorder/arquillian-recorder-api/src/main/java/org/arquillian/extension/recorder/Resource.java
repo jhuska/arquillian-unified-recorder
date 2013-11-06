@@ -22,9 +22,9 @@ import org.jboss.arquillian.core.spi.Validate;
 
 /**
  * Base class for all resources we could generate during test run.
- * 
+ *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- * 
+ *
  */
 public abstract class Resource<T extends ResourceMetaData, R extends ResourceType> {
 

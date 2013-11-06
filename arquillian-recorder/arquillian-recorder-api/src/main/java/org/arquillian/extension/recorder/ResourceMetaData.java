@@ -20,9 +20,9 @@ import org.jboss.arquillian.core.spi.Validate;
 
 /**
  * Metadata which are related to any resource.
- * 
+ *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- * 
+ *
  */
 public abstract class ResourceMetaData {
 
@@ -38,7 +38,7 @@ public abstract class ResourceMetaData {
 
     /**
      * Test case class as string in which invocation method was called.
-     * 
+     *
      * @param testCase
      * @return
      * @throws IllegalArgumentException if {@code testCase} is null or empty string
@@ -51,7 +51,7 @@ public abstract class ResourceMetaData {
 
     /**
      * Test method in which invocation method was called.
-     * 
+     *
      * @param testMethod
      * @return
      * @throws IllegalArgumentException if {@code testMethod} is null or empty string
@@ -72,7 +72,7 @@ public abstract class ResourceMetaData {
 
     /**
      * Time stamp when this screenshot was taken.
-     * 
+     *
      * @param timeStamp
      * @return
      */

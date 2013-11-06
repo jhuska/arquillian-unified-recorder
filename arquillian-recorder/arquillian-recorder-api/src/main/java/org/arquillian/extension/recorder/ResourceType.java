@@ -18,9 +18,9 @@ package org.arquillian.extension.recorder;
 
 /**
  * Possible types of any resources. Mostly meaning its file extensions.
- * 
+ *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- * 
+ *
  */
 public interface ResourceType {
 

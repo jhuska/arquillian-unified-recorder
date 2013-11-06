@@ -25,12 +25,12 @@ import org.jboss.arquillian.test.spi.event.suite.Before;
 
 /**
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- * 
+ *
  */
 public class DefaultScreenshootingStrategy implements ScreenshootingStrategy {
 
     private ScreenshooterConfiguration configuration;
-    
+
     public DefaultScreenshootingStrategy(ScreenshooterConfiguration configuration) {
         this.configuration = configuration;
     }
@@ -59,6 +59,6 @@ public class DefaultScreenshootingStrategy implements ScreenshootingStrategy {
         }
         return false;
     }
-    
+
 
 }

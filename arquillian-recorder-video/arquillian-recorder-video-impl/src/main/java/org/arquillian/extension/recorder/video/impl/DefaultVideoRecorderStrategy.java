@@ -30,7 +30,7 @@ import org.jboss.arquillian.test.spi.event.suite.BeforeSuite;
 
 /**
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- * 
+ *
  */
 public class DefaultVideoRecorderStrategy implements VideoRecorderStrategy {
 

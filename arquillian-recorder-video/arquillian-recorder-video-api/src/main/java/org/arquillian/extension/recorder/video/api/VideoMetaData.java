@@ -20,7 +20,7 @@ import org.arquillian.extension.recorder.ResourceMetaData;
 
 /**
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- * 
+ *
  */
 public class VideoMetaData extends ResourceMetaData {
 

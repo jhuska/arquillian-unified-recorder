@@ -18,7 +18,7 @@ package org.arquillian.extension.recorder;
 
 /**
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- * 
+ *
  */
 public class RecorderConfigurationException extends RuntimeException {
 

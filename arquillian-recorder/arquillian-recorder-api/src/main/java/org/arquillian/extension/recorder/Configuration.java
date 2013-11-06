@@ -23,9 +23,9 @@ import org.jboss.arquillian.core.spi.Validate;
 
 /**
  * The base class for all configuration for all implemented extensions.
- * 
+ *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- * 
+ *
  */
 public abstract class Configuration<T extends Configuration<T>> {
 
@@ -33,7 +33,7 @@ public abstract class Configuration<T extends Configuration<T>> {
 
     /**
      * Gets configuration from Arquillian descriptor and creates instance of it.
-     * 
+     *
      * @param properties properties of extension from arquillian.xml
      * @return configuration of screenshooter extension
      */
@@ -51,7 +51,7 @@ public abstract class Configuration<T extends Configuration<T>> {
     /**
      * Gets value of {@code name} property. In case a value for such name does not exist or is null or empty string,
      * {@code defaultValue} is returned.
-     * 
+     *
      * @param name name of property you want to get a value of
      * @param defaultValue value returned in case {@code name} is a null string or it is empty
      * @return value of a {@code name} property
@@ -71,7 +71,7 @@ public abstract class Configuration<T extends Configuration<T>> {
 
     /**
      * Validates configuration.
-     * 
+     *
      * @throws ScreenshooterConfigurationException when configuration is not valid
      */
     public abstract void validate() throws RecorderConfigurationException;

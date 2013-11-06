@@ -22,9 +22,9 @@ import java.net.URL;
 
 /**
  * Exports some resource to defined location, move some resource from one location to another.
- * 
+ *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- * 
+ *
  */
 public abstract class Exporter<
     T extends Resource<? extends ResourceMetaData, ? extends ResourceType>,
@@ -37,28 +37,28 @@ public abstract class Exporter<
     }
 
     /**
-     * 
+     *
      * @param src
      * @param dest
      */
     public abstract void export(T src, T dest);
 
     /**
-     * 
+     *
      * @param src
      * @param dest
      */
     public abstract void export(File src, File dest);
 
     /**
-     * 
+     *
      * @param src
      * @param dest
      */
     public abstract void export(URI src, URI dest);
 
     /**
-     * 
+     *
      * @param src
      * @param dest
      */

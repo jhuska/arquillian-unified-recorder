@@ -22,7 +22,7 @@ import org.jboss.arquillian.core.spi.Validate;
 
 /**
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- * 
+ *
  */
 public class TakeScreenshot {
 

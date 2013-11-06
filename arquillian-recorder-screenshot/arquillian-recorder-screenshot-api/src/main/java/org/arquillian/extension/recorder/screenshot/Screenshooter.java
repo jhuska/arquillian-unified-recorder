@@ -17,9 +17,9 @@
 package org.arquillian.extension.recorder.screenshot;
 
 /**
- * 
+ *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- * 
+ *
  */
 public interface Screenshooter<S extends Screenshot, T extends ScreenshooterConfiguration> {
 
@@ -30,14 +30,14 @@ public interface Screenshooter<S extends Screenshot, T extends ScreenshooterConf
 
     /**
      * Takes screenshot in default format with random string as a name with file format extension.
-     * 
+     *
      * @return screenshot of default image format
      */
     S takeScreenshot();
 
     /**
      * Takes screenshot in specified format. Name of screenshot is random string with file format extension.
-     * 
+     *
      * @param type type of screenshot
      * @return screenshot of given image type
      */
@@ -45,7 +45,7 @@ public interface Screenshooter<S extends Screenshot, T extends ScreenshooterConf
 
     /**
      * Takes screenshot of default file format with specified name.
-     * 
+     *
      * @param fileName name of file without file format extension
      * @return screenshot of default format with specified name
      */
@@ -53,7 +53,7 @@ public interface Screenshooter<S extends Screenshot, T extends ScreenshooterConf
 
     /**
      * Takes screenshot of specified type which is saved under specified name
-     * 
+     *
      * @param fileName name of file without file format extension
      * @param type type of screenshot required
      * @return screenshot of specified format with a specified name
@@ -62,7 +62,7 @@ public interface Screenshooter<S extends Screenshot, T extends ScreenshooterConf
 
     /**
      * Sets a directory where all taken screenshots will be saved from now on.
-     * 
+     *
      * @param screenshotTargetDir directory to save screenshots to
      * @throws IllegalArgumentException if {@code screenshotTargetDir} is null, empty or does not represents existing and
      *         writable directory
@@ -72,7 +72,7 @@ public interface Screenshooter<S extends Screenshot, T extends ScreenshooterConf
     /**
      * Sets the format of images to take. After setting this, all subsequent images will be of this format when not explicitly
      * specified otherwise.
-     * 
+     *
      * @param type type of screenshots to take from now on
      */
     void setScreensthotType(ScreenshotType type);

@@ -21,15 +21,15 @@ import org.jboss.arquillian.test.spi.TestResult;
 
 /**
  * Decides if some screenshot should be taken or not
- * 
+ *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- * 
+ *
  */
 public interface RecorderStrategy {
 
     /**
      * @param event
-     * 
+     *
      * @param event
      * @param result
      * @return true if some action should should be taken, false otherwise
@@ -37,7 +37,7 @@ public interface RecorderStrategy {
     public boolean isTakingAction(Event event, TestResult result);
 
     /**
-     * 
+     *
      * @param event
      * @return true if some action should should be taken, false otherwise
      */

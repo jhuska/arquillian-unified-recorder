@@ -19,15 +19,15 @@ package org.arquillian.extension.recorder;
 /**
  * Serves as a convenient way how to get an identifier of some resource according to its type. Mostly, we need to get some
  * (random) file name for resource in order to save it afterwards.
- * 
+ *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- * 
+ *
  */
 public interface ResourceIdentifier<T extends Resource<? extends ResourceMetaData, ? extends ResourceType>> {
 
     /**
      * Gets identifier for a resource.
-     * 
+     *
      * @param resource resource we want the get an identifier of
      * @return identifier of resource
      */

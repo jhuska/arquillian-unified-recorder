@@ -20,9 +20,9 @@ import org.arquillian.extension.recorder.ResourceType;
 
 /**
  * All sensible file extensions for taken screenshots.
- * 
+ *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- * 
+ *
  */
 public enum ScreenshotType implements ResourceType {
 

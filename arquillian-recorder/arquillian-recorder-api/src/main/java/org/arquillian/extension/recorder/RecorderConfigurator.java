@@ -21,9 +21,9 @@ import org.jboss.arquillian.core.api.annotation.Observes;
 
 /**
  * Configures any extension.
- * 
+ *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- * 
+ *
  */
 public abstract class RecorderConfigurator<T extends Configuration<T>> {
 
@@ -33,7 +33,7 @@ public abstract class RecorderConfigurator<T extends Configuration<T>> {
     public static final String EXTENSION_NAME = "recorder";
 
     /**
-     * 
+     *
      * @param event
      * @param descriptor
      * @throws RecorderConfigurationException

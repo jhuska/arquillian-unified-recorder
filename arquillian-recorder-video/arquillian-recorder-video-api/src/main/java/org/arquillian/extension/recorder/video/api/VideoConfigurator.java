@@ -20,7 +20,7 @@ import org.arquillian.extension.recorder.RecorderConfigurator;
 
 /**
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- * 
+ *
  */
 public abstract class VideoConfigurator extends RecorderConfigurator<VideoConfiguration> {
 
