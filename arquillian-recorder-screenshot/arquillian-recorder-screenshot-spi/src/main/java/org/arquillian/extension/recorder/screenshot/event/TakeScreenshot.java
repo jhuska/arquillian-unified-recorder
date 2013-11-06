@@ -16,15 +16,18 @@
  */
 package org.arquillian.extension.recorder.screenshot.event;
 
+import org.arquillian.extension.recorder.screenshot.Screenshot;
 import org.arquillian.extension.recorder.screenshot.ScreenshotMetaData;
 import org.arquillian.extension.recorder.screenshot.ScreenshotType;
 import org.jboss.arquillian.core.spi.Validate;
 
 /**
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- *
+ * 
  */
 public class TakeScreenshot {
+
+    private Screenshot screenshot;
 
     private ScreenshotType screenshotType;
 
@@ -35,6 +38,14 @@ public class TakeScreenshot {
         Validate.notNull(metaData, "Meta data is null object");
         this.screenshotType = screenshotType;
         this.metaData = metaData;
+    }
+
+    public Screenshot getScreenshot() {
+        return screenshot;
+    }
+
+    public void setScreenshot(Screenshot screenshot) {
+        this.screenshot = screenshot;
     }
 
     public ScreenshotType getScreenshotType() {

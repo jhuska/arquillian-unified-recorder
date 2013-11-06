@@ -23,13 +23,13 @@ package org.arquillian.extension.recorder;
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public interface ResourceIdentifier<T extends Resource<? extends ResourceMetaData, ? extends ResourceType>> {
+public interface ResourceIdentifier<T extends ResourceType> {
 
     /**
      * Gets identifier for a resource.
      *
-     * @param resource resource we want the get an identifier of
+     * @param resourceType resource we want the get an identifier of
      * @return identifier of resource
      */
-    String getIdentifier(T resource);
+    String getIdentifier(T resourceType);
 }

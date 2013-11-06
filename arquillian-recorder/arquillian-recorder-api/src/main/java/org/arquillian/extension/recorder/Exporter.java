@@ -28,12 +28,12 @@ import java.net.URL;
  */
 public abstract class Exporter<
     T extends Resource<? extends ResourceMetaData, ? extends ResourceType>,
-    G extends ResourceIdentifier<T>> {
+    G extends ResourceType> {
 
-    protected final G idGenerator;
+    protected final G resourceType;
 
-    public Exporter(G idGenerator) {
-        this.idGenerator = idGenerator;
+    public Exporter(G resourceType) {
+        this.resourceType = resourceType;
     }
 
     /**

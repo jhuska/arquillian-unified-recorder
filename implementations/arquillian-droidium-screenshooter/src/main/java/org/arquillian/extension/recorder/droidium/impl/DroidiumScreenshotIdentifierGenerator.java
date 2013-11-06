@@ -14,18 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.extension.recorder.video;
+package org.arquillian.extension.recorder.droidium.impl;
 
-import org.arquillian.extension.recorder.Exporter;
+import java.util.UUID;
+
+import org.arquillian.extension.recorder.ResourceIdentifier;
+import org.arquillian.extension.recorder.screenshot.ScreenshotType;
 
 /**
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public abstract class VideoExporter extends Exporter<Video, VideoType> {
+public class DroidiumScreenshotIdentifierGenerator implements ResourceIdentifier<ScreenshotType> {
 
-    public VideoExporter(VideoType type) {
-        super(type);
+    @Override
+    public String getIdentifier(ScreenshotType resourceType) {
+        return UUID.randomUUID().toString() + resourceType.toString();
     }
 
 }

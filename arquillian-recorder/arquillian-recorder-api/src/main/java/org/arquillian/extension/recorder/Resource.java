@@ -16,19 +16,15 @@
  */
 package org.arquillian.extension.recorder;
 
-import java.io.File;
-
 import org.jboss.arquillian.core.spi.Validate;
 
 /**
  * Base class for all resources we could generate during test run.
- *
+ * 
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- *
+ * 
  */
 public abstract class Resource<T extends ResourceMetaData, R extends ResourceType> {
-
-    private File resource;
 
     private T resourceMetaData;
 
@@ -39,18 +35,9 @@ public abstract class Resource<T extends ResourceMetaData, R extends ResourceTyp
         this.resourceMetaData = resourceMetaData;
     }
 
-    public void setResource(File resource) {
-        Validate.notNull(resourceMetaData, "Resource you are trying to set is a null object!");
-        this.resource = resource;
-    }
-
     public void setResourceType(R resourceType) {
         Validate.notNull(resourceType, "Resource type you are trying to set is a null object!");
         this.resourceType = resourceType;
-    }
-
-    public File getResource() {
-        return this.resource;
     }
 
     public R getResourceType() {

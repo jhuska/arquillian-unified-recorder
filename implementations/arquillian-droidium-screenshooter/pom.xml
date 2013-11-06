@@ -58,6 +58,11 @@
             <artifactId>arquillian-droidium-container-api</artifactId>
             <version>${version.droidium.container}</version>
         </dependency>
+        <dependency>
+            <groupId>org.arquillian.container</groupId>
+            <artifactId>arquillian-droidium-container-spi</artifactId>
+            <version>${version.droidium.container}</version>
+        </dependency>
     </dependencies>
 
 </project>

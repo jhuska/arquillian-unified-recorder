@@ -16,11 +16,10 @@
  */
 package org.arquillian.extension.recorder.droidium.impl;
 
-import org.arquillian.droidium.container.spi.event.AndroidDeviceReady;
-import org.arquillian.extension.recorder.droidium.configuration.DroidiumScreenshooterConfiguration;
 import org.arquillian.extension.recorder.screenshot.Screenshooter;
-import org.arquillian.extension.recorder.screenshot.event.ScreenshotExtensionConfigured;
-import org.jboss.arquillian.core.api.InstanceProducer;
+import org.arquillian.extension.recorder.screenshot.Screenshot;
+import org.arquillian.extension.recorder.screenshot.event.TakeScreenshot;
+import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.api.annotation.Observes;
 
@@ -28,25 +27,22 @@ import org.jboss.arquillian.core.api.annotation.Observes;
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public class DroidiumScreenshooterCreator {
-
-    @SuppressWarnings("rawtypes")
-    @Inject
-    private InstanceProducer<Screenshooter> screenshooter;
+public class DroidiumScreenshotTaker {
 
     @Inject
-    private InstanceProducer<DroidiumScreenshotIdentifierGenerator> idGenerator;
+    private Instance<Screenshooter> screenshooter;
 
-    public void onScreenshooterExtensionConfigured(@Observes ScreenshotExtensionConfigured event) {
+    @Inject
+    private Instance<DroidiumScreenshotIdentifierGenerator> idGenerator;
 
-        Screenshooter<DroidiumScreenshot, DroidiumScreenshooterConfiguration> screenshooter = new DroidiumScreenshooter();
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public void onTakeScreenshot(@Observes TakeScreenshot event) {
 
-        this.screenshooter.set(screenshooter);
-    }
+        Screenshooter screenshooter =  this.screenshooter.get();
+        String screenshotIdentifier = idGenerator.get().getIdentifier(event.getScreenshotType());
 
-    public void onAndroidDeviceAvailable(@Observes AndroidDeviceReady event) {
-        ((DroidiumScreenshooter) screenshooter.get()).setDevice(event.getDevice());
+        Screenshot screenshot = screenshooter.takeScreenshot(screenshotIdentifier, event.getScreenshotType());
 
-        idGenerator.set(new DroidiumScreenshotIdentifierGenerator());
+        event.getMetaData().setResource(screenshot);
     }
 }

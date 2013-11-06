@@ -14,23 +14,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.extension.recorder.droidium;
+package org.arquillian.extension.recorder.droidium.enricher;
 
-import org.arquillian.extension.recorder.droidium.configuration.DroidiumScreenshooterConfigurator;
-import org.arquillian.extension.recorder.droidium.enricher.DroidiumScreenshooterProvider;
-import org.jboss.arquillian.core.spi.LoadableExtension;
+import java.lang.annotation.Annotation;
+
+import org.arquillian.extension.recorder.screenshot.Screenshooter;
+import org.jboss.arquillian.core.api.Instance;
+import org.jboss.arquillian.core.api.annotation.Inject;
+import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.arquillian.test.spi.enricher.resource.ResourceProvider;
 
 /**
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public class DroidiumExtension implements LoadableExtension {
+public class DroidiumScreenshooterProvider implements ResourceProvider {
+
+    @SuppressWarnings("rawtypes")
+    @Inject
+    private Instance<Screenshooter> screenshooter;
 
     @Override
-    public void register(ExtensionBuilder builder) {
-        builder.observer(DroidiumScreenshooterConfigurator.class);
-        builder.service(ResourceProvider.class, DroidiumScreenshooterProvider.class);
+    public boolean canProvide(Class<?> type) {
+        return Screenshooter.class.isAssignableFrom(type);
+    }
+
+    @Override
+    public Object lookup(ArquillianResource resource, Annotation... qualifiers) {
+        Screenshooter<?, ?> screenshooter = this.screenshooter.get();
+
+        if (screenshooter == null) {
+            throw new IllegalStateException("Unable to inject Droidium screenshooter into test.");
+        }
+
+        return screenshooter;
     }
 
 }

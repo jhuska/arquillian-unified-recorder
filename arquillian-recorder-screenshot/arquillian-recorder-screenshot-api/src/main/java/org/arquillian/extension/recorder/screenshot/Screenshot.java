@@ -20,9 +20,9 @@ import org.arquillian.extension.recorder.Resource;
 
 /**
  * Screenshot abstraction.
- *
+ * 
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- *
+ * 
  */
 public abstract class Screenshot extends Resource<ScreenshotMetaData, ScreenshotType> {
 }
