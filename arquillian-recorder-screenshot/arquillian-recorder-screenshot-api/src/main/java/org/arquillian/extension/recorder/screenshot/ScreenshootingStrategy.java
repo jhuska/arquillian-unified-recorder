@@ -22,6 +22,6 @@ import org.arquillian.extension.recorder.RecorderStrategy;
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public interface ScreenshootingStrategy extends RecorderStrategy {
+public interface ScreenshootingStrategy extends RecorderStrategy<ScreenshooterConfiguration> {
 
 }

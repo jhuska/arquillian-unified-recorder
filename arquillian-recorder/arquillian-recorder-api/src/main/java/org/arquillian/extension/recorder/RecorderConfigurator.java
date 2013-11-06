@@ -17,7 +17,6 @@
 package org.arquillian.extension.recorder;
 
 import org.jboss.arquillian.config.descriptor.api.ArquillianDescriptor;
-import org.jboss.arquillian.core.api.annotation.Observes;
 
 /**
  * Configures any extension.
@@ -38,5 +37,5 @@ public abstract class RecorderConfigurator<T extends Configuration<T>> {
      * @param descriptor
      * @throws RecorderConfigurationException
      */
-    public abstract void configureExtension(@Observes ArquillianDescriptor descriptor) throws RecorderConfigurationException;
+    public abstract void configureExtension(ArquillianDescriptor descriptor) throws RecorderConfigurationException;
 }

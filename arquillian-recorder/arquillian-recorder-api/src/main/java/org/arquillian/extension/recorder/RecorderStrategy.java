@@ -25,11 +25,15 @@ import org.jboss.arquillian.test.spi.TestResult;
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public interface RecorderStrategy {
+public interface RecorderStrategy<T extends Configuration<T>> {
 
     /**
-     * @param event
      *
+     * @param configuration
+     */
+    public void setConfiguration(T configuration);
+
+    /**
      * @param event
      * @param result
      * @return true if some action should should be taken, false otherwise

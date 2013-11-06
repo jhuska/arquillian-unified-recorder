@@ -17,7 +17,7 @@
 package org.arquillian.extension.recorder.video.impl;
 
 import org.arquillian.extension.recorder.video.VideoConfiguration;
-import org.arquillian.extension.recorder.video.VideoRecorderStrategy;
+import org.arquillian.extension.recorder.video.VideoStrategy;
 import org.jboss.arquillian.core.spi.Validate;
 import org.jboss.arquillian.core.spi.event.Event;
 import org.jboss.arquillian.test.spi.TestResult;
@@ -32,11 +32,12 @@ import org.jboss.arquillian.test.spi.event.suite.BeforeSuite;
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public class DefaultVideoRecorderStrategy implements VideoRecorderStrategy {
+public class DefaultVideoStrategy implements VideoStrategy {
 
     private VideoConfiguration configuration;
 
-    public DefaultVideoRecorderStrategy(VideoConfiguration configuration) {
+    @Override
+    public void setConfiguration(VideoConfiguration configuration) {
         Validate.notNull(configuration, "Video configuration can not be a null object!");
         this.configuration = configuration;
     }
@@ -71,4 +72,5 @@ public class DefaultVideoRecorderStrategy implements VideoRecorderStrategy {
 
         return false;
     }
+
 }

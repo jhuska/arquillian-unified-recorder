@@ -18,6 +18,7 @@ package org.arquillian.extension.recorder.screenshot.impl;
 
 import org.arquillian.extension.recorder.screenshot.ScreenshooterConfiguration;
 import org.arquillian.extension.recorder.screenshot.ScreenshootingStrategy;
+import org.jboss.arquillian.core.spi.Validate;
 import org.jboss.arquillian.core.spi.event.Event;
 import org.jboss.arquillian.test.spi.TestResult;
 import org.jboss.arquillian.test.spi.event.suite.After;
@@ -31,7 +32,9 @@ public class DefaultScreenshootingStrategy implements ScreenshootingStrategy {
 
     private ScreenshooterConfiguration configuration;
 
-    public DefaultScreenshootingStrategy(ScreenshooterConfiguration configuration) {
+    @Override
+    public void setConfiguration(ScreenshooterConfiguration configuration) {
+        Validate.notNull(configuration, "Screenshooter configuration is a null object!");
         this.configuration = configuration;
     }
 
@@ -59,6 +62,4 @@ public class DefaultScreenshootingStrategy implements ScreenshootingStrategy {
         }
         return false;
     }
-
-
 }

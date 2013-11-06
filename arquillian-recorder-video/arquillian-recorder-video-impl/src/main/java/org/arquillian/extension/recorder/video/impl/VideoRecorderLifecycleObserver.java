@@ -18,7 +18,7 @@ package org.arquillian.extension.recorder.video.impl;
 
 import org.arquillian.extension.recorder.video.VideoConfiguration;
 import org.arquillian.extension.recorder.video.VideoMetaData;
-import org.arquillian.extension.recorder.video.VideoRecorderStrategy;
+import org.arquillian.extension.recorder.video.VideoStrategy;
 import org.arquillian.extension.recorder.video.VideoType;
 import org.arquillian.extension.recorder.video.event.AfterVideoStart;
 import org.arquillian.extension.recorder.video.event.AfterVideoStop;
@@ -49,7 +49,7 @@ public class VideoRecorderLifecycleObserver {
     private Instance<VideoConfiguration> configuration;
 
     @Inject
-    private Instance<VideoRecorderStrategy> strategy;
+    private Instance<VideoStrategy> strategy;
 
     @Inject
     private Event<BeforeVideoStart> beforeVideoStart;
