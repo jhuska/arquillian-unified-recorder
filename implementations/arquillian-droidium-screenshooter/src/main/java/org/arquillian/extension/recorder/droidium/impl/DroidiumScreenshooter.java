@@ -16,6 +16,8 @@
  */
 package org.arquillian.extension.recorder.droidium.impl;
 
+import java.io.File;
+
 import org.arquillian.droidium.container.api.AndroidDevice;
 import org.arquillian.extension.recorder.droidium.configuration.DroidiumScreenshooterConfiguration;
 import org.arquillian.extension.recorder.screenshot.Screenshooter;
@@ -23,24 +25,25 @@ import org.arquillian.extension.recorder.screenshot.ScreenshotType;
 import org.jboss.arquillian.core.spi.Validate;
 
 /**
+ * Takes screenshots for Android devices.
+ *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public class DroidiumScreenshooter implements Screenshooter<DroidiumScreenshot, DroidiumScreenshooterConfiguration> {
+public class DroidiumScreenshooter implements Screenshooter {
 
     private DroidiumScreenshooterConfiguration configuration;
 
-    private AndroidDevice androidDevice;
+    private File screenshotTargetDir = new File("target" + System.getProperty("file.separator"));
 
-    public void setDevice(AndroidDevice androidDevice) {
-        Validate.notNull(androidDevice, "Android device you are trying to set for DroidiumScreenshooter is a null object!");
-        this.androidDevice = androidDevice;
-    }
+    private AndroidDevice device;
 
-    @Override
-    public void setConfiguration(DroidiumScreenshooterConfiguration configuration) {
-        Validate.notNull(configuration, "Droidium screenshooter configuration for DroidiumScreenshooter implementation "
-            + "is a null object!");
+    private ScreenshotType screenshotType = ScreenshotType.PNG;
+
+    private DroidiumScreenshotIdentifierGenerator idGenerator = new DroidiumScreenshotIdentifierGenerator();
+
+    public void setConfigurationClass(DroidiumScreenshooterConfiguration configuration) {
+        Validate.notNull(configuration, "Configuration is a null object!");
         this.configuration = configuration;
     }
 
@@ -51,38 +54,61 @@ public class DroidiumScreenshooter implements Screenshooter<DroidiumScreenshot, 
 
     @Override
     public DroidiumScreenshot takeScreenshot() {
-        // TODO Auto-generated method stub
-        return null;
+        return takeScreenshot(screenshotType);
     }
 
     @Override
     public DroidiumScreenshot takeScreenshot(ScreenshotType type) {
-        // TODO Auto-generated method stub
-        return null;
+        Validate.notNull(type, "Screenshot type is a null object!");
+        return takeScreenshot(new File(idGenerator.getIdentifier(type)), type);
     }
 
     @Override
     public DroidiumScreenshot takeScreenshot(String fileName) {
-        // TODO Auto-generated method stub
-        return null;
+        Validate.notNullOrEmpty(fileName, "File name is a null object or an empty string!");
+        return takeScreenshot(new File(fileName));
+    }
+
+    @Override
+    public DroidiumScreenshot takeScreenshot(File file) {
+        Validate.notNull(file, "File is a null object!");
+        return takeScreenshot(file, screenshotType);
     }
 
     @Override
     public DroidiumScreenshot takeScreenshot(String fileName, ScreenshotType type) {
+        Validate.notNullOrEmpty(fileName, "File name is a null object or an empty string!");
+        Validate.notNull(type, "Type of screenshot is a null object!");
+        return takeScreenshot(new File(fileName), type);
+    }
+
+    @Override
+    public DroidiumScreenshot takeScreenshot(File file, ScreenshotType type) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void setScreenshotTargetDir(String screenshotTargetDir) {
-        // TODO Auto-generated method stub
-
+        Validate.notNullOrEmpty(screenshotTargetDir, "Screenshot target dir is a null object or an empty string!");
+        setScreenshotTargetDir(new File(screenshotTargetDir));
     }
 
     @Override
-    public void setScreensthotType(ScreenshotType type) {
-        // TODO Auto-generated method stub
+    public void setScreenshotTargetDir(File screenshotTargetDir) {
+        Validate.notNull(screenshotTargetDir, "Screenshot target dir is a null object or an empty string!");
+        this.screenshotTargetDir = screenshotTargetDir;
+    }
 
+    @Override
+    public void setScreensthotType(ScreenshotType screenshotType) {
+        Validate.notNull(screenshotType, "Screenshot type is a null object!");
+        this.screenshotType = screenshotType;
+    }
+
+    public void setDevice(AndroidDevice device) {
+        Validate.notNull(device, "Android device to set to take screenshots is a null object!");
+        this.device = device;
     }
 
 }

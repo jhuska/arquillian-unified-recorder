@@ -22,10 +22,6 @@ import org.arquillian.extension.recorder.Exporter;
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public abstract class VideoExporter extends Exporter<Video, VideoType> {
-
-    public VideoExporter(VideoType type) {
-        super(type);
-    }
+public interface VideoExporter extends Exporter<Video> {
 
 }

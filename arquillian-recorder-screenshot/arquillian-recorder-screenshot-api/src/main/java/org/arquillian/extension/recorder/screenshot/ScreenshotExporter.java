@@ -22,10 +22,6 @@ import org.arquillian.extension.recorder.Exporter;
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public abstract class ScreenshotExporter extends Exporter<Screenshot, ScreenshotType> {
-
-    public ScreenshotExporter(ScreenshotType screenshotType) {
-        super(screenshotType);
-    }
+public interface ScreenshotExporter extends Exporter<Screenshot> {
 
 }

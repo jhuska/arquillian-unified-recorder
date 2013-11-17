@@ -19,6 +19,8 @@ package org.arquillian.extension.recorder.screenshot.event;
 import org.arquillian.extension.recorder.event.RecordingExtensionConfigured;
 
 /**
+ * Event saying that screenshot extension is configured.
+ *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */

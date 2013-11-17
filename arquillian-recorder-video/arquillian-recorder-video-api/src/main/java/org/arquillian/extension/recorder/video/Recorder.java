@@ -16,18 +16,20 @@
  */
 package org.arquillian.extension.recorder.video;
 
+import java.io.File;
+
 /**
  *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public interface Recorder<V extends Video, T extends VideoConfiguration> {
+public interface Recorder {
 
     /**
      *
      * @return configuration class of this recorder implementation
      */
-    public Class<T> getConfigurationClass();
+    public <T extends VideoConfiguration> Class<T> getConfigurationClass();
 
     /**
      * Starts to record your test.
@@ -51,16 +53,37 @@ public interface Recorder<V extends Video, T extends VideoConfiguration> {
     /**
      * Starts to record your test.
      *
+     * @param file file where to save recorded video
+     */
+    public void startRecording(File file);
+
+    /**
+     * Starts to record your test.
+     *
      * @param fileName name of video you want to start to record
      * @param videoType type of video you want to start to record
      */
     public void startRecording(String fileName, VideoType videoType);
 
     /**
+     * Starts to record your test.
+     *
+     * @param file file where to save recorder video
+     * @param videoType type of video you want to start to record
+     */
+    public void startRecording(File file, VideoType videoType);
+
+    /**
      *
      * @param videoTargetDir name of directory you want to save all videos to
      */
     public void setVideoTargetDir(String videoTargetDir);
+
+    /**
+     *
+     * @param videoTargetDir directory you want to save all videos to
+     */
+    public void setVideoTargetDir(File videoTargetDir);
 
     /**
      *
@@ -74,5 +97,5 @@ public interface Recorder<V extends Video, T extends VideoConfiguration> {
      *
      * @return recorded video
      */
-    public V stopRecording();
+    public <V extends Video> V stopRecording();
 }

@@ -18,9 +18,9 @@
     <!-- Parent -->
     <parent>
         <groupId>org.arquillian.extension</groupId>
-        <artifactId>arquillian-recorder-screenshot-build</artifactId>
+        <artifactId>arquillian-recorder-build</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../arquillian-recorder-screenshot-build/pom.xml</relativePath>
+        <relativePath>../../arquillian-recorder/arquillian-recorder-build/pom.xml</relativePath>
     </parent>
 
     <!-- Artifact Configuration -->

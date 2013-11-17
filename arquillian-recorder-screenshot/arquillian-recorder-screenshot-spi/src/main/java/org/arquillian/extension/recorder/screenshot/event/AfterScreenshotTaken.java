@@ -21,6 +21,8 @@ import org.arquillian.extension.recorder.screenshot.ScreenshotType;
 import org.jboss.arquillian.core.spi.Validate;
 
 /**
+ * This even is fired after actual taking of some screenshot took action.
+ *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
@@ -31,8 +33,8 @@ public class AfterScreenshotTaken {
     private ScreenshotMetaData metaData;
 
     public AfterScreenshotTaken(ScreenshotType screenshotType, ScreenshotMetaData metaData) {
-        Validate.notNull(screenshotType, "Screenshot type is null object!");
-        Validate.notNull(metaData, "Meta data is null object");
+        Validate.notNull(screenshotType, "Screenshot type is a null object!");
+        Validate.notNull(metaData, "Meta data is a null object");
 
         this.screenshotType = screenshotType;
         this.metaData = metaData;
@@ -43,6 +45,7 @@ public class AfterScreenshotTaken {
     }
 
     public void setScreenshotType(ScreenshotType screenshotType) {
+        Validate.notNull(screenshotType, "Screenshot type is a null object!");
         this.screenshotType = screenshotType;
     }
 
@@ -51,6 +54,7 @@ public class AfterScreenshotTaken {
     }
 
     public void setMetaData(ScreenshotMetaData metaData) {
+        Validate.notNull(metaData, "Meta data is a null object.");
         this.metaData = metaData;
     }
 

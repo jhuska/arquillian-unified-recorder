@@ -31,8 +31,8 @@ public class BeforeVideoStart {
     private VideoMetaData videoMetaData;
 
     public BeforeVideoStart(VideoType videoType, VideoMetaData videoMetaData) {
-        Validate.notNull(videoType, "Video type is null object!");
-        Validate.notNull(videoMetaData, "Video meta data is null object!");
+        Validate.notNull(videoType, "Video type is a null object!");
+        Validate.notNull(videoMetaData, "Video meta data is a null object!");
     }
 
     public VideoType getVideoType() {
@@ -40,6 +40,7 @@ public class BeforeVideoStart {
     }
 
     public void setVideoType(VideoType videoType) {
+        Validate.notNull(videoType, "Video type is a null object!");
         this.videoType = videoType;
     }
 
@@ -48,6 +49,7 @@ public class BeforeVideoStart {
     }
 
     public void setVideoMetaData(VideoMetaData videoMetaData) {
+        Validate.notNull(videoMetaData, "Video meta data is a null object!");
         this.videoMetaData = videoMetaData;
     }
 

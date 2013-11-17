@@ -43,10 +43,8 @@
 
     <!-- Modules -->
     <modules>
-        <module>arquillian-recorder-video-build</module>
         <module>arquillian-recorder-video-api</module>
         <module>arquillian-recorder-video-spi</module>
-        <module>arquillian-recorder-video-depchain</module>
         <module>arquillian-recorder-video-impl</module>
     </modules>
 

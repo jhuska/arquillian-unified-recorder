@@ -26,41 +26,33 @@ import java.net.URL;
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public abstract class Exporter<
-    T extends Resource<? extends ResourceMetaData, ? extends ResourceType>,
-    G extends ResourceType> {
-
-    protected final G resourceType;
-
-    public Exporter(G resourceType) {
-        this.resourceType = resourceType;
-    }
+public interface Exporter<T extends Resource<? extends ResourceMetaData, ? extends ResourceType>> {
 
     /**
      *
      * @param src
      * @param dest
      */
-    public abstract void export(T src, T dest);
+    public void export(T src, T dest);
 
     /**
      *
      * @param src
      * @param dest
      */
-    public abstract void export(File src, File dest);
+    public void export(File src, File dest);
 
     /**
      *
      * @param src
      * @param dest
      */
-    public abstract void export(URI src, URI dest);
+    public void export(URI src, URI dest);
 
     /**
      *
      * @param src
      * @param dest
      */
-    public abstract void export(URL src, URL dest);
+    public void export(URL src, URL dest);
 }

@@ -22,8 +22,11 @@ import org.arquillian.extension.recorder.screenshot.ScreenshotType;
 import org.jboss.arquillian.core.spi.Validate;
 
 /**
+ * Event fired when we want to take a screenshot. There should be observer on the implementation side which listens to this kind
+ * of event and when observed, a screenshot is taken in desired way, significant for any particular screenshooter extension.
+ *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- * 
+ *
  */
 public class TakeScreenshot {
 
@@ -34,8 +37,8 @@ public class TakeScreenshot {
     private ScreenshotMetaData metaData;
 
     public TakeScreenshot(ScreenshotType screenshotType, ScreenshotMetaData metaData) {
-        Validate.notNull(screenshotType, "Screenshot type is null object!");
-        Validate.notNull(metaData, "Meta data is null object");
+        Validate.notNull(screenshotType, "Screenshot type is a null object!");
+        Validate.notNull(metaData, "Meta data is a null object!");
         this.screenshotType = screenshotType;
         this.metaData = metaData;
     }
@@ -53,6 +56,7 @@ public class TakeScreenshot {
     }
 
     public void setScreenshotType(ScreenshotType screenshotType) {
+        Validate.notNull(screenshotType, "Screenshot type is a null object!");
         this.screenshotType = screenshotType;
     }
 
@@ -61,6 +65,7 @@ public class TakeScreenshot {
     }
 
     public void setMetaData(ScreenshotMetaData metaData) {
+        Validate.notNull(metaData, "Meta data is a null object!");
         this.metaData = metaData;
     }
 

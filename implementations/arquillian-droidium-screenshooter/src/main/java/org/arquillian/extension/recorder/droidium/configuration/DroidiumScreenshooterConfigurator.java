@@ -25,6 +25,7 @@ import org.jboss.arquillian.config.descriptor.api.ExtensionDef;
 import org.jboss.arquillian.core.api.Event;
 import org.jboss.arquillian.core.api.InstanceProducer;
 import org.jboss.arquillian.core.api.annotation.Inject;
+import org.jboss.arquillian.core.api.annotation.Observes;
 
 /**
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
@@ -39,7 +40,7 @@ public class DroidiumScreenshooterConfigurator extends ScreenshooterConfigurator
     private Event<ScreenshotExtensionConfigured> screenshotExtensionConfigured;
 
     @Override
-    public void configureExtension(ArquillianDescriptor descriptor) {
+    public void configureExtension(@Observes ArquillianDescriptor descriptor) {
 
         ScreenshooterConfiguration configuration = new DroidiumScreenshooterConfiguration();
 

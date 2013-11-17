@@ -43,10 +43,8 @@
 
     <!-- Modules -->
     <modules>
-        <module>arquillian-recorder-screenshot-build</module>
         <module>arquillian-recorder-screenshot-api</module>
         <module>arquillian-recorder-screenshot-spi</module>
-        <module>arquillian-recorder-screenshot-depchain</module>
         <module>arquillian-recorder-screenshot-impl</module>
     </modules>
 

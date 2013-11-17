@@ -17,7 +17,6 @@
 package org.arquillian.extension.recorder.droidium.impl;
 
 import org.arquillian.droidium.container.spi.event.AndroidDeviceReady;
-import org.arquillian.extension.recorder.droidium.configuration.DroidiumScreenshooterConfiguration;
 import org.arquillian.extension.recorder.screenshot.Screenshooter;
 import org.arquillian.extension.recorder.screenshot.event.ScreenshotExtensionConfigured;
 import org.jboss.arquillian.core.api.InstanceProducer;
@@ -30,7 +29,6 @@ import org.jboss.arquillian.core.api.annotation.Observes;
  */
 public class DroidiumScreenshooterCreator {
 
-    @SuppressWarnings("rawtypes")
     @Inject
     private InstanceProducer<Screenshooter> screenshooter;
 
@@ -39,7 +37,8 @@ public class DroidiumScreenshooterCreator {
 
     public void onScreenshooterExtensionConfigured(@Observes ScreenshotExtensionConfigured event) {
 
-        Screenshooter<DroidiumScreenshot, DroidiumScreenshooterConfiguration> screenshooter = new DroidiumScreenshooter();
+        Screenshooter screenshooter = new DroidiumScreenshooter();
+        idGenerator.set(new DroidiumScreenshotIdentifierGenerator());
 
         this.screenshooter.set(screenshooter);
     }
@@ -47,6 +46,5 @@ public class DroidiumScreenshooterCreator {
     public void onAndroidDeviceAvailable(@Observes AndroidDeviceReady event) {
         ((DroidiumScreenshooter) screenshooter.get()).setDevice(event.getDevice());
 
-        idGenerator.set(new DroidiumScreenshotIdentifierGenerator());
     }
 }

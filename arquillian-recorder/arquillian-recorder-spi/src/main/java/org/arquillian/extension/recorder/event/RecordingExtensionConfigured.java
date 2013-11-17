@@ -17,6 +17,8 @@
 package org.arquillian.extension.recorder.event;
 
 /**
+ * Base event for any video or screenshot extension fired after extension is configured.
+ *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */

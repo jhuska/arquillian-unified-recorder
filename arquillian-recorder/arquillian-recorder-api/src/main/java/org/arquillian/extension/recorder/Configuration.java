@@ -22,7 +22,7 @@ import java.util.Map;
 import org.jboss.arquillian.core.spi.Validate;
 
 /**
- * The base class for all configuration for all implemented extensions.
+ * The base class for all configurations for all implemented extensions.
  *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
@@ -36,10 +36,11 @@ public abstract class Configuration<T extends Configuration<T>> {
      *
      * @param properties properties of extension from arquillian.xml
      * @return configuration of screenshooter extension
+     * @throws if {@code configuration} is a null object
      */
     @SuppressWarnings("unchecked")
     public T setConfiguration(Map<String, String> configuration) {
-        Validate.notNull(configuration, "Properties for configuration of screenshooter extension can not be a null object.");
+        Validate.notNull(configuration, "Properties for configuration of recorder extension can not be a null object.");
         this.configuration = configuration;
         return (T) this;
     }

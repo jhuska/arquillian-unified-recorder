@@ -20,13 +20,11 @@ import org.jboss.arquillian.core.spi.Validate;
 
 /**
  * Metadata which are related to any resource.
- * 
+ *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- * 
+ *
  */
-public abstract class ResourceMetaData<T extends Resource<?,?>> {
-
-    private T resource;
+public abstract class ResourceMetaData {
 
     private String testClassName;
 
@@ -34,55 +32,38 @@ public abstract class ResourceMetaData<T extends Resource<?,?>> {
 
     private long timeStamp;
 
-    /**
-     * 
-     * @return
-     */
-    public T getScreenshot() {
-        return resource;
-    }
-
-    /**
-     * 
-     * @param screenshot
-     */
-    public void setResource(T resource) {
-        Validate.notNull(resource, "Resource file you are trying to set is a null object!");
-        this.resource = resource;
-    }
-
     public String getTestClassName() {
         return testClassName;
     }
 
     /**
      * Test case class as string in which invocation method was called.
-     * 
+     *
      * @param testCase
      * @return
      * @throws IllegalArgumentException if {@code testCase} is null or empty string
      */
-    public ResourceMetaData<?> setTestClassName(String testClassName) {
+    public ResourceMetaData setTestClassName(String testClassName) {
         Validate.notNullOrEmpty(testClassName, "Name of test class is null or empty string.");
         this.testClassName = testClassName;
         return this;
     }
 
+    public String getTestMethodName() {
+        return testMethodName;
+    }
+
     /**
      * Test method in which invocation method was called.
-     * 
+     *
      * @param testMethod
      * @return
      * @throws IllegalArgumentException if {@code testMethod} is null or empty string
      */
-    public ResourceMetaData<?> setTestMethodName(String testMethodName) {
+    public ResourceMetaData setTestMethodName(String testMethodName) {
         Validate.notNullOrEmpty(testMethodName, "Name of test method is null or empty string.");
         this.testMethodName = testMethodName;
         return this;
-    }
-
-    public String getTestMethodName() {
-        return testMethodName;
     }
 
     public long getTimeStamp() {
@@ -91,11 +72,11 @@ public abstract class ResourceMetaData<T extends Resource<?,?>> {
 
     /**
      * Time stamp when this screenshot was taken.
-     * 
+     *
      * @param timeStamp
      * @return
      */
-    public ResourceMetaData<?> setTimeStamp(long timeStamp) {
+    public ResourceMetaData setTimeStamp(long timeStamp) {
         this.timeStamp = timeStamp;
         return this;
     }

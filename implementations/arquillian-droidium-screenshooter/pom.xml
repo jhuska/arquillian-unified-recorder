@@ -20,9 +20,8 @@
         <groupId>org.arquillian.extension</groupId>
         <artifactId>arquillian-recorder</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
-
+    
     <!-- Artifact Configuration -->
     <artifactId>arquillian-droidium-screenshooter</artifactId>
     <name>Arquillian Droidium Screenshooter</name>
@@ -43,9 +42,9 @@
     <!-- Properties -->
     <properties>
         <version.recorder.screenshot>0.0.1-SNAPSHOT</version.recorder.screenshot>
-        <version.droidium.container>1.0.0.Alpha2</version.droidium.container>
+        <version.droidium.container>1.0.0.Alpha3-SNAPSHOT</version.droidium.container>
     </properties>
-
+    
     <!-- Dependencies -->
     <dependencies>
         <dependency>

@@ -18,9 +18,9 @@
     <!-- Parent -->
     <parent>
         <groupId>org.arquillian.extension</groupId>
-        <artifactId>arquillian-recorder-video-build</artifactId>
+        <artifactId>arquillian-recorder-build</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../arquillian-recorder-video-build/pom.xml</relativePath>
+        <relativePath>../../arquillian-recorder/arquillian-recorder-build/pom.xml</relativePath>
     </parent>
 
     <!-- Artifact Configuration -->
@@ -45,9 +45,13 @@
     <dependencies>
         <dependency>
             <groupId>org.arquillian.extension</groupId>
-            <artifactId>arquillian-recorder-video-depchain</artifactId>
+            <artifactId>arquillian-recorder-video-spi</artifactId>
             <version>${project.parent.version}</version>
-            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.arquillian.extension</groupId>
+            <artifactId>arquillian-recorder-video-api</artifactId>
+            <version>${project.parent.version}</version>
         </dependency>
     </dependencies>
 </project>

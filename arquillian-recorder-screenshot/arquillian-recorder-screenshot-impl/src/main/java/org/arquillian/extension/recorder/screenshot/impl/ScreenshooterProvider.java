@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.extension.recorder.droidium.enricher;
+package org.arquillian.extension.recorder.screenshot.impl;
 
 import java.lang.annotation.Annotation;
 
@@ -26,11 +26,10 @@ import org.jboss.arquillian.test.spi.enricher.resource.ResourceProvider;
 
 /**
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- *
+ * 
  */
-public class DroidiumScreenshooterProvider implements ResourceProvider {
+public class ScreenshooterProvider implements ResourceProvider {
 
-    @SuppressWarnings("rawtypes")
     @Inject
     private Instance<Screenshooter> screenshooter;
 
@@ -41,10 +40,10 @@ public class DroidiumScreenshooterProvider implements ResourceProvider {
 
     @Override
     public Object lookup(ArquillianResource resource, Annotation... qualifiers) {
-        Screenshooter<?, ?> screenshooter = this.screenshooter.get();
+        Screenshooter screenshooter = this.screenshooter.get();
 
         if (screenshooter == null) {
-            throw new IllegalStateException("Unable to inject Droidium screenshooter into test.");
+            throw new IllegalStateException("Unable to inject screenshooter into test.");
         }
 
         return screenshooter;

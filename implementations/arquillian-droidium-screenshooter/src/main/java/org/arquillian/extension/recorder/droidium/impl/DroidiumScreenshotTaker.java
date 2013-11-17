@@ -18,7 +18,10 @@ package org.arquillian.extension.recorder.droidium.impl;
 
 import org.arquillian.extension.recorder.screenshot.Screenshooter;
 import org.arquillian.extension.recorder.screenshot.Screenshot;
+import org.arquillian.extension.recorder.screenshot.event.AfterScreenshotTaken;
+import org.arquillian.extension.recorder.screenshot.event.BeforeScreenshotTaken;
 import org.arquillian.extension.recorder.screenshot.event.TakeScreenshot;
+import org.jboss.arquillian.core.api.Event;
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.api.annotation.Observes;
@@ -35,14 +38,21 @@ public class DroidiumScreenshotTaker {
     @Inject
     private Instance<DroidiumScreenshotIdentifierGenerator> idGenerator;
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @Inject
+    private Event<BeforeScreenshotTaken> beforeScreenshotTaken;
+
+    @Inject
+    private Event<AfterScreenshotTaken> afterScreenshotTaken;
+
     public void onTakeScreenshot(@Observes TakeScreenshot event) {
 
-        Screenshooter screenshooter =  this.screenshooter.get();
+        Screenshooter screenshooter = this.screenshooter.get();
         String screenshotIdentifier = idGenerator.get().getIdentifier(event.getScreenshotType());
 
         Screenshot screenshot = screenshooter.takeScreenshot(screenshotIdentifier, event.getScreenshotType());
+        screenshot.setResourceMetaData(event.getMetaData());
+        screenshot.setResourceType(event.getScreenshotType());
 
-        event.getMetaData().setResource(screenshot);
+        // event maybe?
     }
 }

@@ -15,14 +15,13 @@
     <!-- Model Version -->
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- Parent -->
     <parent>
         <groupId>org.arquillian.extension</groupId>
-        <artifactId>arquillian-recorder-screenshot-build</artifactId>
+        <artifactId>arquillian-recorder-build</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../arquillian-recorder-screenshot-build/pom.xml</relativePath>
+        <relativePath>../../arquillian-recorder/arquillian-recorder-build/pom.xml</relativePath>
     </parent>
-
+    
     <!-- Artifact Configuration -->
     <artifactId>arquillian-recorder-screenshot-impl</artifactId>
     <packaging>jar</packaging>
@@ -41,13 +40,22 @@
         </developer>
     </developers>
 
+    <!-- Properties -->
+    <properties>
+        <version.arquillian.recorder>0.0.1-SNAPSHOT</version.arquillian.recorder>
+    </properties>
+
     <!-- Dependencies -->
     <dependencies>
         <dependency>
             <groupId>org.arquillian.extension</groupId>
-            <artifactId>arquillian-recorder-screenshot-depchain</artifactId>
-            <version>${project.parent.version}</version>
-            <type>pom</type>
+            <artifactId>arquillian-recorder-screenshot-spi</artifactId>
+            <version>${version.arquillian.recorder}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.arquillian.extension</groupId>
+            <artifactId>arquillian-recorder-screenshot-api</artifactId>
+            <version>${version.arquillian.recorder}</version>
         </dependency>
     </dependencies>
 </project>

@@ -20,9 +20,9 @@ import org.arquillian.extension.recorder.RecorderConfigurationException;
 
 /**
  * Thrown in case {@link ScreenshooterConfiguration} validation of configuration has failed.
- * 
+ *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- * 
+ *
  */
 public class ScreenshooterConfigurationException extends RecorderConfigurationException {
 
