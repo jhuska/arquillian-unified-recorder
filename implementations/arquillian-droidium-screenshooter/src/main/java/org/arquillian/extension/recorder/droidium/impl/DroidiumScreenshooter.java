@@ -26,9 +26,9 @@ import org.jboss.arquillian.core.spi.Validate;
 
 /**
  * Takes screenshots for Android devices.
- *
+ * 
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- *
+ * 
  */
 public class DroidiumScreenshooter implements Screenshooter {
 
@@ -89,7 +89,7 @@ public class DroidiumScreenshooter implements Screenshooter {
 
     @Override
     public void setScreenshotTargetDir(File screenshotTargetDir) {
-        Validate.notNull(screenshotTargetDir, "Screenshot target dir is a null object or an empty string!");
+        Validate.notNull(screenshotTargetDir, "Screenshot target dir is a null object!");
         this.screenshotTargetDir = screenshotTargetDir;
     }
 
