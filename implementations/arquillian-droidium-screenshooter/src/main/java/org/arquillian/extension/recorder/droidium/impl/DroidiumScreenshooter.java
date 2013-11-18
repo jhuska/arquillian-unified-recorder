@@ -32,8 +32,6 @@ import org.jboss.arquillian.core.spi.Validate;
  */
 public class DroidiumScreenshooter implements Screenshooter {
 
-    private DroidiumScreenshooterConfiguration configuration;
-
     private File screenshotTargetDir = new File("target" + System.getProperty("file.separator"));
 
     private AndroidDevice device;
@@ -41,11 +39,6 @@ public class DroidiumScreenshooter implements Screenshooter {
     private ScreenshotType screenshotType = ScreenshotType.PNG;
 
     private DroidiumScreenshotIdentifierGenerator idGenerator = new DroidiumScreenshotIdentifierGenerator();
-
-    public void setConfigurationClass(DroidiumScreenshooterConfiguration configuration) {
-        Validate.notNull(configuration, "Configuration is a null object!");
-        this.configuration = configuration;
-    }
 
     @Override
     public Class<DroidiumScreenshooterConfiguration> getConfigurationClass() {

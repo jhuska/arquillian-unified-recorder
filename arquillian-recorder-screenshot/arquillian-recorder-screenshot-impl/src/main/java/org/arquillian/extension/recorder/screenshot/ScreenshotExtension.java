@@ -24,7 +24,7 @@ import org.jboss.arquillian.test.spi.enricher.resource.ResourceProvider;
 
 /**
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- * 
+ *
  */
 public class ScreenshotExtension implements LoadableExtension {
 

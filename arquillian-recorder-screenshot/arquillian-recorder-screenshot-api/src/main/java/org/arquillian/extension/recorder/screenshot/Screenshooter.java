@@ -19,9 +19,9 @@ package org.arquillian.extension.recorder.screenshot;
 import java.io.File;
 
 /**
- * 
+ *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- * 
+ *
  */
 public interface Screenshooter {
 
@@ -32,14 +32,14 @@ public interface Screenshooter {
 
     /**
      * Takes screenshot in default format with random string as a name with file format extension.
-     * 
+     *
      * @return screenshot of default image format
      */
     Screenshot takeScreenshot();
 
     /**
      * Takes screenshot in specified format. Name of screenshot is random string with file format extension.
-     * 
+     *
      * @param type type of screenshot
      * @return screenshot of given image type
      */
@@ -47,7 +47,7 @@ public interface Screenshooter {
 
     /**
      * Takes screenshot of default file format with specified name.
-     * 
+     *
      * @param fileName name of file without file format extension
      * @return screenshot of default format with specified name
      */
@@ -55,7 +55,7 @@ public interface Screenshooter {
 
     /**
      * Takes screenshot of default file format to file
-     * 
+     *
      * @param file file to save taken screenshot to
      * @return screenshot saved in {@code file} in default format
      */
@@ -63,7 +63,7 @@ public interface Screenshooter {
 
     /**
      * Takes screenshot of specified type which is saved under specified name
-     * 
+     *
      * @param fileName name of file without file format extension
      * @param type type of screenshot required
      * @return screenshot of specified format with a specified name
@@ -72,7 +72,7 @@ public interface Screenshooter {
 
     /**
      * Takes screenshot of specified type which is saved under specified name
-     * 
+     *
      * @param file file to save taken screenshot to
      * @param type type of screenshot required
      * @return screenshot of specified format saved in {@code file}
@@ -81,7 +81,7 @@ public interface Screenshooter {
 
     /**
      * Sets a directory where all taken screenshots will be saved from now on.
-     * 
+     *
      * @param screenshotTargetDir directory to save screenshots to
      * @throws IllegalArgumentException if {@code screenshotTargetDir} is null, empty or does not represents existing and
      *         writable directory
@@ -90,7 +90,7 @@ public interface Screenshooter {
 
     /**
      * Sets a directory where all taken screenshots will be saved from now on.
-     * 
+     *
      * @param screenshotTargetDir directory to save screenshots to
      * @throws IllegalArgumentException if {@code screenshotTargetDir} is null, empty or does not represents existing and
      *         writable directory
@@ -100,7 +100,7 @@ public interface Screenshooter {
     /**
      * Sets the format of images to take. After setting this, all subsequent images will be of this format when not explicitly
      * specified otherwise.
-     * 
+     *
      * @param type type of screenshots to take from now on
      */
     void setScreensthotType(ScreenshotType type);
