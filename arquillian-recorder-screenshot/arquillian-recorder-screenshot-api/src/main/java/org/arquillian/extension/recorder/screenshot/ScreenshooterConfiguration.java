@@ -95,6 +95,15 @@ public abstract class ScreenshooterConfiguration extends Configuration<Screensho
 
     @Override
     public void validate() throws ScreenshooterConfigurationException {
+
+        try {
+            ScreenshotType.valueOf(ScreenshotType.class, getScreenshotType().toUpperCase());
+        } catch (IllegalArgumentException ex) {
+            throw new ScreenshooterConfigurationException(
+                "Screenshot type you specified in arquillian.xml is not valid screenshot type."
+                    + "Supported screenshot types are: " + ScreenshotType.getAll());
+        }
+
         try {
             if (!getRootFolder().exists()) {
                 getRootFolder().mkdir();

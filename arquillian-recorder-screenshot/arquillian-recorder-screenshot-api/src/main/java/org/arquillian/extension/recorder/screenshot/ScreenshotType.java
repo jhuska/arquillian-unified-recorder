@@ -57,4 +57,19 @@ public enum ScreenshotType implements ResourceType {
         }
     };
 
+    /**
+     *
+     * @return all screenshot types concatenated to one string separated only by one space from each other
+     */
+    public static String getAll() {
+        StringBuilder sb = new StringBuilder();
+
+        for (ScreenshotType screenshotType : ScreenshotType.values()) {
+            sb.append(screenshotType.toString());
+            sb.append(" ");
+        }
+
+        return sb.toString().trim();
+    }
+
 }

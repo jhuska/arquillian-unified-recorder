@@ -29,7 +29,7 @@ import org.jboss.arquillian.core.api.annotation.Observes;
 
 /**
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- *
+ * 
  */
 public class DroidiumScreenshooterConfigurator extends ScreenshooterConfigurator {
 
@@ -42,7 +42,7 @@ public class DroidiumScreenshooterConfigurator extends ScreenshooterConfigurator
     @Override
     public void configureExtension(@Observes ArquillianDescriptor descriptor) {
 
-        ScreenshooterConfiguration configuration = new DroidiumScreenshooterConfiguration();
+        DroidiumScreenshooterConfiguration configuration = new DroidiumScreenshooterConfiguration();
 
         for (ExtensionDef extension : descriptor.getExtensions()) {
             if (extension.getExtensionName().equals(EXTENSION_NAME)) {
@@ -58,7 +58,7 @@ public class DroidiumScreenshooterConfigurator extends ScreenshooterConfigurator
 
     @Override
     public void validate(ScreenshooterConfiguration configuration) throws ScreenshooterConfigurationException {
-        ((DroidiumScreenshooterConfiguration) configuration).validate();
+        configuration.validate();
     }
 
 }

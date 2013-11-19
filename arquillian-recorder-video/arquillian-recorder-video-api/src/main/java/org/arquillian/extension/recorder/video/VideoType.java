@@ -38,4 +38,19 @@ public enum VideoType implements ResourceType {
             return "mpeg";
         }
     };
+
+    /**
+     *
+     * @return all video types concatenated to one string separated only by one space from each other
+     */
+    public static String getAll() {
+        StringBuilder sb = new StringBuilder();
+
+        for (VideoType videoType : VideoType.values()) {
+            sb.append(videoType.toString());
+            sb.append(" ");
+        }
+
+        return sb.toString().trim();
+    }
 }

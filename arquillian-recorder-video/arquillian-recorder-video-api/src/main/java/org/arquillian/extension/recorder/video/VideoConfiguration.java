@@ -17,6 +17,7 @@
 package org.arquillian.extension.recorder.video;
 
 import java.io.File;
+
 import org.arquillian.extension.recorder.Configuration;
 
 /**
@@ -82,4 +83,14 @@ public abstract class VideoConfiguration extends Configuration<VideoConfiguratio
         return getProperty("startBeforeSuite", startBeforeSuite);
     }
 
+    @Override
+    public void validate() throws VideoConfigurationException {
+        try {
+            VideoType.valueOf(VideoType.class, getVideoType().toUpperCase());
+        } catch (IllegalArgumentException ex) {
+            throw new VideoConfigurationException(
+                "Video type you specified in arquillian.xml is not valid video type."
+                    + "Supported video types are: " + VideoType.getAll());
+        }
+    }
 }
