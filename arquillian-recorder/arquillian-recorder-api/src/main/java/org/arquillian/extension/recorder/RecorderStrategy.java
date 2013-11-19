@@ -20,7 +20,7 @@ import org.jboss.arquillian.core.spi.event.Event;
 import org.jboss.arquillian.test.spi.TestResult;
 
 /**
- * Decides if some screenshot should be taken or not
+ * Decides if some actopm should be taken or not according to some event and test result.
  *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *

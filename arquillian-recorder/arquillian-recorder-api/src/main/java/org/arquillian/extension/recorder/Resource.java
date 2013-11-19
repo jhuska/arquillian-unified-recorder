@@ -21,7 +21,7 @@ import java.io.File;
 import org.jboss.arquillian.core.spi.Validate;
 
 /**
- * Base class for all resources we could generate during test run.
+ * Base class for all resources we could generate during any test run.
  *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *

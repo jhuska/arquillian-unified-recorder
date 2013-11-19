@@ -26,10 +26,10 @@ package org.arquillian.extension.recorder;
 public interface ResourceIdentifier<T extends ResourceType> {
 
     /**
-     * Gets identifier for a resource.
+     * Gets identifier for a {@code resourceType}.
      *
      * @param resourceType resource we want the get an identifier of
-     * @return identifier of resource
+     * @return identifier of resource based on its {@code resourceType}
      */
     String getIdentifier(T resourceType);
 }

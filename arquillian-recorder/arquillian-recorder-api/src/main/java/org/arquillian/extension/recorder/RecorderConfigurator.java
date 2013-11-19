@@ -32,8 +32,8 @@ public abstract class RecorderConfigurator<T extends Configuration<T>> {
     public static final String EXTENSION_NAME = "recorder";
 
     /**
+     * Observes {@link ArquillianDescriptor} event in order to configure some extension implementation.
      *
-     * @param event
      * @param descriptor
      * @throws RecorderConfigurationException
      */
@@ -41,8 +41,8 @@ public abstract class RecorderConfigurator<T extends Configuration<T>> {
 
     /**
      *
-     * @param configuration
-     * @throws RecorderConfigurationException
+     * @param configuration configuration for this particular extension
+     * @throws RecorderConfigurationException when validation of some extension is not valid
      */
     public abstract void validate(T configuration) throws RecorderConfigurationException;
 }

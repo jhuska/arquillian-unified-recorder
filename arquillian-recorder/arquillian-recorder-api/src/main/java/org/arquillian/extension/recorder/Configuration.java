@@ -34,33 +34,37 @@ public abstract class Configuration<T extends Configuration<T>> {
     /**
      * Gets configuration from Arquillian descriptor and creates instance of it.
      *
-     * @param properties properties of extension from arquillian.xml
-     * @return configuration of screenshooter extension
-     * @throws if {@code configuration} is a null object
+     * @param configuration configuration of extension from arquillian.xml
+     * @return this
+     * @throws IllegalArgumentException if {@code configuration} is a null object
      */
-    @SuppressWarnings("unchecked")
-    public T setConfiguration(Map<String, String> configuration) {
-        Validate.notNull(configuration, "Properties for configuration of recorder extension can not be a null object.");
+    public Configuration<T> setConfiguration(Map<String, String> configuration) {
+        Validate.notNull(configuration, "Properties for configuration of recorder extension can not be a null object!");
         this.configuration = configuration;
-        return (T) this;
+        return this;
     }
 
+    /**
+     *
+     * @return configuration of some extension
+     */
     public Map<String, String> getConfiguration() {
         return this.configuration;
     }
 
     /**
-     * Gets value of {@code name} property. In case a value for such name does not exist or is null or empty string,
+     * Gets value of {@code name} property. In case a value for such name does not exist or is a null object or an empty string,
      * {@code defaultValue} is returned.
      *
-     * @param name name of property you want to get a value of
+     * @param name name of a property you want to get the value of
      * @param defaultValue value returned in case {@code name} is a null string or it is empty
-     * @return value of a {@code name} property
-     * @throws IllegalArgumentException if either arguments are null or empty strings
+     * @return value of a {@code name} property of {@code defaultValue} when {@code name} is null or empty string
+     * @throws IllegalArgumentException if {@code name} is a null object or an empty string or if {@code defaultValue} is a null
+     *         object
      */
     public String getProperty(String name, String defaultValue) throws IllegalStateException {
-        Validate.notNullOrEmpty(name, "unable to get configuration value of null configuration key");
-        Validate.notNullOrEmpty(defaultValue, "unable to set configuration value of " + name + " to null");
+        Validate.notNullOrEmpty(name, "Unable to get the configuration value of null or empty configuration key");
+        Validate.notNull(defaultValue, "Unable to set configuration value of " + name + " to null object.");
 
         String found = getConfiguration().get(name);
         if (found == null || found.isEmpty()) {
@@ -73,7 +77,7 @@ public abstract class Configuration<T extends Configuration<T>> {
     /**
      * Validates configuration.
      *
-     * @throws ScreenshooterConfigurationException when configuration is not valid
+     * @throws RecorderConfigurationException when configuration of an extension is not valid
      */
     public abstract void validate() throws RecorderConfigurationException;
 }

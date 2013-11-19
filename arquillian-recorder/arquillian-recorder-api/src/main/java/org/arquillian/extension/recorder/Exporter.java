@@ -21,7 +21,7 @@ import java.net.URI;
 import java.net.URL;
 
 /**
- * Exports some resource to defined location, move some resource from one location to another.
+ * Exports some resource to defined location, moves some resource from one location to another.
  *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
