@@ -16,7 +16,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.arquillian.extension</groupId>
+        <groupId>org.jboss.arquillian.extension</groupId>
         <artifactId>arquillian-recorder-build</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../../arquillian-recorder/arquillian-recorder-build/pom.xml</relativePath>
@@ -48,12 +48,12 @@
     <!-- Dependencies -->
     <dependencies>
         <dependency>
-            <groupId>org.arquillian.extension</groupId>
+            <groupId>org.jboss.arquillian.extension</groupId>
             <artifactId>arquillian-recorder-screenshot-spi</artifactId>
             <version>${version.arquillian.recorder}</version>
         </dependency>
         <dependency>
-            <groupId>org.arquillian.extension</groupId>
+            <groupId>org.jboss.arquillian.extension</groupId>
             <artifactId>arquillian-recorder-screenshot-api</artifactId>
             <version>${version.arquillian.recorder}</version>
         </dependency>

@@ -24,7 +24,7 @@
     </parent>
 
     <!-- Artifact Configuration -->
-    <groupId>org.arquillian.extension</groupId>
+    <groupId>org.jboss.arquillian.extension</groupId>
     <artifactId>arquillian-recorder</artifactId>
     <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
