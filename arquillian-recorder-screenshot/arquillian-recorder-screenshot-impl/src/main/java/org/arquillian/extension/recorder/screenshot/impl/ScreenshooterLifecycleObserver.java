@@ -23,6 +23,7 @@ import org.arquillian.extension.recorder.screenshot.ScreenshotType;
 import org.arquillian.extension.recorder.screenshot.event.AfterScreenshotTaken;
 import org.arquillian.extension.recorder.screenshot.event.BeforeScreenshotTaken;
 import org.arquillian.extension.recorder.screenshot.event.TakeScreenshot;
+import org.arquillian.extension.recorder.screenshot.event.When;
 import org.jboss.arquillian.core.api.Event;
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
@@ -64,7 +65,7 @@ public class ScreenshooterLifecycleObserver {
 
             beforeScreenshotTaken.fire(new BeforeScreenshotTaken(screenshotType, metaData));
 
-            takeScreenshot.fire(new TakeScreenshot(screenshotType, metaData));
+            takeScreenshot.fire(new TakeScreenshot(screenshotType, metaData, When.BEFORE));
 
             afterScreenshotTaken.fire(new AfterScreenshotTaken(screenshotType, metaData));
         }
@@ -77,7 +78,7 @@ public class ScreenshooterLifecycleObserver {
 
             beforeScreenshotTaken.fire(new BeforeScreenshotTaken(screenshotType, metaData));
 
-            takeScreenshot.fire(new TakeScreenshot(screenshotType, metaData));
+            takeScreenshot.fire(new TakeScreenshot(screenshotType, metaData, When.AFTER));
 
             afterScreenshotTaken.fire(new AfterScreenshotTaken(screenshotType, metaData));
 
@@ -86,7 +87,7 @@ public class ScreenshooterLifecycleObserver {
 
     private ScreenshotMetaData getMetaData(TestLifecycleEvent event) {
         ScreenshotMetaData metaData = new ScreenshotMetaData();
-
+        
         metaData.setTestClass(event.getTestClass());
         metaData.setTestMethod(event.getTestMethod());
         metaData.setTimeStamp(System.currentTimeMillis());

@@ -30,17 +30,21 @@ import org.jboss.arquillian.core.spi.Validate;
  */
 public class TakeScreenshot {
 
+    private When when;
+
     private Screenshot screenshot;
-
+    
     private ScreenshotType screenshotType;
-
+    
     private ScreenshotMetaData metaData;
 
-    public TakeScreenshot(ScreenshotType screenshotType, ScreenshotMetaData metaData) {
+    public TakeScreenshot(ScreenshotType screenshotType, ScreenshotMetaData metaData, When when) {
         Validate.notNull(screenshotType, "Screenshot type is a null object!");
         Validate.notNull(metaData, "Meta data is a null object!");
+        Validate.notNull(when, "When is a null object!");
         this.screenshotType = screenshotType;
         this.metaData = metaData;
+        this.when = when;
     }
 
     public Screenshot getScreenshot() {
@@ -69,4 +73,11 @@ public class TakeScreenshot {
         this.metaData = metaData;
     }
 
+    public When getWhen() {
+        return when;
+    }
+
+    public void setWhen(When when) {
+        this.when = when;
+    }
 }
