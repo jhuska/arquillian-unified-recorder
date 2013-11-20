@@ -35,7 +35,7 @@ public abstract class ScreenshooterConfiguration extends Configuration<Screensho
 
     private String takeAfterTest = "false";
 
-    private String takeWhenTestFailed = "false";
+    private String takeWhenTestFailed = "true";
 
     private String takeWhenTestPassed = "false";
 
