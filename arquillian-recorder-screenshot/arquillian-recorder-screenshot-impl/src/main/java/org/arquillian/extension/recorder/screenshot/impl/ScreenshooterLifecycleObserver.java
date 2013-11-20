@@ -87,8 +87,8 @@ public class ScreenshooterLifecycleObserver {
     private ScreenshotMetaData getMetaData(TestLifecycleEvent event) {
         ScreenshotMetaData metaData = new ScreenshotMetaData();
 
-        metaData.setTestClass(event.getTestClass().getName());
-        metaData.setTestMethod(event.getTestMethod().getName());
+        metaData.setTestClass(event.getTestClass());
+        metaData.setTestMethod(event.getTestMethod());
         metaData.setTimeStamp(System.currentTimeMillis());
 
         return metaData;

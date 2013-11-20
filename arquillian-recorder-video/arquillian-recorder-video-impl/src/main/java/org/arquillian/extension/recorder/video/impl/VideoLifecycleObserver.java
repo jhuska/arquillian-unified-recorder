@@ -132,8 +132,8 @@ public class VideoLifecycleObserver {
     private VideoMetaData getMetaData(TestLifecycleEvent event) {
         VideoMetaData metaData = new VideoMetaData();
 
-        metaData.setTestClass(event.getTestClass().getName());
-        metaData.setTestMethod(event.getTestMethod().getName());
+        metaData.setTestClass(event.getTestClass());
+        metaData.setTestMethod(event.getTestMethod());
         metaData.setTimeStamp(System.currentTimeMillis());
 
         return metaData;
@@ -142,7 +142,7 @@ public class VideoLifecycleObserver {
     private VideoMetaData getClassMetaData(ClassLifecycleEvent event) {
         VideoMetaData metaData = new VideoMetaData();
 
-        metaData.setTestClass(event.getTestClass().getName());
+        metaData.setTestClass(event.getTestClass());
         metaData.setTimeStamp(System.currentTimeMillis());
 
         return metaData;

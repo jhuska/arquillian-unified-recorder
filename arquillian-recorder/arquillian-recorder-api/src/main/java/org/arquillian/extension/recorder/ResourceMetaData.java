@@ -29,29 +29,20 @@ import org.jboss.arquillian.test.spi.TestClass;
  */
 public abstract class ResourceMetaData {
 
-    private String testClass;
+    private TestClass testClass;
 
-    private String testMethod;
+    private Method testMethod;
 
     private long timeStamp;
 
-    public String getTestClass() {
+    public String getTestClassName() {
+        return testClass.getName();
+    }
+
+    public TestClass getTestClass() {
         return testClass;
     }
-
-    /**
-     * Sets a class for some particular {@code Resource} where that resource was created.
-     *
-     * @param testCase name of test class where some resource was created
-     * @return {@code this}
-     * @throws IllegalArgumentException if {@code testClassName} is a null or an empty string
-     */
-    public ResourceMetaData setTestClass(String testClass) {
-        Validate.notNullOrEmpty(testClass, "Name of test class is a null object or an empty string!");
-        this.testClass = testClass;
-        return this;
-    }
-
+    
     /**
      * Sets a class for some particular {@code Resource} where that resource was created.
      *
@@ -61,27 +52,18 @@ public abstract class ResourceMetaData {
      */
     public ResourceMetaData setTestClass(TestClass testClass) {
         Validate.notNull(testClass, "Test class is a null object!");
-        this.testClass = testClass.getName();
+        this.testClass = testClass;
         return this;
     }
 
-    public String getTestMethod() {
+    public String getTestMethodName() {
+        return testMethod.getName();
+    }
+
+    public Method getTestMethod() {
         return testMethod;
     }
-
-    /**
-     * Sets a test method for some particular {@code Resource} where that resource was created.
-     *
-     * @param testMethod name of test a method where some resource was created
-     * @return {@code this}
-     * @throws IllegalArgumentException if {@code testMethodName} is a null object or an empty string
-     */
-    public ResourceMetaData setTestMethod(String testMethod) {
-        Validate.notNullOrEmpty(testMethod, "Name of test method is a null or an empty string!");
-        this.testMethod = testMethod;
-        return this;
-    }
-
+    
     /**
      * Sets a test method for some particular {@code Resource} where that resource was created.
      *
@@ -91,7 +73,7 @@ public abstract class ResourceMetaData {
      */
     public ResourceMetaData setTestMethod(Method testMethod) {
         Validate.notNull(testMethod, "Method is a null object!");
-        this.testMethod = testMethod.getName();
+        this.testMethod = testMethod;
         return this;
     }
 
