@@ -75,6 +75,7 @@ public class ScreenshooterLifecycleObserver {
         if (strategy.get().isTakingAction(event, testResult.get())) {
             ScreenshotType screenshotType = getScreenshotType();
             ScreenshotMetaData metaData = getMetaData(event);
+            metaData.setTestResult(testResult.get());
 
             beforeScreenshotTaken.fire(new BeforeScreenshotTaken(screenshotType, metaData));
 

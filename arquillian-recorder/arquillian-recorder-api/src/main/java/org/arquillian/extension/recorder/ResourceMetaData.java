@@ -20,6 +20,7 @@ import java.lang.reflect.Method;
 
 import org.jboss.arquillian.core.spi.Validate;
 import org.jboss.arquillian.test.spi.TestClass;
+import org.jboss.arquillian.test.spi.TestResult;
 
 /**
  * Meta data which are related to any {@link Resource}.
@@ -29,6 +30,8 @@ import org.jboss.arquillian.test.spi.TestClass;
  */
 public abstract class ResourceMetaData {
 
+    private TestResult testResult;
+    
     private TestClass testClass;
 
     private Method testMethod;
@@ -91,7 +94,24 @@ public abstract class ResourceMetaData {
         this.timeStamp = timeStamp;
         return this;
     }
+    
+    /**
+     * Sets a TestResult for some particular {@code Resource} where that resource was created.
+     *
+     * @param TestResult class which contains information whether test was failed, passed or skipped
+     * @return {@code this}
+     * @throws IllegalArgumentException if {@code TestResult} is a null object
+     */
+    public ResourceMetaData setTestResult(TestResult testResult) {
+        Validate.notNull(testResult, "TestResult is a null object!");
+        this.testResult = testResult;
+        return this;
+    }
 
+    public TestResult getTestResult() {
+        return testResult;
+    }
+    
     @Override
     public int hashCode() {
         final int prime = 31;
