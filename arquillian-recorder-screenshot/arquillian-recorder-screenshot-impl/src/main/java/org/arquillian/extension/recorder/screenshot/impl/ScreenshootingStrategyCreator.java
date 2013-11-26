@@ -21,6 +21,7 @@ import org.arquillian.extension.recorder.screenshot.ScreenshootingStrategy;
 import org.arquillian.extension.recorder.screenshot.event.ScreenshotExtensionConfigured;
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.InstanceProducer;
+import org.jboss.arquillian.core.api.annotation.ApplicationScoped;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.api.annotation.Observes;
 import org.jboss.arquillian.core.spi.ServiceLoader;
@@ -33,7 +34,7 @@ import org.jboss.arquillian.test.spi.annotation.SuiteScoped;
 public class ScreenshootingStrategyCreator {
 
     @Inject
-    @SuiteScoped
+    @ApplicationScoped
     private InstanceProducer<ScreenshootingStrategy> strategy;
 
     @Inject
