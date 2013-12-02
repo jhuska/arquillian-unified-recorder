@@ -19,7 +19,6 @@ package org.arquillian.extension.recorder.screenshot;
 import java.io.File;
 
 import org.arquillian.extension.recorder.Configuration;
-import org.arquillian.extension.recorder.ResourceType;
 
 /**
  * Screenshooter configuration for every screenshooter extension implementation.
