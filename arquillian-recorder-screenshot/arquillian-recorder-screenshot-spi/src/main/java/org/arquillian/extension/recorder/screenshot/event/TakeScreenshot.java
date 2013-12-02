@@ -33,9 +33,9 @@ public class TakeScreenshot {
     private When when;
 
     private Screenshot screenshot;
-    
+
     private ScreenshotType screenshotType;
-    
+
     private ScreenshotMetaData metaData;
 
     public TakeScreenshot(ScreenshotType screenshotType, ScreenshotMetaData metaData, When when) {

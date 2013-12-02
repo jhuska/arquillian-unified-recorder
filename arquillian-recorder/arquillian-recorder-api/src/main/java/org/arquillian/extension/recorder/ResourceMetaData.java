@@ -31,7 +31,7 @@ import org.jboss.arquillian.test.spi.TestResult;
 public abstract class ResourceMetaData {
 
     private TestResult testResult;
-    
+
     private TestClass testClass;
 
     private Method testMethod;
@@ -45,7 +45,7 @@ public abstract class ResourceMetaData {
     public TestClass getTestClass() {
         return testClass;
     }
-    
+
     /**
      * Sets a class for some particular {@code Resource} where that resource was created.
      *
@@ -66,7 +66,7 @@ public abstract class ResourceMetaData {
     public Method getTestMethod() {
         return testMethod;
     }
-    
+
     /**
      * Sets a test method for some particular {@code Resource} where that resource was created.
      *
@@ -94,7 +94,7 @@ public abstract class ResourceMetaData {
         this.timeStamp = timeStamp;
         return this;
     }
-    
+
     /**
      * Sets a TestResult for some particular {@code Resource} where that resource was created.
      *
@@ -111,7 +111,7 @@ public abstract class ResourceMetaData {
     public TestResult getTestResult() {
         return testResult;
     }
-    
+
     @Override
     public int hashCode() {
         final int prime = 31;

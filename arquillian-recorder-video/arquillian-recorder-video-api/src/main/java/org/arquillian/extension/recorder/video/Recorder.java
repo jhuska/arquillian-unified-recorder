@@ -29,33 +29,33 @@ public interface Recorder {
      *
      * @return configuration class of this recorder implementation
      */
-    public <T extends VideoConfiguration> Class<T> getConfigurationClass();
+    <T extends VideoConfiguration> Class<T> getConfigurationClass();
 
     /**
      * Starts to record your test.
      */
-    public void startRecording();
+    void startRecording();
 
     /**
      * Starts to record your test.
      *
      * @param videoType type of video you want to get
      */
-    public void startRecording(VideoType videoType);
+    void startRecording(VideoType videoType);
 
     /**
      * Starts to record your test.
      *
      * @param fileName name of video you want to start to record
      */
-    public void startRecording(String fileName);
+    void startRecording(String fileName);
 
     /**
      * Starts to record your test.
      *
      * @param file file where to save recorded video
      */
-    public void startRecording(File file);
+    void startRecording(File file);
 
     /**
      * Starts to record your test.
@@ -63,7 +63,7 @@ public interface Recorder {
      * @param fileName name of video you want to start to record
      * @param videoType type of video you want to start to record
      */
-    public void startRecording(String fileName, VideoType videoType);
+    void startRecording(String fileName, VideoType videoType);
 
     /**
      * Starts to record your test.
@@ -71,25 +71,25 @@ public interface Recorder {
      * @param file file where to save recorder video
      * @param videoType type of video you want to start to record
      */
-    public void startRecording(File file, VideoType videoType);
+    void startRecording(File file, VideoType videoType);
 
     /**
      *
      * @param videoTargetDir name of directory you want to save all videos to
      */
-    public void setVideoTargetDir(String videoTargetDir);
+    void setVideoTargetDir(String videoTargetDir);
 
     /**
      *
      * @param videoTargetDir directory you want to save all videos to
      */
-    public void setVideoTargetDir(File videoTargetDir);
+    void setVideoTargetDir(File videoTargetDir);
 
     /**
      *
      * @param videoType type of video you want all videos to be
      */
-    public void setVideoType(VideoType videoType);
+    void setVideoType(VideoType videoType);
 
     /**
      *
@@ -97,5 +97,5 @@ public interface Recorder {
      *
      * @return recorded video
      */
-    public <V extends Video> V stopRecording();
+    <V extends Video> V stopRecording();
 }

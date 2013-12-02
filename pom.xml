@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.jboss</groupId>
         <artifactId>jboss-parent</artifactId>
-        <version>11</version>
+        <version>12</version>
         <relativePath></relativePath>
     </parent>
 
@@ -59,35 +59,18 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Arquillian Core -->
-        <version.arquillian.core>1.1.1.Final</version.arquillian.core>
+        <version.arquillian.core>1.1.2.Final</version.arquillian.core>
 
         <!-- Other versions -->
         <version.maven.animal.sniffer>1.9</version.maven.animal.sniffer>
+
+        <maven.compiler.target>1.6</maven.compiler.target>
+        <maven.compiler.source>1.6</maven.compiler.source>
     </properties>
 
     <!-- Build -->
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <inherited>true</inherited>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                    <compilerVersion>1.6</compilerVersion>
-                    <showDeprecation>false</showDeprecation>
-                    <showWarnings>true</showWarnings>
-                    <optimize>true</optimize>
-                    <fork>true</fork>
-                    <compilerArguments>
-                        <source>1.6</source>
-                        <target>1.6</target>
-                    </compilerArguments>
-                    <argLine>-Xmx512M</argLine>
-                    <executable>${JAVA_HOME}/bin/javac</executable>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>animal-sniffer-maven-plugin</artifactId>

@@ -33,26 +33,26 @@ public interface Exporter<T extends Resource<? extends ResourceMetaData, ? exten
      * @param src
      * @param dest
      */
-    public void export(T src, T dest);
+    void export(T src, T dest);
 
     /**
      *
      * @param src
      * @param dest
      */
-    public void export(File src, File dest);
+    void export(File src, File dest);
 
     /**
      *
      * @param src
      * @param dest
      */
-    public void export(URI src, URI dest);
+    void export(URI src, URI dest);
 
     /**
      *
      * @param src
      * @param dest
      */
-    public void export(URL src, URL dest);
+    void export(URL src, URL dest);
 }

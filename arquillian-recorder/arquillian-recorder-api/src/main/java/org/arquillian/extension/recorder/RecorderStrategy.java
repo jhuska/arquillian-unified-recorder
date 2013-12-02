@@ -20,7 +20,7 @@ import org.jboss.arquillian.core.spi.event.Event;
 import org.jboss.arquillian.test.spi.TestResult;
 
 /**
- * Decides if some actopm should be taken or not according to some event and test result.
+ * Decides if some action should be taken or not according to some event and test result.
  *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
@@ -31,19 +31,19 @@ public interface RecorderStrategy<T extends Configuration<T>> {
      *
      * @param configuration
      */
-    public void setConfiguration(T configuration);
+    void setConfiguration(T configuration);
 
     /**
      * @param event
      * @param result
      * @return true if some action should should be taken, false otherwise
      */
-    public boolean isTakingAction(Event event, TestResult result);
+    boolean isTakingAction(Event event, TestResult result);
 
     /**
      *
      * @param event
      * @return true if some action should should be taken, false otherwise
      */
-    public boolean isTakingAction(Event event);
+    boolean isTakingAction(Event event);
 }

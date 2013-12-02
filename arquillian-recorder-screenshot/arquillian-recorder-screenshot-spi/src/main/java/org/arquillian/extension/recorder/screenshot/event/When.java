@@ -19,15 +19,15 @@ package org.arquillian.extension.recorder.screenshot.event;
 
 /**
  * Enum which signifies if a {@link TakeScreenshot} event was fired before test or after
- * test. 
+ * test.
  * @author <a href="mailto:pmensik@redhat.com">Petr Mensik</a>
  */
 public enum When {
 
     AFTER("after"), BEFORE("before");
-    
+
     private String name;
-    
+
     private When(String name) {
         this.name = name;
     }

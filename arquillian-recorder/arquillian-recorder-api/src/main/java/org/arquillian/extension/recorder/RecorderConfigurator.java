@@ -40,6 +40,8 @@ public abstract class RecorderConfigurator<T extends Configuration<T>> {
     public abstract void configureExtension(ArquillianDescriptor descriptor);
 
     /**
+     * Validates configuration given by user from arquillian.xml. It is up to configurator to call this method. It is
+     * recommanded to call this method in {@link #configureExtension(ArquillianDescriptor)}.
      *
      * @param configuration configuration for this particular extension
      * @throws RecorderConfigurationException when validation of some extension is not valid
