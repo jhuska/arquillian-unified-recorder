@@ -98,7 +98,7 @@ public abstract class ResourceMetaData {
     /**
      * Sets a TestResult for some particular {@code Resource} where that resource was created.
      *
-     * @param TestResult class which contains information whether test was failed, passed or skipped
+     * @param testResult class which contains information whether test was failed, passed or skipped
      * @return {@code this}
      * @throws IllegalArgumentException if {@code TestResult} is a null object
      */

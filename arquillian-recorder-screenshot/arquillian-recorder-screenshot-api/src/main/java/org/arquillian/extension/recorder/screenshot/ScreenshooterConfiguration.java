@@ -17,7 +17,9 @@
 package org.arquillian.extension.recorder.screenshot;
 
 import java.io.File;
+
 import org.arquillian.extension.recorder.Configuration;
+import org.arquillian.extension.recorder.ResourceType;
 
 /**
  * Screenshooter configuration for every screenshooter extension implementation.
@@ -51,7 +53,7 @@ public abstract class ScreenshooterConfiguration extends Configuration<Screensho
     /**
      * By default set to PNG.
      *
-     * @return type of image we want to have our screenshots of, consult {@link ImageType}
+     * @return type of image we want to have our screenshots of, consult {@link ScreenshotType}
      */
     public String getScreenshotType() {
         return getProperty("screenshoType", screenshoType);
@@ -60,7 +62,7 @@ public abstract class ScreenshooterConfiguration extends Configuration<Screensho
     /**
      * By default set to "false".
      *
-     * @return
+     * @return "true" if screenshot should be taken before test, "false" otherwise
      */
     public String getTakeBeforeTest() {
         return getProperty("takeBeforeTest", takeBeforeTest);
@@ -69,7 +71,7 @@ public abstract class ScreenshooterConfiguration extends Configuration<Screensho
     /**
      * By default set to "false".
      *
-     * @return
+     * @return "true" if screenshot should be taken after test, "false" otherwise
      */
     public String getTakeAfterTest() {
         return getProperty("takeAfterTest", takeAfterTest);
@@ -78,7 +80,7 @@ public abstract class ScreenshooterConfiguration extends Configuration<Screensho
     /**
      * By default set to "false".
      *
-     * @return
+     * @return "true" if screenshot should be taken when test failed, "false" otherwise
      */
     public String getTakeWhenTestFailed() {
         return getProperty("takeWhenTestFailed", takeWhenTestFailed);
@@ -87,7 +89,7 @@ public abstract class ScreenshooterConfiguration extends Configuration<Screensho
     /**
      * By default set to "false".
      *
-     * @return
+     * @return "true" if screenshot should be taken when test passes, "false" otherwise
      */
     public String getTakeWhenTestPassed() {
         return getProperty("takeWhenTestPassed", takeWhenTestPassed);

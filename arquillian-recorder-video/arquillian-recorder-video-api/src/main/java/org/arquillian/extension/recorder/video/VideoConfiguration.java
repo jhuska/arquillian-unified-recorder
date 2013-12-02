@@ -59,7 +59,7 @@ public abstract class VideoConfiguration extends Configuration<VideoConfiguratio
     /**
      * By default set to "false".
      *
-     * @return
+     * @return "true" if video recording should start before test, "false" otherwise
      */
     public String getStartBeforeTest() {
         return getProperty("startBeforeTest", startBeforeTest);
@@ -68,7 +68,7 @@ public abstract class VideoConfiguration extends Configuration<VideoConfiguratio
     /**
      * By default set to "false".
      *
-     * @return
+     * @return "true" if video should be taken before class, "false" otherwise
      */
     public String getStartBeforeClass() {
         return getProperty("startBeforeClass", startBeforeClass);
@@ -77,7 +77,7 @@ public abstract class VideoConfiguration extends Configuration<VideoConfiguratio
     /**
      * By default set to "false".
      *
-     * @return
+     * @return "true" if screenshot should be taken before suite, "false" otherwise
      */
     public String getStartBeforeSuite() {
         return getProperty("startBeforeSuite", startBeforeSuite);
