@@ -24,7 +24,9 @@ import org.arquillian.extension.recorder.video.event.AfterVideoStart;
 import org.arquillian.extension.recorder.video.event.AfterVideoStop;
 import org.arquillian.extension.recorder.video.event.BeforeVideoStart;
 import org.arquillian.extension.recorder.video.event.BeforeVideoStop;
+import org.arquillian.extension.recorder.video.event.StartRecordSuiteVideo;
 import org.arquillian.extension.recorder.video.event.StartRecordVideo;
+import org.arquillian.extension.recorder.video.event.StopRecordSuiteVideo;
 import org.arquillian.extension.recorder.video.event.StopRecordVideo;
 import org.jboss.arquillian.core.api.Event;
 import org.jboss.arquillian.core.api.Instance;
@@ -69,13 +71,19 @@ public class VideoLifecycleObserver {
     @Inject
     private Event<StopRecordVideo> stopRecordVideo;
 
+    @Inject
+    private Event<StartRecordSuiteVideo> startRecordSuiteVideo;
+
+    @Inject
+    private Event<StopRecordSuiteVideo> stopRecordSuiteVideo;
+
     public void beforeSuite(@Observes BeforeSuite event) {
         if (strategy.get().isTakingAction(event)) {
-            VideoMetaData suiteMetaData = getSuiteMetaData(event);
+            VideoMetaData suiteMetaData = getMetaData();
             VideoType videoType = getVideoType();
             beforeVideoStart.fire(new BeforeVideoStart(videoType, suiteMetaData));
 
-            startRecordVideo.fire(new StartRecordVideo(suiteMetaData, videoType));
+            startRecordSuiteVideo.fire(new StartRecordSuiteVideo());
 
             afterVideoStart.fire(new AfterVideoStart());
         }
@@ -87,7 +95,7 @@ public class VideoLifecycleObserver {
             VideoType videoType = getVideoType();
             beforeVideoStart.fire(new BeforeVideoStart(videoType, suiteMetaData));
 
-            startRecordVideo.fire(new StartRecordVideo(suiteMetaData, videoType));
+            startRecordVideo.fire(new StartRecordVideo());
 
             afterVideoStart.fire(new AfterVideoStart());
         }
@@ -99,7 +107,7 @@ public class VideoLifecycleObserver {
             VideoType videoType = getVideoType();
             beforeVideoStart.fire(new BeforeVideoStart(videoType, suiteMetaData));
 
-            startRecordVideo.fire(new StartRecordVideo(suiteMetaData, videoType));
+            startRecordVideo.fire(new StartRecordVideo());
 
             afterVideoStart.fire(new AfterVideoStart());
         }
@@ -108,7 +116,7 @@ public class VideoLifecycleObserver {
     public void afterTest(@Observes After event) {
         if (strategy.get().isTakingAction(event)) {
             beforeVideoStop.fire(new BeforeVideoStop());
-            stopRecordVideo.fire(new StopRecordVideo());
+            stopRecordVideo.fire(new StopRecordVideo(getMetaData(event), getVideoType()));
             afterVideoStop.fire(new AfterVideoStop());
         }
     }
@@ -116,7 +124,7 @@ public class VideoLifecycleObserver {
     public void afterClass(@Observes AfterClass event) {
         if (strategy.get().isTakingAction(event)) {
             beforeVideoStop.fire(new BeforeVideoStop());
-            stopRecordVideo.fire(new StopRecordVideo());
+            stopRecordVideo.fire(new StopRecordVideo(getClassMetaData(event), getVideoType()));
             afterVideoStop.fire(new AfterVideoStop());
         }
     }
@@ -124,33 +132,27 @@ public class VideoLifecycleObserver {
     public void afterSuite(@Observes AfterSuite event) {
         if (strategy.get().isTakingAction(event)) {
             beforeVideoStop.fire(new BeforeVideoStop());
-            stopRecordVideo.fire(new StopRecordVideo());
+            stopRecordSuiteVideo.fire(new StopRecordSuiteVideo(getMetaData(), getVideoType()));
             afterVideoStop.fire(new AfterVideoStop());
         }
     }
 
-    private VideoMetaData getSuiteMetaData(BeforeSuite event) {
+    private VideoMetaData getMetaData() {
         VideoMetaData metaData = new VideoMetaData();
         metaData.setTimeStamp(System.currentTimeMillis());
         return metaData;
     }
 
     private VideoMetaData getMetaData(TestLifecycleEvent event) {
-        VideoMetaData metaData = new VideoMetaData();
-
+        VideoMetaData metaData = getMetaData();
         metaData.setTestClass(event.getTestClass());
         metaData.setTestMethod(event.getTestMethod());
-        metaData.setTimeStamp(System.currentTimeMillis());
-
         return metaData;
     }
 
     private VideoMetaData getClassMetaData(ClassLifecycleEvent event) {
-        VideoMetaData metaData = new VideoMetaData();
-
+        VideoMetaData metaData = getMetaData();
         metaData.setTestClass(event.getTestClass());
-        metaData.setTimeStamp(System.currentTimeMillis());
-
         return metaData;
     }
 

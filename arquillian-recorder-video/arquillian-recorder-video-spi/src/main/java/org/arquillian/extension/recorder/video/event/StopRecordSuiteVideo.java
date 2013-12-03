@@ -24,12 +24,12 @@ import org.jboss.arquillian.core.spi.Validate;
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public class StopRecordVideo {
+public class StopRecordSuiteVideo {
 
     private VideoMetaData metaData;
     private VideoType videoType;
 
-    public StopRecordVideo(VideoMetaData metaData, VideoType videoType) {
+    public StopRecordSuiteVideo(VideoMetaData metaData, VideoType videoType) {
         Validate.notNull(videoType, "VideoType is a null object!");
         Validate.notNull(metaData, "Meta data is a null object!");
         this.metaData = metaData;

@@ -48,7 +48,7 @@
             <artifactId>arquillian-recorder-api</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-
+        
         <dependency>
             <groupId>org.jboss.arquillian.test</groupId>
             <artifactId>arquillian-test-spi</artifactId>

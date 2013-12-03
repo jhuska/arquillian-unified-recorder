@@ -29,7 +29,7 @@ import org.jboss.arquillian.core.api.annotation.Observes;
 
 /**
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- * 
+ *
  */
 public class DroidiumScreenshooterConfigurator extends ScreenshooterConfigurator {
 

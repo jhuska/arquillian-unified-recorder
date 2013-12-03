@@ -23,9 +23,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.io.FileUtils;
+import org.arquillian.extension.recorder.When;
 import org.arquillian.extension.recorder.video.VideoConfiguration;
 import org.arquillian.extension.recorder.video.VideoMetaData;
+import org.arquillian.extension.recorder.video.event.StartRecordSuiteVideo;
 import org.arquillian.extension.recorder.video.event.StartRecordVideo;
+import org.arquillian.extension.recorder.video.event.StopRecordSuiteVideo;
 import org.arquillian.extension.recorder.video.event.StopRecordVideo;
 import org.arquillian.extension.recorder.video.event.VideoExtensionConfigured;
 import org.jboss.arquillian.core.api.Instance;
@@ -48,7 +51,6 @@ public class DesktopVideoRecorder {
     private File root;
     private VideoRecorder recorder;
     private Timer timer;
-    private VideoMetaData testMetaData;
 
     public void onRecorderConfigured(@Observes VideoExtensionConfigured event) throws IOException {
         System.out.println("aaaaaa");
@@ -60,13 +62,21 @@ public class DesktopVideoRecorder {
         timer.schedule(new TestTimeoutTask(), TimeUnit.SECONDS.toMillis(configuration.get().getTestTimeout()));
         System.out.println("bbbbb");
     }
-
-    public void onStartRecording(@Observes StartRecordVideo event) {
-        testMetaData = event.getMetaData();
+    
+    public void onStartSuiteRecording(@Observes StartRecordSuiteVideo event) {
         recorder.startRecording();
     }
 
+    public void onStartRecording(@Observes StartRecordVideo event) {
+        recorder.startRecording();
+    }
+    
+    public void onStopSuiteRecording(@Observes StopRecordSuiteVideo event) {
+        
+    }
+
     public void onStopRecording(@Observes StopRecordVideo event) {
+        VideoMetaData testMetaData = event.getMetaData();
         File testClassDirectory = getDirectory(root, testMetaData.getTestClass());
         stopRecording(testClassDirectory, testMetaData.getTestMethodName() + "_" + testMetaData.getTestResult().getStatus().name().toLowerCase());
     }

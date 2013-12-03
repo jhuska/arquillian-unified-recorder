@@ -26,9 +26,9 @@ import org.jboss.arquillian.core.spi.Validate;
 
 /**
  * Takes screenshots for Android devices.
- * 
+ *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
- * 
+ *
  */
 public class DroidiumScreenshooter implements Screenshooter {
 
