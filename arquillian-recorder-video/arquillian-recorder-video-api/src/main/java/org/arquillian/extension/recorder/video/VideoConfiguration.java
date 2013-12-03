@@ -38,6 +38,28 @@ public abstract class VideoConfiguration extends Configuration<VideoConfiguratio
 
     private String startBeforeSuite = "false";
 
+    private String videoName = "record";
+
+    private String testTimeout = "1800"; //30 minutes
+
+
+    /**
+     * By default set to 1800, i.e. 30 minutes
+     *
+     * @return timeout for each test in order to stop recording and save the video file if the test gets stucked
+     */
+    public int getTestTimeout() {
+        return Integer.parseInt(getProperty("testTimeout", testTimeout));
+    }
+    /**
+     * By default set to "record"
+     *
+     * @return video name which will be used in case you want to record whole test suite into one file.
+     */
+    public String getVideoName() {
+        return getProperty("videoName", videoName);
+    }
+
     /**
      * By default set to "target"
      *

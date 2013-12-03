@@ -71,9 +71,11 @@ public class VideoLifecycleObserver {
 
     public void beforeSuite(@Observes BeforeSuite event) {
         if (strategy.get().isTakingAction(event)) {
-            beforeVideoStart.fire(new BeforeVideoStart(getVideoType(), getSuiteMetaData(event)));
+            VideoMetaData suiteMetaData = getSuiteMetaData(event);
+            VideoType videoType = getVideoType();
+            beforeVideoStart.fire(new BeforeVideoStart(videoType, suiteMetaData));
 
-            startRecordVideo.fire(new StartRecordVideo());
+            startRecordVideo.fire(new StartRecordVideo(suiteMetaData, videoType));
 
             afterVideoStart.fire(new AfterVideoStart());
         }
@@ -81,9 +83,11 @@ public class VideoLifecycleObserver {
 
     public void beforeClass(@Observes BeforeClass event) {
         if (strategy.get().isTakingAction(event)) {
-            beforeVideoStart.fire(new BeforeVideoStart(getVideoType(), getClassMetaData(event)));
+            VideoMetaData suiteMetaData = getClassMetaData(event);
+            VideoType videoType = getVideoType();
+            beforeVideoStart.fire(new BeforeVideoStart(videoType, suiteMetaData));
 
-            startRecordVideo.fire(new StartRecordVideo());
+            startRecordVideo.fire(new StartRecordVideo(suiteMetaData, videoType));
 
             afterVideoStart.fire(new AfterVideoStart());
         }
@@ -91,9 +95,11 @@ public class VideoLifecycleObserver {
 
     public void beforeTest(@Observes Before event) {
         if (strategy.get().isTakingAction(event)) {
-            beforeVideoStart.fire(new BeforeVideoStart(getVideoType(), getMetaData(event)));
+            VideoMetaData suiteMetaData = getMetaData(event);
+            VideoType videoType = getVideoType();
+            beforeVideoStart.fire(new BeforeVideoStart(videoType, suiteMetaData));
 
-            startRecordVideo.fire(new StartRecordVideo());
+            startRecordVideo.fire(new StartRecordVideo(suiteMetaData, videoType));
 
             afterVideoStart.fire(new AfterVideoStart());
         }

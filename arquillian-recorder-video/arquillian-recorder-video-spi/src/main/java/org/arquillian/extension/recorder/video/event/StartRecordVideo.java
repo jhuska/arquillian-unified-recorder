@@ -16,10 +16,43 @@
  */
 package org.arquillian.extension.recorder.video.event;
 
+import org.arquillian.extension.recorder.video.VideoMetaData;
+import org.arquillian.extension.recorder.video.VideoType;
+import org.jboss.arquillian.core.spi.Validate;
+
 /**
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
 public class StartRecordVideo {
+
+    private VideoMetaData metaData;
+    private VideoType videoType;
+
+    public StartRecordVideo(VideoMetaData metaData, VideoType videoType) {
+        Validate.notNull(videoType, "VideoType is a null object!");
+        Validate.notNull(metaData, "Meta data is a null object!");
+        this.metaData = metaData;
+        this.videoType = videoType;
+    }
+
+    public VideoMetaData getMetaData() {
+        return metaData;
+    }
+
+    public void setMetaData(VideoMetaData metaData) {
+        Validate.notNull(metaData, "Meta data is a null object!");
+        this.metaData = metaData;
+    }
+
+    public VideoType getVideo() {
+        return videoType;
+    }
+
+    public void setVideo(VideoType videoType) {
+        Validate.notNull(videoType, "VideoType is a null object!");
+        this.videoType = videoType;
+    }
+
 
 }

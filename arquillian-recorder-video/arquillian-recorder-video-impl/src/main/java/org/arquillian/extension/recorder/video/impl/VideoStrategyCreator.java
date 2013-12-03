@@ -21,10 +21,10 @@ import org.arquillian.extension.recorder.video.VideoStrategy;
 import org.arquillian.extension.recorder.video.event.VideoExtensionConfigured;
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.InstanceProducer;
+import org.jboss.arquillian.core.api.annotation.ApplicationScoped;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.api.annotation.Observes;
 import org.jboss.arquillian.core.spi.ServiceLoader;
-import org.jboss.arquillian.test.spi.annotation.SuiteScoped;
 
 /**
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
@@ -33,7 +33,7 @@ import org.jboss.arquillian.test.spi.annotation.SuiteScoped;
 public class VideoStrategyCreator {
 
     @Inject
-    @SuiteScoped
+    @ApplicationScoped
     private InstanceProducer<VideoStrategy> strategy;
 
     @Inject
@@ -43,7 +43,6 @@ public class VideoStrategyCreator {
     private Instance<ServiceLoader> serviceLoader;
 
     public void afterExtensionConfigured(@Observes VideoExtensionConfigured event) {
-
         VideoStrategy strategy = serviceLoader.get().onlyOne(VideoStrategy.class, DefaultVideoStrategy.class);
         strategy.setConfiguration(configuration.get());
 
