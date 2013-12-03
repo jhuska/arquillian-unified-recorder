@@ -16,6 +16,7 @@
  */
 package org.arquillian.extension.recorder.screenshot.event;
 
+import org.arquillian.extension.recorder.When;
 import org.arquillian.extension.recorder.screenshot.Screenshot;
 import org.arquillian.extension.recorder.screenshot.ScreenshotMetaData;
 import org.arquillian.extension.recorder.screenshot.ScreenshotType;

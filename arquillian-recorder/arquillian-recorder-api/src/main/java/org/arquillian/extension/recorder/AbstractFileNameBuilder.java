@@ -14,12 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.extension.recorder.video.event;
+package org.arquillian.extension.recorder;
 
 /**
- * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
+ *
+ * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public class StartRecordVideo {
+public abstract class AbstractFileNameBuilder {
 
+    /**
+     * @return built file name
+     */
+    public abstract String build();
 }

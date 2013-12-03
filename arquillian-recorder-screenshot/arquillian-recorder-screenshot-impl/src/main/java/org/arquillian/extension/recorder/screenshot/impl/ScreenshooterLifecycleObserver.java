@@ -16,6 +16,7 @@
  */
 package org.arquillian.extension.recorder.screenshot.impl;
 
+import org.arquillian.extension.recorder.When;
 import org.arquillian.extension.recorder.screenshot.ScreenshooterConfiguration;
 import org.arquillian.extension.recorder.screenshot.ScreenshootingStrategy;
 import org.arquillian.extension.recorder.screenshot.ScreenshotMetaData;
@@ -23,7 +24,6 @@ import org.arquillian.extension.recorder.screenshot.ScreenshotType;
 import org.arquillian.extension.recorder.screenshot.event.AfterScreenshotTaken;
 import org.arquillian.extension.recorder.screenshot.event.BeforeScreenshotTaken;
 import org.arquillian.extension.recorder.screenshot.event.TakeScreenshot;
-import org.arquillian.extension.recorder.screenshot.event.When;
 import org.jboss.arquillian.core.api.Event;
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
