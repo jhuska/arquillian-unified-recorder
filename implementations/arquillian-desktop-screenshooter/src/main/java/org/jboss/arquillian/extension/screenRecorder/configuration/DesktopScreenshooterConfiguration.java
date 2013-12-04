@@ -25,5 +25,17 @@ import org.arquillian.extension.recorder.screenshot.ScreenshooterConfiguration;
  */
 public class DesktopScreenshooterConfiguration extends ScreenshooterConfiguration {
 
-    private String screenshotBaseFolder = "screenshotFolder";
+    private String screenshotBaseFolder = "screenshots";
+
+    
+    /**
+     * By default set to "screenshots"
+     *
+     * @return folder inside the root folder where the screenshots be placed. Can also be empty
+     */
+    public String getScreenshotBaseFolder() {
+        return getProperty("screenshotBaseFolder", screenshotBaseFolder);
+    }
+    
+    
 }
