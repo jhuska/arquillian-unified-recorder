@@ -24,21 +24,19 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import org.apache.commons.io.FileUtils;
-import org.arquillian.extension.recorder.When;
 import org.arquillian.extension.recorder.screenshot.ScreenshooterConfiguration;
-import org.arquillian.extension.recorder.screenshot.ScreenshotMetaData;
+import org.arquillian.extension.recorder.screenshot.ScreenshotFileNameBuilder;
 import org.arquillian.extension.recorder.screenshot.event.ScreenshotExtensionConfigured;
 import org.arquillian.extension.recorder.screenshot.event.TakeScreenshot;
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.api.annotation.Observes;
+import org.jboss.arquillian.extension.screenRecorder.configuration.DesktopScreenshooterConfiguration;
 import org.jboss.arquillian.test.spi.TestClass;
-import org.jboss.arquillian.test.spi.TestResult;
 
 /**
  *
@@ -46,45 +44,65 @@ import org.jboss.arquillian.test.spi.TestResult;
  */
 public class DesktopScreenshotTaker {
     
+    private static final Logger logger = Logger.getLogger(DesktopScreenshotTaker.class.getName());
+    
     @Inject
-    private Instance<ScreenshooterConfiguration> configuration;
+    private Instance<ScreenshooterConfiguration> conf;
+    
+    private DesktopScreenshooterConfiguration configuration;
     private File root;
     
+    /**
+     * 
+     * Observes {@link ScreenshotExtensionConfigured} event and creates directory where the screenshots
+     * are stored upon it
+     * 
+     * @param event 
+     */
     public void onRecorderConfigured(@Observes ScreenshotExtensionConfigured event) {
-        root = new File(configuration.get().getRootFolder(), "screenshots");
+        configuration = (DesktopScreenshooterConfiguration) conf.get();
+        root = new File(configuration.getRootFolder(), configuration.getScreenshotBaseFolder());
         root.mkdirs();
     }
 
-    public void onTakeScreenshot(@Observes TakeScreenshot event) {
-        takeScreenshot(event.getMetaData(), event.getWhen());
-    }
     
-    private void takeScreenshot(ScreenshotMetaData metaData, When when) {
+    /**
+     * Takes screenshot when {@link TakeScreenshot} event is fired 
+     * 
+     * @param event 
+     */
+    public void onTakeScreenshot(@Observes TakeScreenshot event) {
+        String fileName = new ScreenshotFileNameBuilder()
+                    .withMetaData(event.getMetaData())
+                    .withStage(event.getWhen())
+                    .withFileType(event.getScreenshotType())
+                    .build();
         try {
-            String appender = "_";
-            if(metaData.getTestResult().getStatus() == TestResult.Status.FAILED) {
-                appender += "failed";
-            } else {
-                appender += when.name();
-            }
-            takeScreenshot(metaData.getTestClass(), metaData.getTestMethod(), appender);
+            takeScreenshot(event.getMetaData().getTestClass(), fileName);
         } catch (AWTException ex) {
-            Logger.getLogger(DesktopScreenshotTaker.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.WARNING, "Couldn''t take a screenshot because of java.awt.Robot creation failure {0}", ex.getMessage());
         } catch (IOException ex) {
-            Logger.getLogger(DesktopScreenshotTaker.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.WARNING, "Couldn't write an image to the hard drive ", ex.getMessage());
         }
     }
     
-    private void takeScreenshot(TestClass testClass, Method testMethod, String appender) throws AWTException, IOException {
+    /**
+     * Takes screenshot by using java.awt.Robot class
+     * 
+     * @param {@link TestClass} contains metadata about test
+     * @param fileName String which specifies where to store the image
+     * @throws AWTException when java.awt.Robot is failed to create
+     * @throws IOException when image file couldn't be saved on the drive
+     */
+    private void takeScreenshot(TestClass testClass, String fileName) throws AWTException, IOException {
         File testClassDirectory = new File(root, testClass.getName());
         if(!testClassDirectory.exists()) {
             testClassDirectory.mkdirs();
         }
         Rectangle screenSize = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
         BufferedImage image = new Robot().createScreenCapture(screenSize);
-        String imageName = testMethod.getName() + "_" + appender + "." + configuration.get().getScreenshotType();
 
-        File outputFile = FileUtils.getFile(testClassDirectory, imageName);
-        ImageIO.write(image, configuration.get().getScreenshotType(), outputFile);
+        File outputFile = FileUtils.getFile(testClassDirectory, fileName);
+        ImageIO.write(image, configuration.getScreenshotType(), outputFile);
     }
 }
