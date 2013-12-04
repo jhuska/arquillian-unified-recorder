@@ -44,7 +44,6 @@ public class DesktopVideoRecorderConfigurator extends VideoConfigurator {
     
     @Override
     public void configureExtension(@Observes ArquillianDescriptor descriptor) {
-        System.out.println("confg");
         VideoConfiguration conf = new DesktopVideoRecorderConfiguration();
         for (ExtensionDef extension : descriptor.getExtensions()) {
             if (extension.getExtensionName().equals(EXTENSION_NAME)) {
@@ -55,7 +54,6 @@ public class DesktopVideoRecorderConfigurator extends VideoConfigurator {
         }
         configuration.set(conf);
         extensionConfiguredEvent.fire(new VideoExtensionConfigured());
-        System.out.println("conf-end");
     }
 
     @Override

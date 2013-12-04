@@ -53,14 +53,12 @@ public class DesktopVideoRecorder {
     private Timer timer;
 
     public void onRecorderConfigured(@Observes VideoExtensionConfigured event) throws IOException {
-        System.out.println("aaaaaa");
         root = new File(configuration.get().getRootFolder(), "video");
         FileUtils.deleteDirectory(root);
         root.mkdirs();
         recorder = new VideoRecorder(50, configuration.get().getVideoType());
         timer = new Timer();
         timer.schedule(new TestTimeoutTask(), TimeUnit.SECONDS.toMillis(configuration.get().getTestTimeout()));
-        System.out.println("bbbbb");
     }
     
     public void onStartSuiteRecording(@Observes StartRecordSuiteVideo event) {
