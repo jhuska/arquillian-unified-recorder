@@ -59,39 +59,39 @@ public abstract class ScreenshooterConfiguration extends Configuration<Screensho
     }
 
     /**
-     * By default set to "false".
+     * By default set to false.
      *
-     * @return "true" if screenshot should be taken before test, "false" otherwise
+     * @return true if screenshot should be taken before test, false otherwise
      */
-    public String getTakeBeforeTest() {
-        return getProperty("takeBeforeTest", takeBeforeTest);
+    public boolean getTakeBeforeTest() {
+        return Boolean.parseBoolean(getProperty("takeBeforeTest", takeBeforeTest));
     }
 
     /**
-     * By default set to "false".
+     * By default set to false.
      *
-     * @return "true" if screenshot should be taken after test, "false" otherwise
+     * @return true if screenshot should be taken after test, false otherwise
      */
-    public String getTakeAfterTest() {
-        return getProperty("takeAfterTest", takeAfterTest);
+    public boolean getTakeAfterTest() {
+        return Boolean.parseBoolean(getProperty("takeAfterTest", takeAfterTest));
     }
 
     /**
-     * By default set to "false".
+     * By default set to true.
      *
-     * @return "true" if screenshot should be taken when test failed, "false" otherwise
+     * @return true if screenshot should be taken when test failed, false otherwise
      */
-    public String getTakeWhenTestFailed() {
-        return getProperty("takeWhenTestFailed", takeWhenTestFailed);
+    public boolean getTakeWhenTestFailed() {
+        return Boolean.parseBoolean(getProperty("takeWhenTestFailed", takeWhenTestFailed));
     }
 
     /**
-     * By default set to "false".
+     * By default set to false.
      *
-     * @return "true" if screenshot should be taken when test passes, "false" otherwise
+     * @return true if screenshot should be taken when test passes, false otherwise
      */
-    public String getTakeWhenTestPassed() {
-        return getProperty("takeWhenTestPassed", takeWhenTestPassed);
+    public boolean getTakeWhenTestPassed() {
+        return Boolean.parseBoolean(getProperty("takeWhenTestPassed", takeWhenTestPassed));
     }
 
     @Override

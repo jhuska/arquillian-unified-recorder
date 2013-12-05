@@ -43,9 +43,9 @@ public class DefaultScreenshootingStrategy implements ScreenshootingStrategy {
         if (event instanceof After) {
             switch (result.getStatus()) {
                 case FAILED:
-                    return Boolean.parseBoolean(configuration.getTakeWhenTestFailed());
+                    return configuration.getTakeWhenTestFailed();
                 case PASSED:
-                    return Boolean.parseBoolean(configuration.getTakeWhenTestPassed());
+                    return configuration.getTakeWhenTestPassed();
                 case SKIPPED:
                     return false;
                 default:
@@ -58,7 +58,7 @@ public class DefaultScreenshootingStrategy implements ScreenshootingStrategy {
     @Override
     public boolean isTakingAction(Event event) {
         if (event instanceof Before) {
-            return Boolean.parseBoolean(configuration.getTakeBeforeTest());
+            return configuration.getTakeBeforeTest();
         }
         return false;
     }

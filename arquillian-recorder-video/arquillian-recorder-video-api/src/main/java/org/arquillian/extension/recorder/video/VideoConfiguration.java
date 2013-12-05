@@ -48,10 +48,10 @@ public abstract class VideoConfiguration extends Configuration<VideoConfiguratio
     /**
      * By default set to true
      *
-     * @return "true" if video should be taken only for the failed tests
+     * @return true if video should be taken only for the failed tests
      */
-    public String getTakeOnlyOnFail() {
-        return getProperty("takeOnlyOnFail", takeOnlyOnFail);
+    public boolean getTakeOnlyOnFail() {
+        return Boolean.parseBoolean(getProperty("takeOnlyOnFail", takeOnlyOnFail));
     }
 
     /**
@@ -90,30 +90,30 @@ public abstract class VideoConfiguration extends Configuration<VideoConfiguratio
     }
 
     /**
-     * By default set to "false".
+     * By default set to false.
      *
-     * @return "true" if video recording should start before test, "false" otherwise
+     * @return true if video recording should start before test, false otherwise
      */
-    public String getStartBeforeTest() {
-        return getProperty("startBeforeTest", startBeforeTest);
+    public boolean getStartBeforeTest() {
+        return Boolean.parseBoolean(getProperty("startBeforeTest", startBeforeTest));
     }
 
     /**
-     * By default set to "false".
+     * By default set to false.
      *
-     * @return "true" if video should be taken before class, "false" otherwise
+     * @return true if video should be taken before class, false otherwise
      */
-    public String getStartBeforeClass() {
-        return getProperty("startBeforeClass", startBeforeClass);
+    public boolean getStartBeforeClass() {
+        return Boolean.parseBoolean(getProperty("startBeforeClass", startBeforeClass));
     }
 
     /**
-     * By default set to "false".
+     * By default set to false.
      *
-     * @return "true" if screenshot should be taken before suite, "false" otherwise
+     * @return true if screenshot should be taken before suite, false otherwise
      */
-    public String getStartBeforeSuite() {
-        return getProperty("startBeforeSuite", startBeforeSuite);
+    public boolean getStartBeforeSuite() {
+        return Boolean.parseBoolean(getProperty("startBeforeSuite", startBeforeSuite));
     }
 
     @Override

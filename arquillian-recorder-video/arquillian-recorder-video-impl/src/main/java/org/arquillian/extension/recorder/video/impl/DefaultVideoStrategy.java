@@ -49,11 +49,11 @@ public class DefaultVideoStrategy implements VideoStrategy {
                 case SKIPPED:
                     return false;
                 case FAILED:
-                    return Boolean.parseBoolean(configuration.getTakeOnlyOnFail());
+                    return configuration.getTakeOnlyOnFail();
                 default:
                     break;
             }
-            return Boolean.parseBoolean(configuration.getStartBeforeTest());
+            return configuration.getStartBeforeTest();
         }
         return false;
     }
@@ -61,16 +61,16 @@ public class DefaultVideoStrategy implements VideoStrategy {
     @Override
     public boolean isTakingAction(Event event) {
         if (event instanceof BeforeSuite) {
-            return Boolean.parseBoolean(configuration.getStartBeforeSuite());
+            return configuration.getStartBeforeSuite();
         } else if (event instanceof BeforeClass) {
-            return Boolean.parseBoolean(configuration.getStartBeforeClass());
+            return configuration.getStartBeforeClass();
         } else if (event instanceof Before) {
-            return Boolean.parseBoolean(configuration.getStartBeforeTest())
-                    || Boolean.parseBoolean(configuration.getTakeOnlyOnFail());
+            return configuration.getStartBeforeTest()
+                    || configuration.getTakeOnlyOnFail();
         } else if (event instanceof AfterSuite) {
-            return Boolean.parseBoolean(configuration.getStartBeforeSuite());
+            return configuration.getStartBeforeSuite();
         } else if (event instanceof AfterClass) {
-            return Boolean.parseBoolean(configuration.getStartBeforeClass());
+            return configuration.getStartBeforeClass();
         }
 
         return false;
