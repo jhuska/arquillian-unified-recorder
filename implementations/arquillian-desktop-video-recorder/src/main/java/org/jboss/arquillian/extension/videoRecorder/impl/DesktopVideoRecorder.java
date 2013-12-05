@@ -48,6 +48,7 @@ public class DesktopVideoRecorder {
     
     @Inject
     private Instance<VideoConfiguration> configuration;
+    
     private File root;
     private VideoRecorder recorder;
     private Timer timer;
@@ -56,7 +57,7 @@ public class DesktopVideoRecorder {
         root = new File(configuration.get().getRootFolder(), "video");
         FileUtils.deleteDirectory(root);
         root.mkdirs();
-        recorder = new VideoRecorder(50, configuration.get().getVideoType());
+        recorder = new VideoRecorder(20, configuration.get().getVideoType());
         timer = new Timer();
         timer.schedule(new TestTimeoutTask(), TimeUnit.SECONDS.toMillis(configuration.get().getTestTimeout()));
     }
@@ -70,7 +71,7 @@ public class DesktopVideoRecorder {
     }
     
     public void onStopSuiteRecording(@Observes StopRecordSuiteVideo event) {
-        
+        stopRecording(root, configuration.get().getVideoName());
     }
 
     public void onStopRecording(@Observes StopRecordVideo event) {
