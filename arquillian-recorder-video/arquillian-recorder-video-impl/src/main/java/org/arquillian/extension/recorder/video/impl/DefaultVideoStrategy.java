@@ -48,6 +48,8 @@ public class DefaultVideoStrategy implements VideoStrategy {
             switch (result.getStatus()) {
                 case SKIPPED:
                     return false;
+                case FAILED:
+                    return Boolean.parseBoolean(configuration.getTakeOnlyOnFail());
                 default:
                     break;
             }
@@ -63,7 +65,8 @@ public class DefaultVideoStrategy implements VideoStrategy {
         } else if (event instanceof BeforeClass) {
             return Boolean.parseBoolean(configuration.getStartBeforeClass());
         } else if (event instanceof Before) {
-            return Boolean.parseBoolean(configuration.getStartBeforeTest());
+            return Boolean.parseBoolean(configuration.getStartBeforeTest())
+                    || Boolean.parseBoolean(configuration.getTakeOnlyOnFail());
         } else if (event instanceof AfterSuite) {
             return Boolean.parseBoolean(configuration.getStartBeforeSuite());
         } else if (event instanceof AfterClass) {

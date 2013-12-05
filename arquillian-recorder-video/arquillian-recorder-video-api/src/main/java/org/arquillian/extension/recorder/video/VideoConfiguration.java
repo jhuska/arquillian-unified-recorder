@@ -30,7 +30,7 @@ public abstract class VideoConfiguration extends Configuration<VideoConfiguratio
 
     private String rootFolder = "target";
 
-    private String videoType = VideoType.MPEG.toString();
+    private String videoType = VideoType.AVI.toString();
 
     private String startBeforeTest = "false";
 
@@ -38,10 +38,16 @@ public abstract class VideoConfiguration extends Configuration<VideoConfiguratio
 
     private String startBeforeSuite = "false";
 
+    private String takeOnlyOnFail = "true";
+
     private String videoName = "record";
 
     private String testTimeout = "1800"; //30 minutes
 
+
+    public String getTakeOnlyOnFail() {
+        return getProperty("takeOnlyOnFail", takeOnlyOnFail);
+    }
 
     /**
      * By default set to 1800, i.e. 30 minutes
