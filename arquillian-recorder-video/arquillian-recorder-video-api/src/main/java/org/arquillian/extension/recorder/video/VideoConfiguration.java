@@ -45,6 +45,11 @@ public abstract class VideoConfiguration extends Configuration<VideoConfiguratio
     private String testTimeout = "1800"; //30 minutes
 
 
+    /**
+     * By default set to true
+     *
+     * @return "true" if video should be taken only for the failed tests
+     */
     public String getTakeOnlyOnFail() {
         return getProperty("takeOnlyOnFail", takeOnlyOnFail);
     }
