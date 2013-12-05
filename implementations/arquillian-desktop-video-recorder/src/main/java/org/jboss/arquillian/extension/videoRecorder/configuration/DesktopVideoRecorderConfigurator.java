@@ -17,9 +17,11 @@
 
 package org.jboss.arquillian.extension.videoRecorder.configuration;
 
+import java.util.Map;
 import org.arquillian.extension.recorder.RecorderConfigurationException;
 import org.arquillian.extension.recorder.video.VideoConfiguration;
 import org.arquillian.extension.recorder.video.VideoConfigurator;
+import org.arquillian.extension.recorder.video.VideoType;
 import org.arquillian.extension.recorder.video.event.VideoExtensionConfigured;
 import org.jboss.arquillian.config.descriptor.api.ArquillianDescriptor;
 import org.jboss.arquillian.config.descriptor.api.ExtensionDef;
@@ -58,7 +60,12 @@ public class DesktopVideoRecorderConfigurator extends VideoConfigurator {
 
     @Override
     public void validate(VideoConfiguration configuration) throws RecorderConfigurationException {
-        ((VideoConfiguration) configuration).validate();
+        configuration.validate();
+        if(VideoType.valueOf(configuration.getVideoType()) != VideoType.AVI) {
+            Map<String, String> conf = configuration.getConfiguration();
+            conf.put("videoType", VideoType.AVI.toString());
+            configuration.setConfiguration(conf);
+        }
     }
 
 }
