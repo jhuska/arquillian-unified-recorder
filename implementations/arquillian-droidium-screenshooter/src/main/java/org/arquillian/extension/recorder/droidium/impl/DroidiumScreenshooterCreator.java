@@ -16,12 +16,14 @@
  */
 package org.arquillian.extension.recorder.droidium.impl;
 
+import org.arquillian.droidium.container.api.AndroidDevice;
 import org.arquillian.droidium.container.spi.event.AndroidDeviceReady;
 import org.arquillian.extension.recorder.droidium.configuration.DroidiumScreenshooterConfiguration;
 import org.arquillian.extension.recorder.screenshot.Screenshooter;
 import org.arquillian.extension.recorder.screenshot.event.ScreenshotExtensionConfigured;
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.InstanceProducer;
+import org.jboss.arquillian.core.api.annotation.ApplicationScoped;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.api.annotation.Observes;
 
@@ -32,25 +34,30 @@ import org.jboss.arquillian.core.api.annotation.Observes;
 public class DroidiumScreenshooterCreator {
 
     @Inject
+    @ApplicationScoped
     private InstanceProducer<Screenshooter> screenshooter;
-
-    @Inject
-    private InstanceProducer<DroidiumScreenshotIdentifierGenerator> idGenerator;
 
     @Inject
     private Instance<DroidiumScreenshooterConfiguration> configuration;
 
+    /**
+     * Creates {@link Screenshooter} instance.
+     *
+     * @param event
+     */
     public void onScreenshooterExtensionConfigured(@Observes ScreenshotExtensionConfigured event) {
 
         Screenshooter screenshooter = new DroidiumScreenshooter();
         screenshooter.setScreenshotTargetDir(configuration.get().getRootFolder());
         this.screenshooter.set(screenshooter);
-
-        idGenerator.set(new DroidiumScreenshotIdentifierGenerator());
     }
 
+    /**
+     * Sets {@link AndroidDevice} to created {@link Screenshooter} instance.
+     *
+     * @param event
+     */
     public void onAndroidDeviceAvailable(@Observes AndroidDeviceReady event) {
         ((DroidiumScreenshooter) screenshooter.get()).setDevice(event.getDevice());
-
     }
 }

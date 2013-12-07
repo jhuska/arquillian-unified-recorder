@@ -19,6 +19,7 @@ package org.arquillian.extension.recorder.droidium.impl;
 import java.io.File;
 
 import org.arquillian.droidium.container.api.AndroidDevice;
+import org.arquillian.extension.recorder.DefaultFileNameBuilder;
 import org.arquillian.extension.recorder.droidium.configuration.DroidiumScreenshooterConfiguration;
 import org.arquillian.extension.recorder.screenshot.Screenshooter;
 import org.arquillian.extension.recorder.screenshot.ScreenshotType;
@@ -38,7 +39,7 @@ public class DroidiumScreenshooter implements Screenshooter {
 
     private ScreenshotType screenshotType = ScreenshotType.PNG;
 
-    private DroidiumScreenshotIdentifierGenerator idGenerator = new DroidiumScreenshotIdentifierGenerator();
+    private DefaultFileNameBuilder idGenerator = new DefaultFileNameBuilder();
 
     @Override
     public Class<DroidiumScreenshooterConfiguration> getConfigurationClass() {
@@ -53,7 +54,7 @@ public class DroidiumScreenshooter implements Screenshooter {
     @Override
     public DroidiumScreenshot takeScreenshot(ScreenshotType type) {
         Validate.notNull(type, "Screenshot type is a null object!");
-        return takeScreenshot(new File(idGenerator.getIdentifier(type)), type);
+        return takeScreenshot(new File(idGenerator.withFileType(type).build()), type);
     }
 
     @Override

@@ -82,7 +82,6 @@ public class ScreenshooterLifecycleObserver {
             takeScreenshot.fire(new TakeScreenshot(screenshotType, metaData, When.AFTER));
 
             afterScreenshotTaken.fire(new AfterScreenshotTaken(screenshotType, metaData));
-
         }
     }
 

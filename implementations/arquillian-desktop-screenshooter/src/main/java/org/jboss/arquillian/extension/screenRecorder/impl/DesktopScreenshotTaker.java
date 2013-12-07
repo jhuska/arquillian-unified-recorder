@@ -26,10 +26,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.imageio.ImageIO;
+
 import org.apache.commons.io.FileUtils;
+import org.arquillian.extension.recorder.DefaultFileNameBuilder;
 import org.arquillian.extension.recorder.screenshot.ScreenshooterConfiguration;
-import org.arquillian.extension.recorder.screenshot.ScreenshotFileNameBuilder;
 import org.arquillian.extension.recorder.screenshot.event.ScreenshotExtensionConfigured;
 import org.arquillian.extension.recorder.screenshot.event.TakeScreenshot;
 import org.jboss.arquillian.core.api.Instance;
@@ -72,7 +74,7 @@ public class DesktopScreenshotTaker {
      * @param event 
      */
     public void onTakeScreenshot(@Observes TakeScreenshot event) {
-        String fileName = new ScreenshotFileNameBuilder()
+        String fileName = new DefaultFileNameBuilder()
                     .withMetaData(event.getMetaData())
                     .withStage(event.getWhen())
                     .withFileType(event.getScreenshotType())

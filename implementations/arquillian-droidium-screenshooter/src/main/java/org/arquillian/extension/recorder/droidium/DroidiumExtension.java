@@ -17,6 +17,7 @@
 package org.arquillian.extension.recorder.droidium;
 
 import org.arquillian.extension.recorder.droidium.configuration.DroidiumScreenshooterConfigurator;
+import org.arquillian.extension.recorder.droidium.impl.DroidiumScreenshooterCreator;
 import org.jboss.arquillian.core.spi.LoadableExtension;
 
 /**
@@ -28,6 +29,7 @@ public class DroidiumExtension implements LoadableExtension {
     @Override
     public void register(ExtensionBuilder builder) {
         builder.observer(DroidiumScreenshooterConfigurator.class);
+        builder.observer(DroidiumScreenshooterCreator.class);
     }
 
 }
