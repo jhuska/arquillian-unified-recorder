@@ -19,7 +19,7 @@ package org.arquillian.extension.recorder.droidium.impl;
 import org.arquillian.extension.recorder.screenshot.Screenshot;
 
 /**
- * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
+ * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
 public class DroidiumScreenshot extends Screenshot {

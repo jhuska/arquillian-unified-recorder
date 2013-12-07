@@ -26,7 +26,7 @@ import org.arquillian.extension.recorder.Configuration;
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public abstract class ScreenshooterConfiguration extends Configuration<ScreenshooterConfiguration> {
+public class ScreenshooterConfiguration extends Configuration<ScreenshooterConfiguration> {
 
     private String rootFolder = "target";
 

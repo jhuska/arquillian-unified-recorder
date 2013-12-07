@@ -18,8 +18,8 @@ package org.arquillian.extension.recorder.droidium.impl;
 
 import org.arquillian.droidium.container.api.AndroidDevice;
 import org.arquillian.droidium.container.spi.event.AndroidDeviceReady;
-import org.arquillian.extension.recorder.droidium.configuration.DroidiumScreenshooterConfiguration;
 import org.arquillian.extension.recorder.screenshot.Screenshooter;
+import org.arquillian.extension.recorder.screenshot.ScreenshooterConfiguration;
 import org.arquillian.extension.recorder.screenshot.event.ScreenshotExtensionConfigured;
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.InstanceProducer;
@@ -38,7 +38,7 @@ public class DroidiumScreenshooterCreator {
     private InstanceProducer<Screenshooter> screenshooter;
 
     @Inject
-    private Instance<DroidiumScreenshooterConfiguration> configuration;
+    private Instance<ScreenshooterConfiguration> configuration;
 
     /**
      * Creates {@link Screenshooter} instance.

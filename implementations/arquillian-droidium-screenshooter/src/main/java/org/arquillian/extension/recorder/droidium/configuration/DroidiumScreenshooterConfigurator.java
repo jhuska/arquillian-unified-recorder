@@ -44,7 +44,7 @@ public class DroidiumScreenshooterConfigurator extends ScreenshooterConfigurator
     @Override
     public void configureExtension(@Observes ArquillianDescriptor descriptor) {
 
-        DroidiumScreenshooterConfiguration configuration = new DroidiumScreenshooterConfiguration();
+        ScreenshooterConfiguration configuration = new ScreenshooterConfiguration();
 
         for (ExtensionDef extension : descriptor.getExtensions()) {
             if (extension.getExtensionName().equals(EXTENSION_NAME)) {

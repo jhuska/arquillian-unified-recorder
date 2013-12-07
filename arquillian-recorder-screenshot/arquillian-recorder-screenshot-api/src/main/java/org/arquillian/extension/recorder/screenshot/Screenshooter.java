@@ -19,16 +19,12 @@ package org.arquillian.extension.recorder.screenshot;
 import java.io.File;
 
 /**
+ * Implement this interface in order to take screenshots in concrete screenshooter extension implementation.
  *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
 public interface Screenshooter {
-
-    /**
-     * @return configuration class of this screenshooter implementation
-     */
-    Class<? extends ScreenshooterConfiguration> getConfigurationClass();
 
     /**
      * Takes screenshot in default format with random string as a name with file format extension.

@@ -20,8 +20,8 @@ import java.io.File;
 
 import org.arquillian.droidium.container.api.AndroidDevice;
 import org.arquillian.extension.recorder.DefaultFileNameBuilder;
-import org.arquillian.extension.recorder.droidium.configuration.DroidiumScreenshooterConfiguration;
 import org.arquillian.extension.recorder.screenshot.Screenshooter;
+import org.arquillian.extension.recorder.screenshot.Screenshot;
 import org.arquillian.extension.recorder.screenshot.ScreenshotType;
 import org.jboss.arquillian.core.spi.Validate;
 
@@ -42,35 +42,30 @@ public class DroidiumScreenshooter implements Screenshooter {
     private DefaultFileNameBuilder idGenerator = new DefaultFileNameBuilder();
 
     @Override
-    public Class<DroidiumScreenshooterConfiguration> getConfigurationClass() {
-        return DroidiumScreenshooterConfiguration.class;
-    }
-
-    @Override
-    public DroidiumScreenshot takeScreenshot() {
+    public Screenshot takeScreenshot() {
         return takeScreenshot(screenshotType);
     }
 
     @Override
-    public DroidiumScreenshot takeScreenshot(ScreenshotType type) {
+    public Screenshot takeScreenshot(ScreenshotType type) {
         Validate.notNull(type, "Screenshot type is a null object!");
         return takeScreenshot(new File(idGenerator.withFileType(type).build()), type);
     }
 
     @Override
-    public DroidiumScreenshot takeScreenshot(String fileName) {
+    public Screenshot takeScreenshot(String fileName) {
         Validate.notNullOrEmpty(fileName, "File name is a null object or an empty string!");
         return takeScreenshot(new File(fileName));
     }
 
     @Override
-    public DroidiumScreenshot takeScreenshot(File file) {
+    public Screenshot takeScreenshot(File file) {
         Validate.notNull(file, "File is a null object!");
         return takeScreenshot(file, screenshotType);
     }
 
     @Override
-    public DroidiumScreenshot takeScreenshot(String fileName, ScreenshotType type) {
+    public Screenshot takeScreenshot(String fileName, ScreenshotType type) {
         Validate.notNullOrEmpty(fileName, "File name is a null object or an empty string!");
         Validate.notNull(type, "Type of screenshot is a null object!");
         return takeScreenshot(new File(fileName), type);
