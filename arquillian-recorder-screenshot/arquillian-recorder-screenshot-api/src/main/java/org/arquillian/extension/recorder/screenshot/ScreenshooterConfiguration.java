@@ -107,7 +107,10 @@ public class ScreenshooterConfiguration extends Configuration<ScreenshooterConfi
 
         try {
             if (!getRootFolder().exists()) {
-                getRootFolder().mkdir();
+                boolean created = getRootFolder().mkdir();
+                if (!created) {
+                    throw new ScreenshooterConfigurationException("Unable to create root folder directory");
+                }
             } else {
                 if (!getRootFolder().isDirectory()) {
                     throw new ScreenshooterConfigurationException("Root directory you specified is not a directory.");

@@ -26,36 +26,22 @@ import org.arquillian.extension.recorder.ResourceType;
  */
 public enum ScreenshotType implements ResourceType {
 
-    JPEG {
-        @Override
-        public String toString() {
-            return "jpeg";
-        }
-    },
-    PNG {
-        @Override
-        public String toString() {
-            return "png";
-        }
-    },
-    BMP {
-        @Override
-        public String toString() {
-            return "bmp";
-        }
-    },
-    WBMP {
-        @Override
-        public String toString() {
-            return "wbmp";
-        }
-    },
-    GIF {
-        @Override
-        public String toString() {
-            return "gif";
-        }
-    };
+    JPEG("jpeg"),
+    PNG("png"),
+    BMP("bmp"),
+    WBMP("wbmp"),
+    GIF("gif");
+
+    private String name;
+
+    private ScreenshotType(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 
     /**
      *

@@ -26,18 +26,19 @@ import org.arquillian.extension.recorder.ResourceType;
  */
 public enum VideoType implements ResourceType {
 
-    AVI {
-        @Override
-        public String toString() {
-            return "avi";
-        }
-    },
-    MPEG {
-        @Override
-        public String toString() {
-            return "mpeg";
-        }
-    };
+    AVI("avi"),
+    MPEG("mpeg");
+
+    private String name;
+
+    private VideoType(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 
     /**
      *

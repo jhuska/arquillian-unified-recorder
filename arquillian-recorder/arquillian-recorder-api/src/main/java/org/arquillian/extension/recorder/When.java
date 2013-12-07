@@ -1,8 +1,8 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat Middleware LLC, and individual contributors
- * by the @authors tag. See the copyright.txt in the distribution for a
- * full listing of individual contributors.
+ * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * contributors by the @authors tag. See the copyright.txt in the
+ * distribution for a full listing of individual contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,33 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.arquillian.extension.recorder;
 
 /**
- * Enumeration which signifies if a {@link TakeScreenshot} event was fired before test or after test or test has failed.
+ * Enumeration which signifies if an event was fired before test or after test or test has failed.
  *
  * @author <a href="mailto:pmensik@redhat.com">Petr Mensik</a>
  */
 public enum When {
 
-    AFTER {
-        @Override
-        public String toString() {
-            return "after";
-        }
-    },
-    BEFORE {
-        @Override
-        public String toString() {
-            return "before";
-        }
-    },
-    FAILED {
-        @Override
-        public String toString() {
-            return "failed";
-        }
-    };
+    AFTER("after"),
+    BEFORE("before"),
+    FAILED("failed");
+
+    private final String name;
+
+    private When(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 
 }
