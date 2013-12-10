@@ -15,24 +15,14 @@
 * limitations under the License.
 */
 
-package org.jboss.arquillian.extension.screenRecorder;
+package org.jboss.arquillian.extension.screenRecorder.impl;
 
-import org.jboss.arquillian.core.spi.LoadableExtension;
-import org.jboss.arquillian.extension.screenRecorder.configuration.DesktopScreenshooterConfigurator;
-import org.jboss.arquillian.extension.screenRecorder.impl.DesktopScreenshooterCreator;
-import org.jboss.arquillian.extension.screenRecorder.impl.DesktopScreenshotTaker;
+import org.arquillian.extension.recorder.screenshot.Screenshot;
 
 /**
  *
  * @author <a href="mailto:pmensik@redhat.com">Petr Mensik</a>
  */
-public class ScreenRecorderExtension implements LoadableExtension {
-
-    @Override
-    public void register(ExtensionBuilder builder) {
-        builder.observer(DesktopScreenshooterCreator.class);
-        builder.observer(DesktopScreenshooterConfigurator.class);
-        builder.observer(DesktopScreenshotTaker.class);
-    }
+public class DesktopScreenshot extends Screenshot {
 
 }
