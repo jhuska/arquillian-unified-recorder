@@ -72,14 +72,16 @@ public class ScreenshooterLifecycleObserver {
     }
 
     public void afterTest(@Observes After event) {
-        if (strategy.get().isTakingAction(event, testResult.get())) {
+        TestResult result = testResult.get();
+        if (strategy.get().isTakingAction(event, result)) {
             ScreenshotType screenshotType = getScreenshotType();
             ScreenshotMetaData metaData = getMetaData(event);
-            metaData.setTestResult(testResult.get());
+            metaData.setTestResult(result);
 
             beforeScreenshotTaken.fire(new BeforeScreenshotTaken(screenshotType, metaData));
 
-            takeScreenshot.fire(new TakeScreenshot(screenshotType, metaData, When.AFTER));
+            takeScreenshot.fire(new TakeScreenshot(screenshotType, metaData,
+                    result.getStatus() == TestResult.Status.FAILED ? When.FAILED : When.AFTER));
 
             afterScreenshotTaken.fire(new AfterScreenshotTaken(screenshotType, metaData));
         }
