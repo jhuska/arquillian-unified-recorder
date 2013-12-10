@@ -41,6 +41,9 @@ public class DefaultScreenshootingStrategy implements ScreenshootingStrategy {
     @Override
     public boolean isTakingAction(Event event, TestResult result) {
         if (event instanceof After) {
+            if(configuration.getTakeAfterTest()) {
+                return true;
+            }
             switch (result.getStatus()) {
                 case FAILED:
                     return configuration.getTakeWhenTestFailed();
