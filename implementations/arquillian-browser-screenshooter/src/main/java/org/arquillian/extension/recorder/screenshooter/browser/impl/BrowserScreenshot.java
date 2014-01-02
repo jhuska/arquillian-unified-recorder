@@ -14,34 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.extension.recorder.screenshooter.event;
+package org.arquillian.extension.recorder.screenshooter.browser.impl;
 
-import org.arquillian.extension.recorder.screenshooter.ScreenshotMetaData;
-import org.jboss.arquillian.core.spi.Validate;
+import org.arquillian.extension.recorder.screenshooter.Screenshot;
 
 /**
- * This event is fired before some screenshot it taken.
- *
- * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
+ * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  *
  */
-public class BeforeScreenshotTaken {
-
-    private ScreenshotMetaData metaData;
-
-    public BeforeScreenshotTaken(ScreenshotMetaData metaData) {
-        Validate.notNull(metaData, "Meta data is a null object!");
-
-        this.metaData = metaData;
-    }
-
-    public ScreenshotMetaData getMetaData() {
-        return metaData;
-    }
-
-    public void setMetaData(ScreenshotMetaData metaData) {
-        Validate.notNull(metaData, "Meta data is a null object!");
-        this.metaData = metaData;
-    }
+public class BrowserScreenshot extends Screenshot {
 
 }

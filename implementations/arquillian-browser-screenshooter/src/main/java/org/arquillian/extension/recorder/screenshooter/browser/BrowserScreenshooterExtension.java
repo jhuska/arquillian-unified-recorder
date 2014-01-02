@@ -14,24 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.extension.recorder.screenshooter;
+package org.arquillian.extension.recorder.screenshooter.browser;
 
-import org.arquillian.extension.recorder.screenshooter.impl.ScreenshooterExtensionInitializer;
-import org.arquillian.extension.recorder.screenshooter.impl.ScreenshooterProvider;
-import org.arquillian.extension.recorder.screenshooter.impl.ScreenshotTaker;
+import org.arquillian.extension.recorder.screenshooter.browser.configuration.BrowserScreenshooterConfigurator;
+import org.arquillian.extension.recorder.screenshooter.browser.impl.BrowserScreenshooterExtensionInitializer;
+import org.arquillian.extension.recorder.screenshooter.browser.impl.BrowserScreenshooterLifecycleObserver;
 import org.jboss.arquillian.core.spi.LoadableExtension;
-import org.jboss.arquillian.test.spi.enricher.resource.ResourceProvider;
 
 /**
- * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
+ * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  *
  */
-public class ScreenshooterExtension implements LoadableExtension {
+public class BrowserScreenshooterExtension implements LoadableExtension {
 
     @Override
     public void register(ExtensionBuilder builder) {
-        builder.observer(ScreenshooterExtensionInitializer.class);
-        builder.observer(ScreenshotTaker.class);
-        builder.service(ResourceProvider.class, ScreenshooterProvider.class);
+        builder.observer(BrowserScreenshooterExtensionInitializer.class);
+        builder.observer(BrowserScreenshooterConfigurator.class);
+        builder.observer(BrowserScreenshooterLifecycleObserver.class);
     }
 }

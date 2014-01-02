@@ -1,0 +1,62 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.arquillian.extension</groupId>
+        <artifactId>arquillian-recorder</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>arquillian-browser-screenshooter</artifactId>
+    <name>Arquillian Browser Screenshooter</name>
+    <description>Arquillian Browser Screenshooter</description>
+
+	<!-- Developers -->
+    <developers>
+        <developer>
+            <name>Juraj Huska</name>
+            <email>jhuska@redhat.com</email>
+        </developer>
+    </developers>
+
+    <prerequisites>
+        <maven>3.0.5</maven>
+    </prerequisites>
+
+    <properties>
+        <version.recorder.screenshot>0.0.1-SNAPSHOT</version.recorder.screenshot>
+        <version.graphene>2.0.0.Final</version.graphene>
+        <version.drone>1.2.1.Final</version.drone>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.jboss.arquillian.extension</groupId>
+                <artifactId>arquillian-drone-bom</artifactId>
+                <version>${version.drone}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.arquillian.extension</groupId>
+            <artifactId>arquillian-recorder-screenshooter-impl</artifactId>
+            <version>${version.recorder.screenshot}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.graphene</groupId>
+            <artifactId>graphene-webdriver</artifactId>
+            <version>${version.graphene}</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.extension</groupId>
+            <artifactId>arquillian-drone-webdriver</artifactId>
+        </dependency>
+    </dependencies>
+</project>

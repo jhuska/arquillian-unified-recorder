@@ -19,6 +19,7 @@ package org.arquillian.extension.recorder.screenshooter.desktop;
 
 import org.arquillian.extension.recorder.screenshooter.desktop.configuration.DesktopScreenshooterConfigurator;
 import org.arquillian.extension.recorder.screenshooter.desktop.impl.DesktopScreenshooterCreator;
+import org.arquillian.extension.recorder.screenshooter.impl.ScreenshooterLifecycleObserver;
 import org.jboss.arquillian.core.spi.LoadableExtension;
 
 /**
@@ -29,6 +30,7 @@ public class ScreenRecorderExtension implements LoadableExtension {
 
     @Override
     public void register(ExtensionBuilder builder) {
+        builder.observer(ScreenshooterLifecycleObserver.class);
         builder.observer(DesktopScreenshooterCreator.class);
         builder.observer(DesktopScreenshooterConfigurator.class);
     }

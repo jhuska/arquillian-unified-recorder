@@ -19,7 +19,6 @@ package org.arquillian.extension.recorder.screenshooter.event;
 import org.arquillian.extension.recorder.When;
 import org.arquillian.extension.recorder.screenshooter.Screenshot;
 import org.arquillian.extension.recorder.screenshooter.ScreenshotMetaData;
-import org.arquillian.extension.recorder.screenshooter.ScreenshotType;
 import org.jboss.arquillian.core.spi.Validate;
 
 /**
@@ -35,17 +34,17 @@ public class TakeScreenshot {
 
     private Screenshot screenshot;
 
-    private ScreenshotType screenshotType;
-
     private ScreenshotMetaData metaData;
 
-    public TakeScreenshot(ScreenshotType screenshotType, ScreenshotMetaData metaData, When when) {
-        Validate.notNull(screenshotType, "Screenshot type is a null object!");
+    private String fileName;
+
+    public TakeScreenshot(String fileName, ScreenshotMetaData metaData, When when) {
+        Validate.notNull(fileName, "File name is a null object!");
         Validate.notNull(metaData, "Meta data is a null object!");
         Validate.notNull(when, "When is a null object!");
-        this.screenshotType = screenshotType;
         this.metaData = metaData;
         this.when = when;
+        this.fileName = fileName;
     }
 
     public Screenshot getScreenshot() {
@@ -54,15 +53,6 @@ public class TakeScreenshot {
 
     public void setScreenshot(Screenshot screenshot) {
         this.screenshot = screenshot;
-    }
-
-    public ScreenshotType getScreenshotType() {
-        return screenshotType;
-    }
-
-    public void setScreenshotType(ScreenshotType screenshotType) {
-        Validate.notNull(screenshotType, "Screenshot type is a null object!");
-        this.screenshotType = screenshotType;
     }
 
     public ScreenshotMetaData getMetaData() {
@@ -80,5 +70,14 @@ public class TakeScreenshot {
 
     public void setWhen(When when) {
         this.when = when;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        Validate.notNull(fileName, "File name is a null object!");
+        this.fileName = fileName;
     }
 }

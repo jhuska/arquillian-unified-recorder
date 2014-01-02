@@ -38,6 +38,10 @@ public abstract class ResourceMetaData {
 
     private long timeStamp;
 
+    private String optionalDescription;
+
+    private ResourceType resourceType;
+
     /**
      *
      * @return name of test class as String or null if not set
@@ -124,12 +128,61 @@ public abstract class ResourceMetaData {
         return testResult;
     }
 
+    /**
+     *
+     * @return type of the resource, e.g JPG for screenshot
+     */
+    public ResourceType getResourceType() {
+        return resourceType;
+    }
+
+    /**
+     *
+     * @return optional description of the resource
+     */
+    public String getOptionalDescription() {
+        return optionalDescription;
+    }
+
+    /**
+     * Sets optional description of the resource
+     *
+     * @param optionalDescription
+     */
+    public void setOptionalDescription(String optionalDescription) {
+        Validate.notNull(optionalDescription, "OptionalDescription is null!");
+        this.optionalDescription = optionalDescription;
+    }
+
+    /**
+     * Sets the type of the resource, that is e.g. JPG for screenshots
+     *
+     * @param resourceType type of the resource
+     */
+    public void setResourceType(ResourceType resourceType) {
+        Validate.notNull(resourceType, "ResourceType is null!");
+        this.resourceType = resourceType;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("test class\t\t:\n").append(getTestClass())
+          .append("test method\t\t:\n").append(getTestMethod())
+          .append("timestamp\t\t:\n").append(getTimeStamp())
+          .append(optionalDescription.isEmpty() ? "" : "payload\t\t:\n" + optionalDescription);
+        return sb.toString();
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + ((optionalDescription == null) ? 0 : optionalDescription.hashCode());
+        result = prime * result + ((resourceType == null) ? 0 : resourceType.hashCode());
         result = prime * result + ((testClass == null) ? 0 : testClass.hashCode());
         result = prime * result + ((testMethod == null) ? 0 : testMethod.hashCode());
+        result = prime * result + ((testResult == null) ? 0 : testResult.hashCode());
         result = prime * result + (int) (timeStamp ^ (timeStamp >>> 32));
         return result;
     }
@@ -143,6 +196,16 @@ public abstract class ResourceMetaData {
         if (getClass() != obj.getClass())
             return false;
         ResourceMetaData other = (ResourceMetaData) obj;
+        if (optionalDescription == null) {
+            if (other.optionalDescription != null)
+                return false;
+        } else if (!optionalDescription.equals(other.optionalDescription))
+            return false;
+        if (resourceType == null) {
+            if (other.resourceType != null)
+                return false;
+        } else if (!resourceType.equals(other.resourceType))
+            return false;
         if (testClass == null) {
             if (other.testClass != null)
                 return false;
@@ -153,18 +216,13 @@ public abstract class ResourceMetaData {
                 return false;
         } else if (!testMethod.equals(other.testMethod))
             return false;
+        if (testResult == null) {
+            if (other.testResult != null)
+                return false;
+        } else if (!testResult.equals(other.testResult))
+            return false;
         if (timeStamp != other.timeStamp)
             return false;
         return true;
     }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("test class\t\t:\n").append(getTestClass())
-            .append("test method\t\t:\n").append(getTestMethod())
-            .append("timestamp\t\t:\n").append(getTimeStamp());
-        return sb.toString();
-    }
-
 }

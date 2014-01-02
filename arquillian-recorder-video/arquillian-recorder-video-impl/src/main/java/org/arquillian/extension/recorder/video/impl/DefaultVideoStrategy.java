@@ -75,5 +75,4 @@ public class DefaultVideoStrategy implements VideoStrategy {
 
         return false;
     }
-
 }

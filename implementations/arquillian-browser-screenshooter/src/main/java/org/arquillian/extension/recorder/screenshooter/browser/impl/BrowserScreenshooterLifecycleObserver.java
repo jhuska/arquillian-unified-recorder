@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.extension.recorder.screenshooter.impl;
+package org.arquillian.extension.recorder.screenshooter.browser.impl;
 
 import org.arquillian.extension.recorder.DefaultFileNameBuilder;
 import org.arquillian.extension.recorder.When;
@@ -29,16 +29,18 @@ import org.jboss.arquillian.core.api.Event;
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.api.annotation.Observes;
+import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.test.spi.TestResult;
 import org.jboss.arquillian.test.spi.event.suite.After;
 import org.jboss.arquillian.test.spi.event.suite.Before;
-import org.jboss.arquillian.test.spi.event.suite.TestLifecycleEvent;
+import org.jboss.arquillian.test.spi.event.suite.TestEvent;
+import org.openqa.selenium.WebDriver;
 
 /**
- * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
+ *
  */
-public class ScreenshooterLifecycleObserver {
+public class BrowserScreenshooterLifecycleObserver {
 
     @Inject
     private Instance<ScreenshootingStrategy> strategy;
@@ -47,33 +49,44 @@ public class ScreenshooterLifecycleObserver {
     private Instance<ScreenshooterConfiguration> configuration;
 
     @Inject
-    private Event<BeforeScreenshotTaken> beforeScreenshotTaken;
+    private Instance<TakeScreenshotOnEveryActionInterceptor> takeScreenshotOnEveryActionInterceptor;
 
     @Inject
-    private Event<TakeScreenshot> takeScreenshot;
+    private Instance<TakeScreenshotBeforeTestInterceptor> takeScreenshotBeforeTestInterceptor;
+
+    @Inject
+    private Event<BeforeScreenshotTaken> beforeScreenshotTaken;
 
     @Inject
     private Event<AfterScreenshotTaken> afterScreenshotTaken;
 
     @Inject
+    private Event<TakeScreenshot> takeScreenshot;
+
+    @Inject
     private Instance<TestResult> testResult;
 
-    public void beforeTest(@Observes(precedence = Integer.MIN_VALUE) Before event) {
-        if (strategy.get().isTakingAction(event)) {
-            ScreenshotMetaData metaData = getMetaData(event);
-            metaData.setResourceType(getScreenshotType());
+    @Inject
+    private Instance<GrapheneContext> grapheneContext;
 
-            DefaultFileNameBuilder nameBuilder = DefaultFileNameBuilder.getInstance();
-            String screenshotName = nameBuilder
-                    .withMetaData(metaData)
-                    .withStage(When.BEFORE)
-                    .build();
+    public void beforeObserver(@Observes(precedence = Integer.MIN_VALUE) Before event) {
+        ScreenshotMetaData metaData = getMetaData(event);
+        AbstractTakeScreenshotInterceptor takeScreenshotInterceptor = null;
+        metaData.setResourceType(getScreenshotType());
 
-            beforeScreenshotTaken.fire(new BeforeScreenshotTaken(metaData));
+        WebDriver browser = grapheneContext.get().getWebDriver();
 
-            takeScreenshot.fire(new TakeScreenshot(screenshotName, metaData, When.BEFORE));
-
-            afterScreenshotTaken.fire(new AfterScreenshotTaken(metaData));
+        if (configuration.get().getTakeOnEveryAction()) {
+            takeScreenshotInterceptor = takeScreenshotOnEveryActionInterceptor.get();
+            takeScreenshotInterceptor.registerThis(browser);
+            takeScreenshotInterceptor.setupThis(configuration.get(), beforeScreenshotTaken, afterScreenshotTaken,
+                    takeScreenshot, metaData);
+        }
+        if (configuration.get().getTakeBeforeTest()) {
+            takeScreenshotInterceptor = takeScreenshotBeforeTestInterceptor.get();
+            takeScreenshotInterceptor.registerThis(browser);
+            takeScreenshotInterceptor.setupThis(configuration.get(), beforeScreenshotTaken, afterScreenshotTaken,
+                    takeScreenshot, metaData);
         }
     }
 
@@ -84,8 +97,6 @@ public class ScreenshooterLifecycleObserver {
             metaData.setTestResult(result);
             metaData.setResourceType(getScreenshotType());
 
-            beforeScreenshotTaken.fire(new BeforeScreenshotTaken(metaData));
-
             When when =
                     result.getStatus() == TestResult.Status.FAILED ? When.FAILED : When.AFTER;
 
@@ -93,7 +104,10 @@ public class ScreenshooterLifecycleObserver {
             String screenshotName = nameBuilder
                     .withMetaData(metaData)
                     .withStage(when)
+                    .withResourceIdentifier(ResourceIdentifierFactory.getResoruceIdentifier(metaData, when))
                     .build();
+
+            beforeScreenshotTaken.fire(new BeforeScreenshotTaken(metaData));
 
             takeScreenshot.fire(new TakeScreenshot(screenshotName, metaData, when));
 
@@ -101,7 +115,11 @@ public class ScreenshooterLifecycleObserver {
         }
     }
 
-    private ScreenshotMetaData getMetaData(TestLifecycleEvent event) {
+    private ScreenshotType getScreenshotType() {
+        return ScreenshotType.valueOf(ScreenshotType.class, configuration.get().getScreenshotType().toUpperCase());
+    }
+
+    private ScreenshotMetaData getMetaData(TestEvent event) {
         ScreenshotMetaData metaData = new ScreenshotMetaData();
 
         metaData.setTestClass(event.getTestClass());
@@ -110,9 +128,4 @@ public class ScreenshooterLifecycleObserver {
 
         return metaData;
     }
-
-    private ScreenshotType getScreenshotType() {
-        return ScreenshotType.valueOf(ScreenshotType.class, configuration.get().getScreenshotType().toUpperCase());
-    }
-
 }

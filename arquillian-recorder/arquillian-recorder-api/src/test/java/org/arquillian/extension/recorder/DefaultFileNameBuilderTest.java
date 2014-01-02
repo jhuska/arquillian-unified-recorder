@@ -31,10 +31,12 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public class DefaultFileNameBuilderTest {
 
+    private DefaultFileNameBuilder fileNameBuilder = DefaultFileNameBuilder.getInstance();
+    
     @Test
     public void emptyBuildTest() {
         // produces valid uuid
-        UUID.fromString(new DefaultFileNameBuilder().build());
+        UUID.fromString(DefaultFileNameBuilder.getInstance().build());
     }
 
     @Test
@@ -44,7 +46,7 @@ public class DefaultFileNameBuilderTest {
             .setTestClass(new TestClass(FakeTestClass.class))
             .setTestMethod(FakeTestClass.class.getMethod("fakeTestMethod"));
 
-        Assert.assertEquals("fakeTestMethod", new DefaultFileNameBuilder().withMetaData(fmd).build());
+        Assert.assertEquals("fakeTestMethod", fileNameBuilder.withMetaData(fmd).build());
     }
 
     @Test
@@ -54,7 +56,7 @@ public class DefaultFileNameBuilderTest {
             .setTestClass(new TestClass(FakeTestClass.class))
             .setTestMethod(FakeTestClass.class.getMethod("fakeTestMethod"));
 
-        Assert.assertEquals("fakeTestMethod_after", new DefaultFileNameBuilder().withMetaData(fmd).withStage(When.AFTER)
+        Assert.assertEquals("fakeTestMethod_after", fileNameBuilder.withMetaData(fmd).withStage(When.AFTER)
             .build());
     }
 
@@ -63,12 +65,13 @@ public class DefaultFileNameBuilderTest {
         FakeResourceMetaData fmd = new FakeResourceMetaData();
         fmd
             .setTestClass(new TestClass(FakeTestClass.class))
-            .setTestMethod(FakeTestClass.class.getMethod("fakeTestMethod"));
+            .setTestMethod(FakeTestClass.class.getMethod("fakeTestMethod"))
+            .setResourceType(FakeResourceType.SOMETYPE);
 
-        Assert.assertEquals("fakeTestMethod_after.type", new DefaultFileNameBuilder()
+        Assert.assertEquals("fakeTestMethod_after.type", fileNameBuilder
             .withMetaData(fmd)
             .withStage(When.AFTER)
-            .withFileType(FakeResourceType.SOMETYPE).build());
+            .build());
     }
 
     private static class FakeResourceMetaData extends ResourceMetaData {
@@ -76,10 +79,9 @@ public class DefaultFileNameBuilderTest {
     }
 
     private static class FakeTestClass {
-
+        @SuppressWarnings("unused")
         public void fakeTestMethod() {
 
         }
     }
-
 }

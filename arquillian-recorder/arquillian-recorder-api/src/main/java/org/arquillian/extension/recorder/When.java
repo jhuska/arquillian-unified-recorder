@@ -20,12 +20,14 @@ package org.arquillian.extension.recorder;
  * Enumeration which signifies if an event was fired before test or after test or test has failed.
  *
  * @author <a href="mailto:pmensik@redhat.com">Petr Mensik</a>
+ * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  */
 public enum When {
 
     AFTER("after"),
     BEFORE("before"),
-    FAILED("failed");
+    FAILED("failed"),
+    ON_EVERY_ACTION("onEveryAction");
 
     private final String name;
 

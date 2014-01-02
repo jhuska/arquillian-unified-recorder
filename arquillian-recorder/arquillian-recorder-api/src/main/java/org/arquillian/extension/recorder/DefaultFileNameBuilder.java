@@ -18,6 +18,7 @@ package org.arquillian.extension.recorder;
 
 import java.util.UUID;
 
+
 /**
  * Builds a file name of some screenshot resource.
  *
@@ -30,11 +31,22 @@ public class DefaultFileNameBuilder extends AbstractFileNameBuilder {
 
     private When when = null;
 
-    private ResourceType resourceType = null;
-
     private ResourceIdentifier<ResourceType> resourceIdentifier;
 
-    public DefaultFileNameBuilder() {
+    private static DefaultFileNameBuilder singletonInstance;
+
+    public static DefaultFileNameBuilder getInstance() {
+        if (null == singletonInstance) {
+            synchronized (DefaultFileNameBuilder.class) {
+                if (null == singletonInstance) {
+                    singletonInstance = new DefaultFileNameBuilder();
+                }
+            }
+        }
+        return singletonInstance;
+    }
+
+    private DefaultFileNameBuilder() {
         setDefaultFileIdentifier();
     }
 
@@ -48,20 +60,6 @@ public class DefaultFileNameBuilder extends AbstractFileNameBuilder {
         return this;
     }
 
-    public DefaultFileNameBuilder withFileType(ResourceType resourceType) {
-        if (resourceType != null) {
-            this.resourceType = resourceType;
-        }
-        return this;
-    }
-
-    /**
-     * Sets resource identifier for this file builder, suppresses the behavior of standard file name generation as specified in
-     * {@link #build()} method.
-     *
-     * @param resourceIdentifier
-     * @return this
-     */
     public DefaultFileNameBuilder withResourceIdentifier(ResourceIdentifier<ResourceType> resourceIdentifier) {
         if (resourceIdentifier != null) {
             this.resourceIdentifier = resourceIdentifier;
@@ -83,6 +81,10 @@ public class DefaultFileNameBuilder extends AbstractFileNameBuilder {
      */
     @Override
     public String build() throws IllegalStateException {
+        ResourceType resourceType = null;
+        if(metaData != null) {
+            resourceType = metaData.getResourceType();
+        }
         return resourceIdentifier.getIdentifier(resourceType);
     }
 
@@ -97,7 +99,6 @@ public class DefaultFileNameBuilder extends AbstractFileNameBuilder {
 
     private void clear() {
         metaData = null;
-        resourceType = null;
         when = null;
     }
 
@@ -124,5 +125,4 @@ public class DefaultFileNameBuilder extends AbstractFileNameBuilder {
             }
         };
     }
-
 }

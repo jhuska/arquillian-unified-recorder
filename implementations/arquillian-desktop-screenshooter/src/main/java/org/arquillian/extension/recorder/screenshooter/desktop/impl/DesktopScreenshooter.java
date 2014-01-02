@@ -31,6 +31,7 @@ import org.arquillian.extension.recorder.RecorderFileUtils;
 import org.arquillian.extension.recorder.screenshooter.Screenshooter;
 import org.arquillian.extension.recorder.screenshooter.ScreenshooterConfiguration;
 import org.arquillian.extension.recorder.screenshooter.Screenshot;
+import org.arquillian.extension.recorder.screenshooter.ScreenshotMetaData;
 import org.arquillian.extension.recorder.screenshooter.ScreenshotType;
 import org.jboss.arquillian.core.spi.Validate;
 
@@ -46,8 +47,6 @@ public class DesktopScreenshooter implements Screenshooter {
     private ScreenshotType screenshotType;
 
     private ScreenshooterConfiguration configuration;
-
-    private DefaultFileNameBuilder idGenerator = new DefaultFileNameBuilder();
 
     @Override
     public void init(ScreenshooterConfiguration configuration) {
@@ -69,7 +68,11 @@ public class DesktopScreenshooter implements Screenshooter {
     @Override
     public Screenshot takeScreenshot(ScreenshotType type) {
         Validate.notNull(type, "Screenshot type is a null object!");
-        return takeScreenshot(new File(idGenerator.withFileType(type).build()), type);
+        ScreenshotMetaData metaData = new ScreenshotMetaData();
+        metaData.setResourceType(type);
+        return takeScreenshot(
+                new File(DefaultFileNameBuilder.getInstance().withMetaData(metaData).build()), 
+                type);
     }
 
     @Override

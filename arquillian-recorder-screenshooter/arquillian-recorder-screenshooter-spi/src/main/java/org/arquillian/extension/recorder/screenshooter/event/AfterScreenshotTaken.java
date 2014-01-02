@@ -17,7 +17,6 @@
 package org.arquillian.extension.recorder.screenshooter.event;
 
 import org.arquillian.extension.recorder.screenshooter.ScreenshotMetaData;
-import org.arquillian.extension.recorder.screenshooter.ScreenshotType;
 import org.jboss.arquillian.core.spi.Validate;
 
 /**
@@ -28,25 +27,12 @@ import org.jboss.arquillian.core.spi.Validate;
  */
 public class AfterScreenshotTaken {
 
-    private ScreenshotType screenshotType;
-
     private ScreenshotMetaData metaData;
 
-    public AfterScreenshotTaken(ScreenshotType screenshotType, ScreenshotMetaData metaData) {
-        Validate.notNull(screenshotType, "Screenshot type is a null object!");
+    public AfterScreenshotTaken(ScreenshotMetaData metaData) {
         Validate.notNull(metaData, "Meta data is a null object");
 
-        this.screenshotType = screenshotType;
         this.metaData = metaData;
-    }
-
-    public ScreenshotType getScreenshotType() {
-        return screenshotType;
-    }
-
-    public void setScreenshotType(ScreenshotType screenshotType) {
-        Validate.notNull(screenshotType, "Screenshot type is a null object!");
-        this.screenshotType = screenshotType;
     }
 
     public ScreenshotMetaData getMetaData() {

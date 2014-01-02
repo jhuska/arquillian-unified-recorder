@@ -23,6 +23,7 @@ import org.arquillian.extension.recorder.RecorderFileUtils;
 import org.arquillian.extension.recorder.video.Recorder;
 import org.arquillian.extension.recorder.video.Video;
 import org.arquillian.extension.recorder.video.VideoConfiguration;
+import org.arquillian.extension.recorder.video.VideoMetaData;
 import org.arquillian.extension.recorder.video.VideoType;
 import org.jboss.arquillian.core.spi.Validate;
 
@@ -41,8 +42,6 @@ public class DesktopVideoRecorder implements Recorder {
     private VideoType videoType;
 
     private VideoConfiguration configuration;
-
-    private DefaultFileNameBuilder idGenerator = new DefaultFileNameBuilder();
 
     private VideoRecorder recorder;
 
@@ -69,7 +68,11 @@ public class DesktopVideoRecorder implements Recorder {
     @Override
     public void startRecording(VideoType videoType) {
         Validate.notNull(videoType, "Video type is a null object!");
-        startRecording(new File(idGenerator.withFileType(videoType).build()), videoType);
+        VideoMetaData metaData = new VideoMetaData();
+        metaData.setResourceType(videoType);
+        startRecording(
+                new File(DefaultFileNameBuilder.getInstance().withMetaData(metaData).build()), 
+                videoType);
     }
 
     @Override

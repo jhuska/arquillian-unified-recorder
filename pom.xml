@@ -51,6 +51,7 @@
         <module>implementations/arquillian-droidium-screenshooter</module>
         <module>implementations/arquillian-desktop-video-recorder</module>
         <module>implementations/arquillian-desktop-screenshooter</module>
+        <module>implementations/arquillian-browser-screenshooter</module>
     </modules>
 
     <!-- Add here scm section -->

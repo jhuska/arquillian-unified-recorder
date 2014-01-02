@@ -50,12 +50,12 @@ public class ScreenshooterExtensionInitializer {
 
     public void afterExtensionConfigured(@Observes ScreenshotExtensionConfigured event) {
 
-        ScreenshootingStrategy strategy = serviceLoader.get().onlyOne(ScreenshootingStrategy.class,
-            DefaultScreenshootingStrategy.class);
+        ScreenshootingStrategy strategy = serviceLoader.get()
+                .onlyOne(ScreenshootingStrategy.class, DefaultScreenshootingStrategy.class);
         strategy.setConfiguration(configuration.get());
 
-        ScreenshooterEnvironmentCleaner cleaner = serviceLoader.get().onlyOne(ScreenshooterEnvironmentCleaner.class,
-            DefaultScreenshooterEnvironmentCleaner.class);
+        ScreenshooterEnvironmentCleaner cleaner = serviceLoader.get()
+                .onlyOne(ScreenshooterEnvironmentCleaner.class, DefaultScreenshooterEnvironmentCleaner.class);
 
         this.strategy.set(strategy);
         this.cleaner.set(cleaner);

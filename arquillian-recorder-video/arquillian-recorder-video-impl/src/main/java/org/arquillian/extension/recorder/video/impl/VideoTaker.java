@@ -24,6 +24,7 @@ import org.arquillian.extension.recorder.DefaultFileNameBuilder;
 import org.arquillian.extension.recorder.video.Recorder;
 import org.arquillian.extension.recorder.video.Video;
 import org.arquillian.extension.recorder.video.VideoConfiguration;
+import org.arquillian.extension.recorder.video.VideoMetaData;
 import org.arquillian.extension.recorder.video.event.StartRecordSuiteVideo;
 import org.arquillian.extension.recorder.video.event.StartRecordVideo;
 import org.arquillian.extension.recorder.video.event.StopRecordSuiteVideo;
@@ -47,7 +48,7 @@ public class VideoTaker {
     @Inject
     private Instance<VideoConfiguration> configuration;
 
-    private DefaultFileNameBuilder nb = new DefaultFileNameBuilder();
+    private DefaultFileNameBuilder nb = DefaultFileNameBuilder.getInstance();
 
     public void onStartSuiteRecording(@Observes EventContext<StartRecordSuiteVideo> context) {
         File videoTarget = new File("suite", configuration.get().getVideoName());
@@ -58,8 +59,10 @@ public class VideoTaker {
 
     public void onStartRecording(@Observes EventContext<StartRecordVideo> context) {
 
-        String fileName = nb.withFileType(context.getEvent().getVideoType())
-            .withMetaData(context.getEvent().getVideoMetaData())
+        VideoMetaData metaData = context.getEvent().getVideoMetaData();
+        metaData.setResourceType(context.getEvent().getVideoType());
+        String fileName = nb
+            .withMetaData(metaData)
             .build(true);
 
         File videoTarget = new File(context.getEvent().getVideoMetaData().getTestClassName(), fileName);
