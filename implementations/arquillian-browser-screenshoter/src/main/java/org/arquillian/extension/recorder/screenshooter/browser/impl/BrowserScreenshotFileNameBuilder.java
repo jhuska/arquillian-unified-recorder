@@ -14,17 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.extension.recorder;
+package org.arquillian.extension.recorder.screenshooter.browser.impl;
 
 import java.util.UUID;
 
+import org.arquillian.extension.recorder.FileNameBuilder;
+import org.arquillian.extension.recorder.ResourceIdentifier;
+import org.arquillian.extension.recorder.ResourceMetaData;
+import org.arquillian.extension.recorder.ResourceType;
+import org.arquillian.extension.recorder.When;
+
 /**
- * Builds a file name of some screenshot resource.
- *
- * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
+ * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  *
  */
-public class DefaultFileNameBuilder implements FileNameBuilder {
+public class BrowserScreenshotFileNameBuilder implements FileNameBuilder {
 
     private ResourceMetaData metaData = null;
 
@@ -34,24 +38,24 @@ public class DefaultFileNameBuilder implements FileNameBuilder {
 
     private ResourceIdentifier<ResourceType> resourceIdentifier;
 
-    public DefaultFileNameBuilder() {
+    public BrowserScreenshotFileNameBuilder() {
         setDefaultFileIdentifier();
     }
 
     @Override
-    public DefaultFileNameBuilder withMetaData(ResourceMetaData metaData) {
+    public BrowserScreenshotFileNameBuilder withMetaData(ResourceMetaData metaData) {
         this.metaData = metaData;
         return this;
     }
 
     @Override
-    public DefaultFileNameBuilder withStage(When when) {
+    public BrowserScreenshotFileNameBuilder withStage(When when) {
         this.when = when;
         return this;
     }
 
     @Override
-    public DefaultFileNameBuilder withFileType(ResourceType resourceType) {
+    public BrowserScreenshotFileNameBuilder withFileType(ResourceType resourceType) {
         if (resourceType != null) {
             this.resourceType = resourceType;
         }
@@ -61,11 +65,11 @@ public class DefaultFileNameBuilder implements FileNameBuilder {
     /**
      * Sets resource identifier for this file builder, suppresses the behavior of standard file name generation as specified in
      * {@link #build()} method.
-     *
+     * 
      * @param resourceIdentifier
      * @return this
      */
-    public DefaultFileNameBuilder withResourceIdentifier(ResourceIdentifier<ResourceType> resourceIdentifier) {
+    public BrowserScreenshotFileNameBuilder withResourceIdentifier(ResourceIdentifier<ResourceType> resourceIdentifier) {
         if (resourceIdentifier != null) {
             this.resourceIdentifier = resourceIdentifier;
         }
@@ -79,7 +83,7 @@ public class DefaultFileNameBuilder implements FileNameBuilder {
      * testMethodName_stage.screenshotType <br>
      * <br>
      * where stage is {@link When}.
-     *
+     * 
      * When you do not set meta data or name of test method is null or empty string, random {@link UUID} is generated instead of
      * that. If {@link When} is not set, it is not included into file name generation. When you do not specify resource type,
      * file name will be generated without file format suffix, excluding a dot as well.
@@ -110,12 +114,11 @@ public class DefaultFileNameBuilder implements FileNameBuilder {
             @Override
             public String getIdentifier(ResourceType resourceType) {
                 StringBuilder sb = new StringBuilder();
-                if (metaData == null || metaData.getTestMethodName() == null || metaData.getTestMethodName().isEmpty()) {
+                if (metaData == null || when == null 
+                        || metaData.getOptionalPayload() == null || metaData.getOptionalPayload().isEmpty()) {
                     sb.append(UUID.randomUUID().toString());
                 } else {
-                    sb.append(metaData.getTestMethodName());
-                }
-                if (when != null) {
+                    sb.append(metaData.getOptionalPayload());
                     sb.append("_");
                     sb.append(when.toString());
                 }
@@ -127,5 +130,4 @@ public class DefaultFileNameBuilder implements FileNameBuilder {
             }
         };
     }
-
 }

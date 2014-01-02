@@ -21,12 +21,12 @@ package org.arquillian.extension.recorder;
  * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public abstract class AbstractFileNameBuilder {
+public interface FileNameBuilder {
 
     /**
      * @return built file name
      */
-    public abstract String build();
+    String build();
 
     /**
      * Optionally clears underlying builder before next {@link #build()} will be called
@@ -34,5 +34,29 @@ public abstract class AbstractFileNameBuilder {
      * @param clear set to true if underlying builder should be cleared after it is called
      * @return built file name
      */
-    public abstract String build(boolean clear);
+    String build(boolean clear);
+
+    /**
+     * Will build the file name with given <code>ResourceMetaData</code>
+     *
+     * @param metaData
+     * @return
+     */
+    FileNameBuilder withMetaData(ResourceMetaData metaData);
+
+    /**
+     * Will build the file name with given <code>When</code>
+     *
+     * @param when
+     * @return
+     */
+    FileNameBuilder withStage(When when);
+
+    /**
+     * Will build the file name with given <code>ResourceType</code>
+     *
+     * @param resourceType
+     * @return
+     */
+    FileNameBuilder withFileType(ResourceType resourceType);
 }

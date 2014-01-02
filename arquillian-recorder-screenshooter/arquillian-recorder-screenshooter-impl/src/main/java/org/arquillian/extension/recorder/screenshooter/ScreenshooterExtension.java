@@ -31,7 +31,6 @@ public class ScreenshooterExtension implements LoadableExtension {
 
     @Override
     public void register(ExtensionBuilder builder) {
-        builder.observer(ScreenshooterLifecycleObserver.class);
         builder.observer(ScreenshooterExtensionInitializer.class);
         builder.observer(ScreenshotTaker.class);
         builder.service(ResourceProvider.class, ScreenshooterProvider.class);

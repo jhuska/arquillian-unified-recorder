@@ -14,30 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.extension.recorder;
+package org.arquillian.extension.recorder.screenshooter.browser.impl;
+
+import org.arquillian.extension.recorder.screenshooter.Screenshot;
 
 /**
- * Enumeration which signifies if an event was fired before test or after test or test has failed.
- *
- * @author <a href="mailto:pmensik@redhat.com">Petr Mensik</a>
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
+ *
  */
-public enum When {
-
-    AFTER("after"),
-    BEFORE("before"),
-    FAILED("failed"),
-    ON_EVERY_ACTION("onEveryAction");
-
-    private final String name;
-
-    private When(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return name;
-    }
+public class BrowserScreenshot extends Screenshot {
 
 }

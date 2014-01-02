@@ -38,6 +38,8 @@ public abstract class ResourceMetaData {
 
     private long timeStamp;
 
+    private String optionalPayload;
+
     /**
      *
      * @return name of test class as String or null if not set
@@ -125,11 +127,22 @@ public abstract class ResourceMetaData {
     }
 
     @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("test class\t\t:\n").append(getTestClass()).append("test method\t\t:\n").append(getTestMethod())
+                .append("timestamp\t\t:\n").append(getTimeStamp())
+                .append(optionalPayload.isEmpty() ? "" : "payload\t\t:\n" + optionalPayload);
+        return sb.toString();
+    }
+
+    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + ((optionalPayload == null) ? 0 : optionalPayload.hashCode());
         result = prime * result + ((testClass == null) ? 0 : testClass.hashCode());
         result = prime * result + ((testMethod == null) ? 0 : testMethod.hashCode());
+        result = prime * result + ((testResult == null) ? 0 : testResult.hashCode());
         result = prime * result + (int) (timeStamp ^ (timeStamp >>> 32));
         return result;
     }
@@ -143,6 +156,11 @@ public abstract class ResourceMetaData {
         if (getClass() != obj.getClass())
             return false;
         ResourceMetaData other = (ResourceMetaData) obj;
+        if (optionalPayload == null) {
+            if (other.optionalPayload != null)
+                return false;
+        } else if (!optionalPayload.equals(other.optionalPayload))
+            return false;
         if (testClass == null) {
             if (other.testClass != null)
                 return false;
@@ -153,18 +171,22 @@ public abstract class ResourceMetaData {
                 return false;
         } else if (!testMethod.equals(other.testMethod))
             return false;
+        if (testResult == null) {
+            if (other.testResult != null)
+                return false;
+        } else if (!testResult.equals(other.testResult))
+            return false;
         if (timeStamp != other.timeStamp)
             return false;
         return true;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("test class\t\t:\n").append(getTestClass())
-            .append("test method\t\t:\n").append(getTestMethod())
-            .append("timestamp\t\t:\n").append(getTimeStamp());
-        return sb.toString();
+    public String getOptionalPayload() {
+        return optionalPayload;
+    }
+
+    public void setOptionalPayload(String optionalPayload) {
+        this.optionalPayload = optionalPayload;
     }
 
 }

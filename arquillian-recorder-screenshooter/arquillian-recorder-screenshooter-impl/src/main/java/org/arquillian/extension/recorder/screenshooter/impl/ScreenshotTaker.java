@@ -19,6 +19,7 @@ package org.arquillian.extension.recorder.screenshooter.impl;
 import java.io.File;
 
 import org.arquillian.extension.recorder.DefaultFileNameBuilder;
+import org.arquillian.extension.recorder.FileNameBuilder;
 import org.arquillian.extension.recorder.screenshooter.Screenshooter;
 import org.arquillian.extension.recorder.screenshooter.Screenshot;
 import org.arquillian.extension.recorder.screenshooter.ScreenshotType;
@@ -26,6 +27,7 @@ import org.arquillian.extension.recorder.screenshooter.event.TakeScreenshot;
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.api.annotation.Observes;
+import org.jboss.arquillian.core.spi.ServiceLoader;
 
 /**
  *
@@ -36,17 +38,24 @@ public class ScreenshotTaker {
     @Inject
     private Instance<Screenshooter> screenshooter;
 
+    @Inject
+    private Instance<ServiceLoader> serviceLoader;
+
     public void onTakeScreenshot(@Observes TakeScreenshot event) {
 
         ScreenshotType type = screenshooter.get().getScreenshotType();
 
-        String fileName = new DefaultFileNameBuilder()
-            .withMetaData(event.getMetaData())
-            .withStage(event.getWhen())
-            .withFileType(type)
-            .build();
+        FileNameBuilder nameBuilder = serviceLoader.get()
+                .onlyOne(FileNameBuilder.class, DefaultFileNameBuilder.class);
 
-        File screenshotTarget = new File(event.getMetaData().getTestClassName(), fileName);
+        String fileName = nameBuilder.
+                withMetaData(event.getMetaData())
+                .withStage(event.getWhen())
+                .withFileType(type).build();
+
+        File screenshotTarget = new File(event.getMetaData().getTestClassName()
+                + System.getProperty("file.separator")
+                + event.getMetaData().getTestMethodName(), fileName);
 
         Screenshot screenshot = screenshooter.get().takeScreenshot(screenshotTarget, type);
         screenshot.setResourceMetaData(event.getMetaData());

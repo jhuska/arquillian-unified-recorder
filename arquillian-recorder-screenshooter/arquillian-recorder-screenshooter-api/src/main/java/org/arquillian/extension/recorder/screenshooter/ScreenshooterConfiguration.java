@@ -40,6 +40,8 @@ public class ScreenshooterConfiguration extends Configuration<ScreenshooterConfi
 
     private String takeWhenTestFailed = "true";
 
+    private String takeOnEveryAction = "false";
+
     /**
      * By default set to "target"
      *
@@ -94,6 +96,15 @@ public class ScreenshooterConfiguration extends Configuration<ScreenshooterConfi
         return Boolean.parseBoolean(getProperty("takeWhenTestFailed", takeWhenTestFailed));
     }
 
+    /**
+     * By default set to false.
+     *
+     * @return true if screenshot should be taken on every browser action, false otherwise
+     */
+    public boolean getTakeOnEveryAction() {
+        return Boolean.parseBoolean(getProperty("takeOnEveryAction", takeOnEveryAction));
+    }
+
     @Override
     public void validate() throws ScreenshooterConfigurationException {
 
@@ -101,8 +112,8 @@ public class ScreenshooterConfiguration extends Configuration<ScreenshooterConfi
             ScreenshotType.valueOf(ScreenshotType.class, getScreenshotType());
         } catch (IllegalArgumentException ex) {
             throw new ScreenshooterConfigurationException(
-                "Screenshot type you specified in arquillian.xml is not valid screenshot type."
-                    + "Supported screenshot types are: " + ScreenshotType.getAll());
+                    "Screenshot type you specified in arquillian.xml is not valid screenshot type."
+                            + "Supported screenshot types are: " + ScreenshotType.getAll());
         }
 
         try {
@@ -116,13 +127,13 @@ public class ScreenshooterConfiguration extends Configuration<ScreenshooterConfi
                     throw new ScreenshooterConfigurationException("Root directory you specified is not a directory.");
                 }
                 if (!getRootFolder().canWrite()) {
-                    throw new ScreenshooterConfigurationException(
-                        "You can not write to '" + getRootFolder().getAbsolutePath() + "'.");
+                    throw new ScreenshooterConfigurationException("You can not write to '" + getRootFolder().getAbsolutePath()
+                            + "'.");
                 }
             }
         } catch (SecurityException ex) {
-            throw new ScreenshooterConfigurationException(
-                "You are not permitted to operate on specified resource: " + getRootFolder().getAbsolutePath() + "'.");
+            throw new ScreenshooterConfigurationException("You are not permitted to operate on specified resource: "
+                    + getRootFolder().getAbsolutePath() + "'.");
         }
     }
 
