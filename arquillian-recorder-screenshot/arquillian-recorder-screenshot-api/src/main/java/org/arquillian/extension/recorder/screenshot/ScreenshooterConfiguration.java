@@ -30,6 +30,8 @@ public class ScreenshooterConfiguration extends Configuration<ScreenshooterConfi
 
     private String rootFolder = "target";
 
+    private String screenshotBaseFolder = "screenshots";
+
     private String screenshoType = ScreenshotType.PNG.toString();
 
     private String takeBeforeTest = "false";
@@ -47,6 +49,15 @@ public class ScreenshooterConfiguration extends Configuration<ScreenshooterConfi
      */
     public File getRootFolder() {
         return new File(getProperty("rootFolder", rootFolder));
+    }
+
+    /**
+     * By default set to "screenshots"
+     *
+     * @return folder inside the root folder where the screenshots be placed.
+     */
+    public String getScreenshotBaseFolder() {
+        return getProperty("screenshotBaseFolder", screenshotBaseFolder);
     }
 
     /**

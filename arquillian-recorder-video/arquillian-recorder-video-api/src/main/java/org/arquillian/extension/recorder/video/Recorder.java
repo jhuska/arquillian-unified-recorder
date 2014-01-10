@@ -26,10 +26,12 @@ import java.io.File;
 public interface Recorder {
 
     /**
+     * Initializes particular video recorder implementation, e.g. by setting target directory where all videos will be saved
+     * afterwards.
      *
-     * @return configuration class of this recorder implementation
+     * @param configuration configuration of this video recorder implementation
      */
-    <T extends VideoConfiguration> Class<T> getConfigurationClass();
+    void init(VideoConfiguration configuration);
 
     /**
      * Starts to record your test.

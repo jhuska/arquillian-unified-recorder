@@ -44,7 +44,6 @@ public abstract class VideoConfiguration extends Configuration<VideoConfiguratio
 
     private String testTimeout = "1800"; //30 minutes
 
-
     /**
      * By default set to true
      *
@@ -57,11 +56,12 @@ public abstract class VideoConfiguration extends Configuration<VideoConfiguratio
     /**
      * By default set to 1800, i.e. 30 minutes
      *
-     * @return timeout for each test in order to stop recording and save the video file if the test gets stucked
+     * @return timeout for each test in order to stop recording and save the video file if the test gets stuck
      */
     public int getTestTimeout() {
         return Integer.parseInt(getProperty("testTimeout", testTimeout));
     }
+
     /**
      * By default set to "record"
      *

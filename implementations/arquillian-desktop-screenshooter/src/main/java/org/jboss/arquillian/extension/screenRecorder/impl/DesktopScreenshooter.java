@@ -23,24 +23,52 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+
+import org.arquillian.extension.recorder.DefaultFileNameBuilder;
 import org.arquillian.extension.recorder.screenshot.Screenshooter;
+import org.arquillian.extension.recorder.screenshot.ScreenshooterConfiguration;
 import org.arquillian.extension.recorder.screenshot.Screenshot;
 import org.arquillian.extension.recorder.screenshot.ScreenshotType;
 import org.jboss.arquillian.core.spi.Validate;
 
 /**
+ * Takes screenshots of the whole desktop.
  *
  * @author <a href="mailto:pmensik@redhat.com">Petr Mensik</a>
  */
 public class DesktopScreenshooter implements Screenshooter {
 
-    private static final Logger logger = Logger.getLogger(DesktopScreenshotTaker.class.getName());
-    
     private File screenshotTargetDir = new File("target" + System.getProperty("file.separator"));
+
+    private File root;
+
     private ScreenshotType screenshotType = ScreenshotType.PNG;
+
+    private ScreenshooterConfiguration configuration;
+
+    private DefaultFileNameBuilder idGenerator = new DefaultFileNameBuilder();
+
+    @Override
+    public void init(ScreenshooterConfiguration configuration) {
+        if (this.configuration == null) {
+            if (configuration != null) {
+                this.configuration = configuration;
+
+                root = new File(this.configuration.getRootFolder(), this.configuration.getScreenshotBaseFolder());
+
+                if (!root.exists()) {
+                    if (!root.mkdirs()) {
+                        throw new RuntimeException("Unable to create root directory.");
+                    }
+                }
+
+                setScreenshotTargetDir(root);
+
+                setScreensthotType(ScreenshotType.valueOf(this.configuration.getScreenshotType().toUpperCase()));
+            }
+        }
+    }
 
     @Override
     public Screenshot takeScreenshot() {
@@ -50,7 +78,7 @@ public class DesktopScreenshooter implements Screenshooter {
     @Override
     public Screenshot takeScreenshot(ScreenshotType type) {
         Validate.notNull(type, "Screenshot type is a null object!");
-        return takeScreenshot(screenshotTargetDir, type);
+        return takeScreenshot(new File(idGenerator.withFileType(type).build()), type);
     }
 
     @Override
@@ -74,41 +102,51 @@ public class DesktopScreenshooter implements Screenshooter {
 
     @Override
     public Screenshot takeScreenshot(File file, ScreenshotType type) {
+
+        if (configuration == null) {
+            throw new IllegalStateException("Screenshooter was not initialized. Please call init() method first.");
+        }
+
         file = new File(screenshotTargetDir, file.getPath());
         if (!file.exists()) {
-            boolean created = file.mkdirs();
-            if (!created) {
-                throw new RuntimeException("Unable to create test class directory " + file.getAbsolutePath());
+            if (!file.mkdirs()) {
+                throw new RuntimeException("Unable to create screenshot directory " + file.getAbsolutePath());
             }
         }
+
         Rectangle screenSize = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
         try {
             BufferedImage image = new Robot().createScreenCapture(screenSize);
             ImageIO.write(image, screenshotType.toString(), file);
         } catch (AWTException ex) {
-            logger.log(Level.WARNING, "Couldn't take a screenshot because of java.awt.Robot creation failure {0}",
-                    ex.getMessage());
+            throw new RuntimeException("Could not take a screenshot because of java.awt.Robot creation failure {0}", ex);
         } catch (IOException ex) {
-            logger.log(Level.WARNING, "Couldn't write an image to the hard drive ", ex.getMessage());
+            throw new RuntimeException("Could not write an image", ex);
         }
+
         Screenshot screenshoot = new DesktopScreenshot();
         screenshoot.setResource(file);
         screenshoot.setResourceType(screenshotType);
+
         return screenshoot;
     }
 
     @Override
     public void setScreenshotTargetDir(String screenshotTargetDir) {
+        Validate.notNullOrEmpty(screenshotTargetDir, "Screenshot target directory can not be a null object or an empty string");
         this.screenshotTargetDir = new File(screenshotTargetDir);
     }
 
     @Override
     public void setScreenshotTargetDir(File screenshotTargetDir) {
+        Validate.notNull(screenshotType, "File is a null object!");
         this.screenshotTargetDir = screenshotTargetDir;
     }
 
     @Override
     public void setScreensthotType(ScreenshotType type) {
+        Validate.notNull(screenshotType, "Screenshot type is a null object!");
         this.screenshotType = type;
     }
+
 }

@@ -48,7 +48,8 @@ public class DroidiumScreenshooterCreator {
     public void onScreenshooterExtensionConfigured(@Observes ScreenshotExtensionConfigured event) {
 
         Screenshooter screenshooter = new DroidiumScreenshooter();
-        screenshooter.setScreenshotTargetDir(configuration.get().getRootFolder());
+        screenshooter.init(configuration.get());
+
         this.screenshooter.set(screenshooter);
     }
 

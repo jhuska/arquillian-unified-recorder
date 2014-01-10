@@ -16,14 +16,21 @@
  */
 package org.arquillian.extension.recorder.droidium.impl;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import org.arquillian.droidium.container.api.AndroidDevice;
 import org.arquillian.extension.recorder.DefaultFileNameBuilder;
 import org.arquillian.extension.recorder.screenshot.Screenshooter;
+import org.arquillian.extension.recorder.screenshot.ScreenshooterConfiguration;
 import org.arquillian.extension.recorder.screenshot.Screenshot;
 import org.arquillian.extension.recorder.screenshot.ScreenshotType;
 import org.jboss.arquillian.core.spi.Validate;
+
+import com.android.ddmlib.RawImage;
 
 /**
  * Takes screenshots for Android devices.
@@ -35,11 +42,36 @@ public class DroidiumScreenshooter implements Screenshooter {
 
     private File screenshotTargetDir = new File("target" + System.getProperty("file.separator"));
 
-    private AndroidDevice device;
+    private File root;
 
     private ScreenshotType screenshotType = ScreenshotType.PNG;
 
+    private ScreenshooterConfiguration configuration;
+
     private DefaultFileNameBuilder idGenerator = new DefaultFileNameBuilder();
+
+    private AndroidDevice device;
+
+    @Override
+    public void init(ScreenshooterConfiguration configuration) {
+        if (this.configuration == null) {
+            if (configuration != null) {
+                this.configuration = configuration;
+
+                root = new File(this.configuration.getRootFolder(), this.configuration.getScreenshotBaseFolder());
+
+                if (!root.exists()) {
+                    if (!root.mkdirs()) {
+                        throw new RuntimeException("Unable to create root directory.");
+                    }
+                }
+
+                setScreenshotTargetDir(root);
+
+                setScreensthotType(ScreenshotType.valueOf(this.configuration.getScreenshotType()));
+            }
+        }
+    }
 
     @Override
     public Screenshot takeScreenshot() {
@@ -72,20 +104,70 @@ public class DroidiumScreenshooter implements Screenshooter {
     }
 
     @Override
-    public DroidiumScreenshot takeScreenshot(File file, ScreenshotType type) {
-        // TODO Auto-generated method stub
-        return null;
+    public Screenshot takeScreenshot(File file, ScreenshotType type) {
+
+        if (configuration == null) {
+            throw new IllegalStateException("Screenshooter was not initialized. Please call init() method first.");
+        }
+
+        if (!device.isOnline()) {
+            throw new RuntimeException("Android device is not online, can not take any screenshots.");
+        }
+
+        file = new File(screenshotTargetDir, file.getPath());
+        if (!file.exists()) {
+            if (!file.mkdirs()) {
+                throw new RuntimeException("Unable to create screenshot directory " + file.getAbsolutePath());
+            }
+        }
+
+        RawImage rawImage = null;
+
+        try {
+            rawImage = device.getScreenshot().getRawImage();
+        } catch (Exception e) {
+            throw new RuntimeException("Unable to get screenshot of underlying Android device.", e);
+        }
+
+        if (rawImage == null) {
+            throw new RuntimeException("Unable to get screenshot of underlying Android device.");
+        }
+
+        BufferedImage bufferedImage = new BufferedImage(rawImage.width, rawImage.height, BufferedImage.TYPE_INT_RGB);
+
+        int index = 0;
+
+        int indexInc = rawImage.bpp >> 3;
+        for (int y = 0; y < rawImage.height; y++) {
+            for (int x = 0; x < rawImage.width; x++, index += indexInc) {
+                int value = rawImage.getARGB(index);
+                bufferedImage.setRGB(x, y, value);
+            }
+        }
+
+        try {
+            ImageIO.write(bufferedImage, type.toString(), file);
+        } catch (IOException ex) {
+            throw new RuntimeException("Could not write an image", ex);
+        }
+
+        Screenshot screenshot = new DroidiumScreenshot();
+        screenshot.setResource(file);
+        screenshot.setResourceType(screenshotType);
+
+        return screenshot;
+
     }
 
     @Override
     public void setScreenshotTargetDir(String screenshotTargetDir) {
-        Validate.notNullOrEmpty(screenshotTargetDir, "Screenshot target dir is a null object or an empty string!");
+        Validate.notNullOrEmpty(screenshotTargetDir, "Screenshot target directory can not be a null object or an empty string");
         setScreenshotTargetDir(new File(screenshotTargetDir));
     }
 
     @Override
     public void setScreenshotTargetDir(File screenshotTargetDir) {
-        Validate.notNull(screenshotTargetDir, "Screenshot target dir is a null object!");
+        Validate.notNull(screenshotType, "File is a null object!");
         this.screenshotTargetDir = screenshotTargetDir;
     }
 

@@ -1,8 +1,8 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
- * contributors by the @authors tag. See the copyright.txt in the
- * distribution for a full listing of individual contributors.
+ * Copyright 2013, Red Hat Middleware LLC, and individual contributors
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.extension.recorder.droidium.impl;
+package org.arquillian.extension.recorder.screenshot.impl;
+
+import java.io.File;
 
 import org.arquillian.extension.recorder.DefaultFileNameBuilder;
 import org.arquillian.extension.recorder.screenshot.Screenshooter;
@@ -25,26 +27,27 @@ import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.api.annotation.Observes;
 
 /**
- * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
+ * @author <a href="mailto:pmensik@redhat.com">Petr Mensik</a>
  */
-public class DroidiumScreenshotTaker {
+public class ScreenshotTaker {
 
     @Inject
     private Instance<Screenshooter> screenshooter;
 
     public void onTakeScreenshot(@Observes TakeScreenshot event) {
 
-        Screenshooter screenshooter = this.screenshooter.get();
-
         String fileName = new DefaultFileNameBuilder()
             .withMetaData(event.getMetaData())
             .withStage(event.getWhen())
+            .withFileType(event.getScreenshotType())
             .build();
 
-        Screenshot screenshot = screenshooter.takeScreenshot(fileName, event.getScreenshotType());
-        screenshot.setResourceMetaData(event.getMetaData());
-        screenshot.setResourceType(event.getScreenshotType());
+        File screenshotTarget = new File(event.getMetaData().getTestClassName(), fileName);
 
+        Screenshot screenshot = screenshooter.get().takeScreenshot(screenshotTarget);
+        screenshot.setResourceMetaData(event.getMetaData());
+
+        // in case of reporting extension, we can fire event with taken screenshot
     }
 }

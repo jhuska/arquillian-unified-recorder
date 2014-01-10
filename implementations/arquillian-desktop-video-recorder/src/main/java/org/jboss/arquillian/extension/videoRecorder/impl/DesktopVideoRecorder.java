@@ -22,8 +22,8 @@ import java.lang.reflect.Method;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
+
 import org.apache.commons.io.FileUtils;
-import org.arquillian.extension.recorder.When;
 import org.arquillian.extension.recorder.video.VideoConfiguration;
 import org.arquillian.extension.recorder.video.VideoMetaData;
 import org.arquillian.extension.recorder.video.event.StartRecordSuiteVideo;
@@ -45,10 +45,10 @@ import org.slf4j.LoggerFactory;
 public class DesktopVideoRecorder {
 
     private static final Logger logger = LoggerFactory.getLogger(DesktopVideoRecorder.class);
-    
+
     @Inject
     private Instance<VideoConfiguration> configuration;
-    
+
     private File root;
     private VideoRecorder recorder;
     private Timer timer;
@@ -61,7 +61,7 @@ public class DesktopVideoRecorder {
         timer = new Timer();
         timer.schedule(new TestTimeoutTask(), TimeUnit.SECONDS.toMillis(configuration.get().getTestTimeout()));
     }
-    
+
     public void onStartSuiteRecording(@Observes StartRecordSuiteVideo event) {
         recorder.startRecording();
     }
@@ -69,7 +69,7 @@ public class DesktopVideoRecorder {
     public void onStartRecording(@Observes StartRecordVideo event) {
         recorder.startRecording();
     }
-    
+
     public void onStopSuiteRecording(@Observes StopRecordSuiteVideo event) {
         stopRecording(root, configuration.get().getVideoName());
     }

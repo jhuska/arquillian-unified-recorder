@@ -27,6 +27,14 @@ import java.io.File;
 public interface Screenshooter {
 
     /**
+     * Initializes particular screenshooter implementation, e.g. by setting target directory where all screenshots will be saved
+     * afterwards.
+     *
+     * @param configuration configuration of this screenshooter implementation
+     */
+    void init(ScreenshooterConfiguration configuration);
+
+    /**
      * Takes screenshot in default format with random string as a name with file format extension.
      *
      * @return screenshot of default image format
