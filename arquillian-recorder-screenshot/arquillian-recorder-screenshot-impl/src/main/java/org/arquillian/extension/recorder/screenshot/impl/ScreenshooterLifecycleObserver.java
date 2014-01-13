@@ -57,7 +57,7 @@ public class ScreenshooterLifecycleObserver {
     @Inject
     private Instance<TestResult> testResult;
 
-    public void beforeTest(@Observes Before event) {
+    public void beforeTest(@Observes(precedence = Integer.MIN_VALUE) Before event) {
         if (strategy.get().isTakingAction(event)) {
 
             ScreenshotType screenshotType = getScreenshotType();
@@ -71,7 +71,7 @@ public class ScreenshooterLifecycleObserver {
         }
     }
 
-    public void afterTest(@Observes After event) {
+    public void afterTest(@Observes(precedence = Integer.MAX_VALUE) After event) {
         TestResult result = testResult.get();
         if (strategy.get().isTakingAction(event, result)) {
             ScreenshotType screenshotType = getScreenshotType();

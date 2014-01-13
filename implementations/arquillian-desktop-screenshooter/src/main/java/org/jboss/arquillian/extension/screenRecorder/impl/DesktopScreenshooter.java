@@ -23,6 +23,7 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
 import javax.imageio.ImageIO;
 
 import org.arquillian.extension.recorder.DefaultFileNameBuilder;
@@ -30,6 +31,7 @@ import org.arquillian.extension.recorder.screenshot.Screenshooter;
 import org.arquillian.extension.recorder.screenshot.ScreenshooterConfiguration;
 import org.arquillian.extension.recorder.screenshot.Screenshot;
 import org.arquillian.extension.recorder.screenshot.ScreenshotType;
+import org.arquillian.extension.recorder.screenshot.impl.ScreenshooterFileUtils;
 import org.jboss.arquillian.core.spi.Validate;
 
 /**
@@ -40,8 +42,6 @@ import org.jboss.arquillian.core.spi.Validate;
 public class DesktopScreenshooter implements Screenshooter {
 
     private File screenshotTargetDir = new File("target" + System.getProperty("file.separator"));
-
-    private File root;
 
     private ScreenshotType screenshotType = ScreenshotType.PNG;
 
@@ -54,17 +54,8 @@ public class DesktopScreenshooter implements Screenshooter {
         if (this.configuration == null) {
             if (configuration != null) {
                 this.configuration = configuration;
-
-                root = new File(this.configuration.getRootFolder(), this.configuration.getScreenshotBaseFolder());
-
-                if (!root.exists()) {
-                    if (!root.mkdirs()) {
-                        throw new RuntimeException("Unable to create root directory.");
-                    }
-                }
-
+                File root = new File(this.configuration.getRootFolder(), this.configuration.getScreenshotBaseFolder());
                 setScreenshotTargetDir(root);
-
                 setScreensthotType(ScreenshotType.valueOf(this.configuration.getScreenshotType().toUpperCase()));
             }
         }
@@ -107,12 +98,10 @@ public class DesktopScreenshooter implements Screenshooter {
             throw new IllegalStateException("Screenshooter was not initialized. Please call init() method first.");
         }
 
+        file = ScreenshooterFileUtils.checkFileExtension(file, type);
+
         file = new File(screenshotTargetDir, file.getPath());
-        if (!file.exists()) {
-            if (!file.mkdirs()) {
-                throw new RuntimeException("Unable to create screenshot directory " + file.getAbsolutePath());
-            }
-        }
+        ScreenshooterFileUtils.createScreenshotDirectory(file);
 
         Rectangle screenSize = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
         try {
@@ -140,6 +129,7 @@ public class DesktopScreenshooter implements Screenshooter {
     @Override
     public void setScreenshotTargetDir(File screenshotTargetDir) {
         Validate.notNull(screenshotType, "File is a null object!");
+        ScreenshooterFileUtils.createScreenshotDirectory(screenshotTargetDir);
         this.screenshotTargetDir = screenshotTargetDir;
     }
 
@@ -147,6 +137,11 @@ public class DesktopScreenshooter implements Screenshooter {
     public void setScreensthotType(ScreenshotType type) {
         Validate.notNull(screenshotType, "Screenshot type is a null object!");
         this.screenshotType = type;
+    }
+
+    @Override
+    public ScreenshotType getScreenshotType() {
+        return screenshotType;
     }
 
 }

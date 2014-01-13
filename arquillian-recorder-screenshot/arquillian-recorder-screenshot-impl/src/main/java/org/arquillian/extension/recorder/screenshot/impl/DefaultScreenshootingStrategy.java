@@ -60,9 +60,6 @@ public class DefaultScreenshootingStrategy implements ScreenshootingStrategy {
 
     @Override
     public boolean isTakingAction(Event event) {
-        if (event instanceof Before) {
-            return configuration.getTakeBeforeTest();
-        }
-        return false;
+        return event instanceof Before && configuration.getTakeBeforeTest();
     }
 }

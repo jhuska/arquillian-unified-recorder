@@ -21,6 +21,7 @@ import java.io.File;
 import org.arquillian.extension.recorder.DefaultFileNameBuilder;
 import org.arquillian.extension.recorder.screenshot.Screenshooter;
 import org.arquillian.extension.recorder.screenshot.Screenshot;
+import org.arquillian.extension.recorder.screenshot.ScreenshotType;
 import org.arquillian.extension.recorder.screenshot.event.TakeScreenshot;
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
@@ -37,15 +38,17 @@ public class ScreenshotTaker {
 
     public void onTakeScreenshot(@Observes TakeScreenshot event) {
 
+        ScreenshotType type = screenshooter.get().getScreenshotType();
+
         String fileName = new DefaultFileNameBuilder()
             .withMetaData(event.getMetaData())
             .withStage(event.getWhen())
-            .withFileType(event.getScreenshotType())
+            .withFileType(type)
             .build();
 
         File screenshotTarget = new File(event.getMetaData().getTestClassName(), fileName);
 
-        Screenshot screenshot = screenshooter.get().takeScreenshot(screenshotTarget);
+        Screenshot screenshot = screenshooter.get().takeScreenshot(screenshotTarget, type);
         screenshot.setResourceMetaData(event.getMetaData());
 
         // in case of reporting extension, we can fire event with taken screenshot

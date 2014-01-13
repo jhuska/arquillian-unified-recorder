@@ -32,7 +32,7 @@ public class ScreenshooterConfiguration extends Configuration<ScreenshooterConfi
 
     private String screenshotBaseFolder = "screenshots";
 
-    private String screenshoType = ScreenshotType.PNG.toString();
+    private String screenshotType = ScreenshotType.PNG.toString();
 
     private String takeBeforeTest = "false";
 
@@ -66,7 +66,7 @@ public class ScreenshooterConfiguration extends Configuration<ScreenshooterConfi
      * @return type of image we want to have our screenshots of, consult {@link ScreenshotType}
      */
     public String getScreenshotType() {
-        return getProperty("screenshoType", screenshoType);
+        return getProperty("screenshotType", screenshotType);
     }
 
     /**

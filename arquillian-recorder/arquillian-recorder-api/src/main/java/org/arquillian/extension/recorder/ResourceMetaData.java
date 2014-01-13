@@ -38,8 +38,12 @@ public abstract class ResourceMetaData {
 
     private long timeStamp;
 
+    /**
+     *
+     * @return name of test class as String or null if not set
+     */
     public String getTestClassName() {
-        return testClass.getName();
+        return getTestClass() == null ? null : getTestClass().getName();
     }
 
     public TestClass getTestClass() {
@@ -59,8 +63,12 @@ public abstract class ResourceMetaData {
         return this;
     }
 
+    /**
+     *
+     * @return name of test method as String or null if not set
+     */
     public String getTestMethodName() {
-        return testMethod.getName();
+        return getTestMethod() == null ? null : getTestMethod().getName();
     }
 
     public Method getTestMethod() {
@@ -108,6 +116,10 @@ public abstract class ResourceMetaData {
         return this;
     }
 
+    /**
+     *
+     * @return {@code TestResult} or null if not set
+     */
     public TestResult getTestResult() {
         return testResult;
     }

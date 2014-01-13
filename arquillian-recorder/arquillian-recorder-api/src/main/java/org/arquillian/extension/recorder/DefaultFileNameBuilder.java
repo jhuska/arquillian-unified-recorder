@@ -82,7 +82,7 @@ public class DefaultFileNameBuilder extends AbstractFileNameBuilder {
      * file name will be generated without file format suffix, excluding a dot as well.
      */
     @Override
-    public String build() {
+    public String build() throws IllegalStateException {
         return resourceIdentifier.getIdentifier(resourceType);
     }
 

@@ -24,7 +24,7 @@ import org.jboss.arquillian.core.spi.LoadableExtension;
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public class DroidiumExtension implements LoadableExtension {
+public class DroidiumScreenshooterExtension implements LoadableExtension {
 
     @Override
     public void register(ExtensionBuilder builder) {
