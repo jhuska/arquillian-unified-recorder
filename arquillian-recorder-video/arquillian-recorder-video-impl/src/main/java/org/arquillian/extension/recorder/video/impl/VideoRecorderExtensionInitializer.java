@@ -32,7 +32,7 @@ import org.jboss.arquillian.core.spi.ServiceLoader;
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public class VideoRecorderExtensionPreparator {
+public class VideoRecorderExtensionInitializer {
 
     @Inject
     @ApplicationScoped

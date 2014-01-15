@@ -25,7 +25,7 @@ import org.arquillian.extension.recorder.screenshot.event.TakeScreenshot;
 import org.arquillian.extension.recorder.screenshot.impl.DefaultScreenshooterEnvironmentCleaner;
 import org.arquillian.extension.recorder.screenshot.impl.DefaultScreenshootingStrategy;
 import org.arquillian.extension.recorder.screenshot.impl.ScreenshooterLifecycleObserver;
-import org.arquillian.extension.recorder.screenshot.impl.ScreenshooterExtensionPreparator;
+import org.arquillian.extension.recorder.screenshot.impl.ScreenshooterExtensionInitializer;
 import org.jboss.arquillian.config.descriptor.impl.ArquillianDescriptorImpl;
 import org.jboss.arquillian.core.api.Injector;
 import org.jboss.arquillian.core.api.Instance;
@@ -68,7 +68,7 @@ public class ScreenshooterLifecycleObserverTestCase extends AbstractTestTestBase
     @Override
     public void addExtensions(List<Class<?>> extensions) {
         extensions.add(ScreenshooterLifecycleObserver.class);
-        extensions.add(ScreenshooterExtensionPreparator.class);
+        extensions.add(ScreenshooterExtensionInitializer.class);
     }
 
     @org.junit.Before

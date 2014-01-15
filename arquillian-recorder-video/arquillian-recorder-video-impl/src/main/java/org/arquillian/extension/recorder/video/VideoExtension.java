@@ -18,7 +18,7 @@ package org.arquillian.extension.recorder.video;
 
 import org.arquillian.extension.recorder.video.impl.RecorderProvider;
 import org.arquillian.extension.recorder.video.impl.VideoLifecycleObserver;
-import org.arquillian.extension.recorder.video.impl.VideoRecorderExtensionPreparator;
+import org.arquillian.extension.recorder.video.impl.VideoRecorderExtensionInitializer;
 import org.arquillian.extension.recorder.video.impl.VideoTaker;
 import org.jboss.arquillian.core.spi.LoadableExtension;
 import org.jboss.arquillian.test.spi.enricher.resource.ResourceProvider;
@@ -32,7 +32,7 @@ public class VideoExtension implements LoadableExtension {
     @Override
     public void register(ExtensionBuilder builder) {
         builder.observer(VideoLifecycleObserver.class);
-        builder.observer(VideoRecorderExtensionPreparator.class);
+        builder.observer(VideoRecorderExtensionInitializer.class);
         builder.service(ResourceProvider.class, RecorderProvider.class);
         builder.observer(VideoTaker.class);
     }
