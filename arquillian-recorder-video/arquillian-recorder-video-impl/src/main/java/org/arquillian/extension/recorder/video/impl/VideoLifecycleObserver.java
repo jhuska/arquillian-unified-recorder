@@ -85,35 +85,38 @@ public class VideoLifecycleObserver {
         if (strategy.get().isTakingAction(event)) {
             VideoMetaData suiteMetaData = getMetaData();
             VideoType videoType = getVideoType();
+
             beforeVideoStart.fire(new BeforeVideoStart(videoType, suiteMetaData));
 
-            startRecordSuiteVideo.fire(new StartRecordSuiteVideo());
+            startRecordSuiteVideo.fire(new StartRecordSuiteVideo(videoType, suiteMetaData));
 
-            afterVideoStart.fire(new AfterVideoStart());
+            afterVideoStart.fire(new AfterVideoStart(videoType, suiteMetaData));
         }
     }
 
     public void beforeClass(@Observes BeforeClass event) {
         if (strategy.get().isTakingAction(event)) {
-            VideoMetaData suiteMetaData = getClassMetaData(event);
+            VideoMetaData classMetaData = getClassMetaData(event);
             VideoType videoType = getVideoType();
-            beforeVideoStart.fire(new BeforeVideoStart(videoType, suiteMetaData));
 
-            startRecordVideo.fire(new StartRecordVideo());
+            beforeVideoStart.fire(new BeforeVideoStart(videoType, classMetaData));
 
-            afterVideoStart.fire(new AfterVideoStart());
+            startRecordVideo.fire(new StartRecordVideo(videoType, classMetaData));
+
+            afterVideoStart.fire(new AfterVideoStart(videoType, classMetaData));
         }
     }
 
     public void beforeTest(@Observes Before event) {
         if (strategy.get().isTakingAction(event)) {
-            VideoMetaData suiteMetaData = getMetaData(event);
+            VideoMetaData testMetaData = getMetaData(event);
             VideoType videoType = getVideoType();
-            beforeVideoStart.fire(new BeforeVideoStart(videoType, suiteMetaData));
 
-            startRecordVideo.fire(new StartRecordVideo());
+            beforeVideoStart.fire(new BeforeVideoStart(videoType, testMetaData));
 
-            afterVideoStart.fire(new AfterVideoStart());
+            startRecordVideo.fire(new StartRecordVideo(videoType, testMetaData));
+
+            afterVideoStart.fire(new AfterVideoStart(videoType, testMetaData));
         }
     }
 
@@ -121,25 +124,39 @@ public class VideoLifecycleObserver {
         if (strategy.get().isTakingAction(event, testResult.get())) {
             VideoMetaData metaData = getMetaData(event);
             metaData.setTestResult(testResult.get());
-            beforeVideoStop.fire(new BeforeVideoStop());
-            stopRecordVideo.fire(new StopRecordVideo(metaData, getVideoType()));
-            afterVideoStop.fire(new AfterVideoStop());
+            VideoType videoType = getVideoType();
+
+            beforeVideoStop.fire(new BeforeVideoStop(videoType, metaData));
+
+            stopRecordVideo.fire(new StopRecordVideo(videoType, metaData));
+
+            afterVideoStop.fire(new AfterVideoStop(videoType, metaData));
         }
     }
 
     public void afterClass(@Observes AfterClass event) {
         if (strategy.get().isTakingAction(event)) {
-            beforeVideoStop.fire(new BeforeVideoStop());
-            stopRecordVideo.fire(new StopRecordVideo(getClassMetaData(event), getVideoType()));
-            afterVideoStop.fire(new AfterVideoStop());
+            VideoMetaData metaData = getClassMetaData(event);
+            VideoType videoType = getVideoType();
+
+            beforeVideoStop.fire(new BeforeVideoStop(videoType, metaData));
+
+            stopRecordVideo.fire(new StopRecordVideo(videoType, metaData));
+
+            afterVideoStop.fire(new AfterVideoStop(videoType, metaData));
         }
     }
 
     public void afterSuite(@Observes AfterSuite event) {
         if (strategy.get().isTakingAction(event)) {
-            beforeVideoStop.fire(new BeforeVideoStop());
-            stopRecordSuiteVideo.fire(new StopRecordSuiteVideo(getMetaData(), getVideoType()));
-            afterVideoStop.fire(new AfterVideoStop());
+            VideoMetaData metaData = getMetaData();
+            VideoType videoType = getVideoType();
+
+            beforeVideoStop.fire(new BeforeVideoStop(videoType, metaData));
+
+            stopRecordSuiteVideo.fire(new StopRecordSuiteVideo(videoType, metaData));
+
+            afterVideoStop.fire(new AfterVideoStop(videoType, metaData));
         }
     }
 

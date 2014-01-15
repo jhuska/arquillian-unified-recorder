@@ -18,7 +18,6 @@ package org.arquillian.extension.recorder.video.event;
 
 import org.arquillian.extension.recorder.video.VideoMetaData;
 import org.arquillian.extension.recorder.video.VideoType;
-import org.jboss.arquillian.core.spi.Validate;
 
 /**
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
@@ -26,31 +25,20 @@ import org.jboss.arquillian.core.spi.Validate;
  */
 public class StopRecordSuiteVideo {
 
-    private VideoMetaData metaData;
     private VideoType videoType;
+    private VideoMetaData videoMetaData;
 
-    public StopRecordSuiteVideo(VideoMetaData metaData, VideoType videoType) {
-        Validate.notNull(videoType, "VideoType is a null object!");
-        Validate.notNull(metaData, "Meta data is a null object!");
-        this.metaData = metaData;
+    public StopRecordSuiteVideo(VideoType videoType, VideoMetaData videoMetaData) {
+        this.videoMetaData = videoMetaData;
         this.videoType = videoType;
     }
 
-    public VideoMetaData getMetaData() {
-        return metaData;
+    public VideoMetaData getVideoMetaData() {
+        return videoMetaData;
     }
 
-    public void setMetaData(VideoMetaData metaData) {
-        Validate.notNull(metaData, "Meta data is a null object!");
-        this.metaData = metaData;
-    }
-
-    public VideoType getVideo() {
+    public VideoType getVideoType() {
         return videoType;
     }
 
-    public void setVideo(VideoType videoType) {
-        Validate.notNull(videoType, "VideoType is a null object!");
-        this.videoType = videoType;
-    }
 }

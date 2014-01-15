@@ -86,6 +86,21 @@ public class DefaultFileNameBuilder extends AbstractFileNameBuilder {
         return resourceIdentifier.getIdentifier(resourceType);
     }
 
+    @Override
+    public String build(boolean clear) {
+        String id = build();
+        if (clear) {
+            clear();
+        }
+        return id;
+    }
+
+    private void clear() {
+        metaData = null;
+        resourceType = null;
+        when = null;
+    }
+
     private void setDefaultFileIdentifier() {
         resourceIdentifier = new ResourceIdentifier<ResourceType>() {
 

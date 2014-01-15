@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-package org.jboss.arquillian.extension.videoRecorder;
+package org.arquillian.extension.videoRecorder;
 
+import org.arquillian.extension.videoRecorder.configuration.DesktopVideoRecorderConfigurator;
+import org.arquillian.extension.videoRecorder.impl.DesktopVideoRecorderCreator;
 import org.jboss.arquillian.core.spi.LoadableExtension;
-import org.jboss.arquillian.extension.videoRecorder.configuration.DesktopVideoRecorderConfigurator;
-import org.jboss.arquillian.extension.videoRecorder.impl.DesktopVideoRecorder;
 
 /**
  *
@@ -30,7 +30,7 @@ public class DesktopVideoRecorderExtension implements LoadableExtension {
     @Override
     public void register(ExtensionBuilder builder) {
         builder.observer(DesktopVideoRecorderConfigurator.class);
-        builder.observer(DesktopVideoRecorder.class);
+        builder.observer(DesktopVideoRecorderCreator.class);
     }
 
 }

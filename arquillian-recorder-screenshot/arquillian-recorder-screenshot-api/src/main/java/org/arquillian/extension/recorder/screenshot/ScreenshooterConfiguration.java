@@ -30,7 +30,7 @@ public class ScreenshooterConfiguration extends Configuration<ScreenshooterConfi
 
     private String rootFolder = "target";
 
-    private String screenshotBaseFolder = "screenshots";
+    private String baseFolder = "screenshots";
 
     private String screenshotType = ScreenshotType.PNG.toString();
 
@@ -39,8 +39,6 @@ public class ScreenshooterConfiguration extends Configuration<ScreenshooterConfi
     private String takeAfterTest = "false";
 
     private String takeWhenTestFailed = "true";
-
-    private String takeWhenTestPassed = "false";
 
     /**
      * By default set to "target"
@@ -56,8 +54,8 @@ public class ScreenshooterConfiguration extends Configuration<ScreenshooterConfi
      *
      * @return folder inside the root folder where the screenshots be placed.
      */
-    public String getScreenshotBaseFolder() {
-        return getProperty("screenshotBaseFolder", screenshotBaseFolder);
+    public String getBaseFolder() {
+        return getProperty("baseFolder", baseFolder);
     }
 
     /**
@@ -96,15 +94,6 @@ public class ScreenshooterConfiguration extends Configuration<ScreenshooterConfi
         return Boolean.parseBoolean(getProperty("takeWhenTestFailed", takeWhenTestFailed));
     }
 
-    /**
-     * By default set to false.
-     *
-     * @return true if screenshot should be taken when test passes, false otherwise
-     */
-    public boolean getTakeWhenTestPassed() {
-        return Boolean.parseBoolean(getProperty("takeWhenTestPassed", takeWhenTestPassed));
-    }
-
     @Override
     public void validate() throws ScreenshooterConfigurationException {
 
@@ -135,6 +124,18 @@ public class ScreenshooterConfiguration extends Configuration<ScreenshooterConfi
             throw new ScreenshooterConfigurationException(
                 "You are not permitted to operate on specified resource: " + getRootFolder().getAbsolutePath() + "'.");
         }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("%-40s %s\n", "rootFolder", getRootFolder()));
+        sb.append(String.format("%-40s %s\n", "baseFolder", getBaseFolder()));
+        sb.append(String.format("%-40s %s\n", "screenshotType", getScreenshotType()));
+        sb.append(String.format("%-40s %s\n", "takeBeforeTest", getTakeBeforeTest()));
+        sb.append(String.format("%-40s %s\n", "takeAfterTest", getTakeAfterTest()));
+        sb.append(String.format("%-40s %s\n", "takeWhenTestFailed", getTakeWhenTestFailed()));
+        return sb.toString();
     }
 
 }

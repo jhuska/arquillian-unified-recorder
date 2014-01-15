@@ -1,1 +1,1 @@
-org.jboss.arquillian.extension.videoRecorder.DesktopVideoRecorderExtension
+org.arquillian.extension.videoRecorder.DesktopVideoRecorderExtension

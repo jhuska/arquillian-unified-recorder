@@ -17,6 +17,8 @@
 package org.arquillian.extension.recorder.screenshot.impl;
 
 import org.arquillian.extension.recorder.screenshot.ScreenshooterConfiguration;
+import org.arquillian.extension.recorder.screenshot.ScreenshooterConfigurationException;
+import org.arquillian.extension.recorder.screenshot.ScreenshooterEnvironmentCleaner;
 import org.arquillian.extension.recorder.screenshot.ScreenshootingStrategy;
 import org.arquillian.extension.recorder.screenshot.event.ScreenshotExtensionConfigured;
 import org.jboss.arquillian.core.api.Instance;
@@ -30,11 +32,15 @@ import org.jboss.arquillian.core.spi.ServiceLoader;
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public class ScreenshooterStrategyCreator {
+public class ScreenshooterExtensionPreparator {
 
     @Inject
     @ApplicationScoped
     private InstanceProducer<ScreenshootingStrategy> strategy;
+
+    @Inject
+    @ApplicationScoped
+    private InstanceProducer<ScreenshooterEnvironmentCleaner> cleaner;
 
     @Inject
     private Instance<ScreenshooterConfiguration> configuration;
@@ -44,9 +50,20 @@ public class ScreenshooterStrategyCreator {
 
     public void afterExtensionConfigured(@Observes ScreenshotExtensionConfigured event) {
 
-        ScreenshootingStrategy strategy = serviceLoader.get().onlyOne(ScreenshootingStrategy.class, DefaultScreenshootingStrategy.class);
+        ScreenshootingStrategy strategy = serviceLoader.get().onlyOne(ScreenshootingStrategy.class,
+            DefaultScreenshootingStrategy.class);
         strategy.setConfiguration(configuration.get());
 
+        ScreenshooterEnvironmentCleaner cleaner = serviceLoader.get().onlyOne(ScreenshooterEnvironmentCleaner.class,
+            DefaultScreenshooterEnvironmentCleaner.class);
+
         this.strategy.set(strategy);
+        this.cleaner.set(cleaner);
+
+        try {
+            this.cleaner.get().clean(configuration.get());
+        } catch (Exception e) {
+            throw new ScreenshooterConfigurationException("Unable to clean before screenshooting extension gets to work.", e);
+        }
     }
 }

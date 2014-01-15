@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.jboss.arquillian.extension.screenRecorder.impl;
+package org.arquillian.extension.screenRecorder.impl;
 
 import org.arquillian.extension.recorder.screenshot.Screenshooter;
 import org.arquillian.extension.recorder.screenshot.ScreenshooterConfiguration;

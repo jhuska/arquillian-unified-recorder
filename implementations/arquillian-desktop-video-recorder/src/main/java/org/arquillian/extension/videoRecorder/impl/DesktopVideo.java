@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2014, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -14,25 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.extension.recorder;
+package org.arquillian.extension.videoRecorder.impl;
+
+import org.arquillian.extension.recorder.video.Video;
 
 /**
- *
  * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public abstract class AbstractFileNameBuilder {
+public class DesktopVideo extends Video {
 
-    /**
-     * @return built file name
-     */
-    public abstract String build();
-
-    /**
-     * Optionally clears underlying builder before next {@link #build()} will be called
-     *
-     * @param clear set to true if underlying builder should be cleared after it is called
-     * @return built file name
-     */
-    public abstract String build(boolean clear);
 }

@@ -1,56 +1,93 @@
-Screen Recorder
-==============
+= Arquillian Desktop Video Recorder
 
-Screen Recorder is an extension to Arquillian which provides video record of the running tests. It can also take screenshots of the application before and after the test.
+Desktop video recorder is an extension to Arquillian platform which provides the possibility to record tests as videos. Whole desktop is recorded. In order to use it, please place this artifact configuration into Maven dependencies.
 
-Maven dependency
-----------------
+== Making it part of your extension
 
-    <groupId>org.jboss.arquillian.extension</groupId>
-    <artifactId>arquillian-screen-recorder</artifactId>
-    <version>1.0.0.Alpha1-SNAPSHOT</version>
+[source,xml]
+----
+<dependency>
+    <groupId>org.arquillian.extension</groupId>
+    <artifactId>arquillian-desktop-video-recorder</artifactId>
+    <version>${version.desktop.recorder}</version>
+</dependency>
+----
 
-Settings
---------
+== Settings
 
-There are various settings which can be used to alter Screen Recorder behaviour. You should put those settings into *arquillian.xml* file in project which contains tests.
+=== rootFolder
+==== default: target
 
-### Example
++rootFolder+ is a folder where all videos will be saved, it is top level root.
 
-    <extension qualifier="screenRecorder">
-        <property name="rootFolder">target</property>
-        <property name="videoFolder">video</property>
-        <property name="videoName">myTestVideo</property>
-        <property name="video">suite</property>
-        <property name="screenshot">test</property>
-    </extension>
+=== videoBaseFolder
+==== default: videos
 
-### List of settings
+name of the folder which contains video record(s), it is placed inside +rootFolder+.
 
-* **rootFolder** - folder which will contain all screenshots and videos, defaults to *target/media*
-* **videoFolder** - name of the folder which contains video record(s), it is placed inside root folder. Defaults to video
-* **screenshotFolder** - same as videoFolder, defaults to screenshot
-* **videoName** - this will be video name (in case you are recording one video for all tests), defaults to record
-* **imageFileType** - filetype of produced screenshots, allowed types are PNG, JPG and GIF. Default is PNG
-* **video** - enum value which tells Screen Recorder when to save screenshots and videos
-	* **suite** - takes one video for all tests
-	* **test** - takes one video for every test
-	* **failure** - take video only if test fails (default option)
-	* **none** - turns video recording off
-* **screenshot** - enum value which tells Screen Recorder when to save screenshots and videos
-	* **test** - takes screenshots before and after each test
-	* **failure** - takes screenshots only if test fails (default option)
-	* **none** - turns screenshot taking off
-* **frameRate** - you can adjust frame rate of video by this property. One frame is 1000 / frameRate property. Default is 20, so test video is recorded in 50 frames per second
-* **testTimeout** - you can set default timeout for each test, this timeout will be used to stop the video recording in order to save space on hard drive. Defaults to one hour
+=== videoType
+==== default: AVI
 
+To which format you want to save videos. Right now the only supported format.
 
-Also see the class [SystemProperties](https://github.com/qa/arquillian-screen-recorder/blob/master/src/main/java/org/jboss/arquillian/extension/screenRecorder/properties/SystemProperties.java) which contains a list of properties and the [RecorderConfiguration](https://github.com/qa/arquillian-screen-recorder/blob/master/src/main/java/org/jboss/arquillian/extension/screenRecorder/properties/RecorderConfiguration.java) which contains their defaults.
+=== startBeforeTest
+==== default: false
 
+Tells if video recording should start before test method is executed.
 
-Notes
------
+=== startBeforeClass
+==== default: false
 
-Video files are automatically saved in MP4, I will try to provide more formats in the future. Size of the video can be altered via frameRate property. You can also decide if you want to take one video for every test (so this video is named after the test method) or take one video of whole testsuite (this is the default). Screenshots can be taken before and after each test or after test has been failed. Format for images is PNG, this can be changed to GIF or JPG.
+Tells if video recording should start before all test methods so there will be video of one test class.
 
-Screen Recorder also cleans whole root folder before beginning of the suite.
+=== startBeforeSuite
+==== default: false
+
+Takes video of whole test suite.
+
+=== takeOnlyOnFail
+==== default: true
+
+Video is recorder for a test and it is not deleted when the test method fails. When test method finishes with success, video is not saved.
+
+=== videoName:
+==== default: record
+
+=== testTimeout
+==== default 1800
+
+You can set default timeout for each test, this timeout will be used to stop the video recording in order to save space on hard drive, measured in seconds.
+
+=== frameRate
+==== default: 20
+
+You can adjust frame rate of video by this property. One frame is 1000 / frameRate property. Default is 20, so test video is recorded in 50 frames per second
+
+=== skip
+==== default: false
+
+Skip whole extension so nothing is recorded.
+
+== Injection into the test
+
+You can inject video recorder into Arquillian test like this:
+
+[source,java]
+----
+@ArquillianResource Recorder recorder;
+----
+
+You can then start and stop recording as you wish directly in your test via +startRecording()+ and +stopRecording()+ methods. Feel free to explore. You can not start recording when you have already started to do so and you can not stop recording when you have not started to record yet.
+
+== Example configuration
+
+Put this in +arquillian.xml+.
+
+[source,xml]
+----
+<extension qualifier="recorder">
+    <property name="rootFolder">target</property>
+    <property name="videoFolder">videos</property>
+    <property name="startBeforeClass">true</property>
+</extension>
+----

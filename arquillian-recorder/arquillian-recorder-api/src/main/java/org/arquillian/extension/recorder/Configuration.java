@@ -75,6 +75,24 @@ public abstract class Configuration<T extends Configuration<T>> {
     }
 
     /**
+     * Sets some property. You can not add new properties, you can only overwrite existing ones.
+     *
+     * @param name acts as a key
+     * @param value
+     * @throws IllegalArgumentException if {@code name} is null or empty or {@code value} is null
+     */
+    public void setProperty(String name, String value) {
+        Validate.notNullOrEmpty(name, "Name of property can not be a null object nor an empty string!");
+        Validate.notNull(value, "Value of property can not be a null object!");
+
+        if (!configuration.containsKey(name)) {
+            return;
+        }
+
+        configuration.put(name, value);
+    }
+
+    /**
      * Validates configuration.
      *
      * @throws RecorderConfigurationException when configuration of an extension is not valid

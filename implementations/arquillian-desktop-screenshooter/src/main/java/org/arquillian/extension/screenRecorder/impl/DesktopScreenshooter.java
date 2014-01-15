@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.arquillian.extension.screenRecorder.impl;
+package org.arquillian.extension.screenRecorder.impl;
 
 import java.awt.AWTException;
 import java.awt.Rectangle;
@@ -27,11 +27,11 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import org.arquillian.extension.recorder.DefaultFileNameBuilder;
+import org.arquillian.extension.recorder.RecorderFileUtils;
 import org.arquillian.extension.recorder.screenshot.Screenshooter;
 import org.arquillian.extension.recorder.screenshot.ScreenshooterConfiguration;
 import org.arquillian.extension.recorder.screenshot.Screenshot;
 import org.arquillian.extension.recorder.screenshot.ScreenshotType;
-import org.arquillian.extension.recorder.screenshot.impl.ScreenshooterFileUtils;
 import org.jboss.arquillian.core.spi.Validate;
 
 /**
@@ -41,9 +41,9 @@ import org.jboss.arquillian.core.spi.Validate;
  */
 public class DesktopScreenshooter implements Screenshooter {
 
-    private File screenshotTargetDir = new File("target" + System.getProperty("file.separator"));
+    private File screenshotTargetDir;
 
-    private ScreenshotType screenshotType = ScreenshotType.PNG;
+    private ScreenshotType screenshotType;
 
     private ScreenshooterConfiguration configuration;
 
@@ -54,7 +54,7 @@ public class DesktopScreenshooter implements Screenshooter {
         if (this.configuration == null) {
             if (configuration != null) {
                 this.configuration = configuration;
-                File root = new File(this.configuration.getRootFolder(), this.configuration.getScreenshotBaseFolder());
+                File root = new File(this.configuration.getRootFolder(), this.configuration.getBaseFolder());
                 setScreenshotTargetDir(root);
                 setScreensthotType(ScreenshotType.valueOf(this.configuration.getScreenshotType().toUpperCase()));
             }
@@ -98,10 +98,10 @@ public class DesktopScreenshooter implements Screenshooter {
             throw new IllegalStateException("Screenshooter was not initialized. Please call init() method first.");
         }
 
-        file = ScreenshooterFileUtils.checkFileExtension(file, type);
+        file = RecorderFileUtils.checkFileExtension(file, type);
 
         file = new File(screenshotTargetDir, file.getPath());
-        ScreenshooterFileUtils.createScreenshotDirectory(file);
+        RecorderFileUtils.createDirectory(file);
 
         Rectangle screenSize = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
         try {
@@ -128,14 +128,14 @@ public class DesktopScreenshooter implements Screenshooter {
 
     @Override
     public void setScreenshotTargetDir(File screenshotTargetDir) {
-        Validate.notNull(screenshotType, "File is a null object!");
-        ScreenshooterFileUtils.createScreenshotDirectory(screenshotTargetDir);
+        Validate.notNull(screenshotTargetDir, "File is a null object!");
+        RecorderFileUtils.createDirectory(screenshotTargetDir);
         this.screenshotTargetDir = screenshotTargetDir;
     }
 
     @Override
     public void setScreensthotType(ScreenshotType type) {
-        Validate.notNull(screenshotType, "Screenshot type is a null object!");
+        Validate.notNull(type, "Screenshot type is a null object!");
         this.screenshotType = type;
     }
 

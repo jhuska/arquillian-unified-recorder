@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-package org.jboss.arquillian.extension.screenRecorder;
+package org.arquillian.extension.screenRecorder;
 
+import org.arquillian.extension.screenRecorder.configuration.DesktopScreenshooterConfigurator;
+import org.arquillian.extension.screenRecorder.impl.DesktopScreenshooterCreator;
 import org.jboss.arquillian.core.spi.LoadableExtension;
-import org.jboss.arquillian.extension.screenRecorder.configuration.DesktopScreenshooterConfigurator;
-import org.jboss.arquillian.extension.screenRecorder.impl.DesktopScreenshooterCreator;
 
 /**
  *

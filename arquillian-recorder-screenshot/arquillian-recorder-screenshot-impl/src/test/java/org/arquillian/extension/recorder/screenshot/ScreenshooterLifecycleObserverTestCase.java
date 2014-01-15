@@ -22,9 +22,10 @@ import org.arquillian.extension.recorder.screenshot.event.AfterScreenshotTaken;
 import org.arquillian.extension.recorder.screenshot.event.BeforeScreenshotTaken;
 import org.arquillian.extension.recorder.screenshot.event.ScreenshotExtensionConfigured;
 import org.arquillian.extension.recorder.screenshot.event.TakeScreenshot;
+import org.arquillian.extension.recorder.screenshot.impl.DefaultScreenshooterEnvironmentCleaner;
 import org.arquillian.extension.recorder.screenshot.impl.DefaultScreenshootingStrategy;
 import org.arquillian.extension.recorder.screenshot.impl.ScreenshooterLifecycleObserver;
-import org.arquillian.extension.recorder.screenshot.impl.ScreenshooterStrategyCreator;
+import org.arquillian.extension.recorder.screenshot.impl.ScreenshooterExtensionPreparator;
 import org.jboss.arquillian.config.descriptor.impl.ArquillianDescriptorImpl;
 import org.jboss.arquillian.core.api.Injector;
 import org.jboss.arquillian.core.api.Instance;
@@ -58,22 +59,30 @@ public class ScreenshooterLifecycleObserverTestCase extends AbstractTestTestBase
     @Mock
     ScreenshooterConfiguration configuration = new ScreenshooterConfiguration();
 
+    @Mock
+    ScreenshooterEnvironmentCleaner cleaner = new DefaultScreenshooterEnvironmentCleaner();
+
     @Inject
     Instance<Injector> injector;
 
     @Override
     public void addExtensions(List<Class<?>> extensions) {
         extensions.add(ScreenshooterLifecycleObserver.class);
-        extensions.add(ScreenshooterStrategyCreator.class);
+        extensions.add(ScreenshooterExtensionPreparator.class);
     }
 
     @org.junit.Before
-    public void setMocks() {
+    public void setMocks() throws Exception {
         bind(ApplicationScoped.class, ServiceLoader.class, serviceLoader);
         bind(ApplicationScoped.class, ScreenshooterConfiguration.class, configuration);
 
+        Mockito.doNothing().when(cleaner).clean(configuration);
+
         Mockito.when(serviceLoader.onlyOne(ScreenshootingStrategy.class, DefaultScreenshootingStrategy.class))
             .thenReturn(new DefaultScreenshootingStrategy());
+
+        Mockito.when(serviceLoader.onlyOne(ScreenshooterEnvironmentCleaner.class, DefaultScreenshooterEnvironmentCleaner.class))
+            .thenReturn(cleaner);
     }
 
     @Test
@@ -85,6 +94,11 @@ public class ScreenshooterLifecycleObserverTestCase extends AbstractTestTestBase
             .getObjectStore()
             .get(ScreenshooterConfiguration.class);
         Assert.assertNotNull(configuration);
+
+        ScreenshooterEnvironmentCleaner cleaner = getManager().getContext(ApplicationContext.class)
+            .getObjectStore()
+            .get(ScreenshooterEnvironmentCleaner.class);
+        Assert.assertNotNull(cleaner);
 
         ScreenshootingStrategy instance = getManager().getContext(ApplicationContext.class)
             .getObjectStore()
@@ -138,9 +152,9 @@ public class ScreenshooterLifecycleObserverTestCase extends AbstractTestTestBase
     }
 
     @Test
-    public void afterTestEventTestStatusFailedTakeWhenFailedFalse() throws Exception {
+    public void afterTestEventTestStatusFailedTakeAfterTestTrueTakeWhenFailedFalse() throws Exception {
 
-        Mockito.when(configuration.getTakeAfterTest()).thenReturn(false);
+        Mockito.when(configuration.getTakeAfterTest()).thenReturn(true);
         Mockito.when(configuration.getScreenshotType()).thenReturn("PNG");
         Mockito.when(configuration.getTakeWhenTestFailed()).thenReturn(false);
 
@@ -151,15 +165,15 @@ public class ScreenshooterLifecycleObserverTestCase extends AbstractTestTestBase
 
         fire(new After(FakeTestClass.class, FakeTestClass.class.getMethod("fakeTest")));
 
-        assertEventFired(BeforeScreenshotTaken.class, 0);
-        assertEventFired(TakeScreenshot.class, 0);
-        assertEventFired(AfterScreenshotTaken.class, 0);
+        assertEventFired(BeforeScreenshotTaken.class, 1);
+        assertEventFired(TakeScreenshot.class, 1);
+        assertEventFired(AfterScreenshotTaken.class, 1);
     }
 
     @Test
-    public void afterTestEventTestStatusFailedTakeWhenFailedTrue() throws Exception {
+    public void afterTestEventTestStatusFailedTakeAfterTestTrueTakeWhenFailedTrue() throws Exception {
 
-        Mockito.when(configuration.getTakeAfterTest()).thenReturn(false);
+        Mockito.when(configuration.getTakeAfterTest()).thenReturn(true);
         Mockito.when(configuration.getScreenshotType()).thenReturn("PNG");
         Mockito.when(configuration.getTakeWhenTestFailed()).thenReturn(true);
 
@@ -176,30 +190,10 @@ public class ScreenshooterLifecycleObserverTestCase extends AbstractTestTestBase
     }
 
     @Test
-    public void afterTestEventTestStatusPassedTakeWhenPassedFalse() throws Exception {
+    public void afterTestEventTestStatusPassed() throws Exception {
 
-        Mockito.when(configuration.getTakeAfterTest()).thenReturn(false);
+        Mockito.when(configuration.getTakeAfterTest()).thenReturn(true);
         Mockito.when(configuration.getScreenshotType()).thenReturn("PNG");
-        Mockito.when(configuration.getTakeWhenTestPassed()).thenReturn(false);
-
-        fire(new ScreenshotExtensionConfigured());
-        fire(new Before(FakeTestClass.class, FakeTestClass.class.getMethod("fakeTest")));
-
-        bind(TestScoped.class, TestResult.class, new TestResult(Status.PASSED));
-
-        fire(new After(FakeTestClass.class, FakeTestClass.class.getMethod("fakeTest")));
-
-        assertEventFired(BeforeScreenshotTaken.class, 0);
-        assertEventFired(TakeScreenshot.class, 0);
-        assertEventFired(AfterScreenshotTaken.class, 0);
-    }
-
-    @Test
-    public void afterTestEventTestStatusPassedTakeWhenPassedTrue() throws Exception {
-
-        Mockito.when(configuration.getTakeAfterTest()).thenReturn(false);
-        Mockito.when(configuration.getScreenshotType()).thenReturn("PNG");
-        Mockito.when(configuration.getTakeWhenTestPassed()).thenReturn(true);
 
         fire(new ScreenshotExtensionConfigured());
         fire(new Before(FakeTestClass.class, FakeTestClass.class.getMethod("fakeTest")));
@@ -211,25 +205,6 @@ public class ScreenshooterLifecycleObserverTestCase extends AbstractTestTestBase
         assertEventFired(BeforeScreenshotTaken.class, 1);
         assertEventFired(TakeScreenshot.class, 1);
         assertEventFired(AfterScreenshotTaken.class, 1);
-    }
-
-    @Test
-    public void afterTestEventTestStatusSkipped() throws Exception {
-
-        Mockito.when(configuration.getTakeAfterTest()).thenReturn(false);
-        Mockito.when(configuration.getScreenshotType()).thenReturn("PNG");
-        Mockito.when(configuration.getTakeWhenTestPassed()).thenReturn(true);
-
-        fire(new ScreenshotExtensionConfigured());
-        fire(new Before(FakeTestClass.class, FakeTestClass.class.getMethod("fakeTest")));
-
-        bind(TestScoped.class, TestResult.class, new TestResult(Status.SKIPPED));
-
-        fire(new After(FakeTestClass.class, FakeTestClass.class.getMethod("fakeTest")));
-
-        assertEventFired(BeforeScreenshotTaken.class, 0);
-        assertEventFired(TakeScreenshot.class, 0);
-        assertEventFired(AfterScreenshotTaken.class, 0);
     }
 
     private static class FakeTestClass {

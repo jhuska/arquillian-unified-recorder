@@ -15,7 +15,10 @@
  * limitations under the License.
  */
 
-package org.jboss.arquillian.extension.screenRecorder.configuration;
+package org.arquillian.extension.screenRecorder.configuration;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.arquillian.extension.recorder.screenshot.ScreenshooterConfiguration;
 import org.arquillian.extension.recorder.screenshot.ScreenshooterConfigurationException;
@@ -35,6 +38,8 @@ import org.jboss.arquillian.core.api.annotation.Observes;
  */
 public class DesktopScreenshooterConfigurator extends ScreenshooterConfigurator {
 
+    private static final Logger logger = Logger.getLogger(DesktopScreenshooterConfigurator.class.getSimpleName());
+
     @Inject
     @ApplicationScoped
     private InstanceProducer<ScreenshooterConfiguration> configuration;
@@ -44,21 +49,29 @@ public class DesktopScreenshooterConfigurator extends ScreenshooterConfigurator 
 
     @Override
     public void configureExtension(@Observes ArquillianDescriptor descriptor) {
-        ScreenshooterConfiguration conf = new ScreenshooterConfiguration();
+
+        ScreenshooterConfiguration configuration = new ScreenshooterConfiguration();
+
         for (ExtensionDef extension : descriptor.getExtensions()) {
             if (extension.getExtensionName().equals(EXTENSION_NAME)) {
-                conf.setConfiguration(extension.getExtensionProperties());
-                validate(conf);
+                configuration.setConfiguration(extension.getExtensionProperties());
+                validate(configuration);
                 break;
             }
         }
-        configuration.set(conf);
+
+        this.configuration.set(configuration);
         extensionConfiguredEvent.fire(new ScreenshotExtensionConfigured());
     }
 
     @Override
     public void validate(ScreenshooterConfiguration configuration) throws ScreenshooterConfigurationException {
         configuration.validate();
+
+        if (logger.isLoggable(Level.INFO)) {
+            System.out.println("Configuration of Arquillian Desktop Screenshooter:");
+            System.out.println(configuration.toString());
+        }
     }
 
 }

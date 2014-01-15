@@ -26,11 +26,13 @@ import org.arquillian.extension.recorder.Configuration;
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public abstract class VideoConfiguration extends Configuration<VideoConfiguration> {
+public class VideoConfiguration extends Configuration<VideoConfiguration> {
 
     private String rootFolder = "target";
 
-    private String videoType = VideoType.AVI.toString();
+    private String baseFolder = "videos";
+
+    private String videoType = VideoType.MPEG.toString();
 
     private String startBeforeTest = "false";
 
@@ -42,7 +44,9 @@ public abstract class VideoConfiguration extends Configuration<VideoConfiguratio
 
     private String videoName = "record";
 
-    private String testTimeout = "1800"; //30 minutes
+    private String testTimeout = "1800"; // 30 minutes
+
+    private String frameRate = "20"; // fps
 
     /**
      * By default set to true
@@ -81,6 +85,15 @@ public abstract class VideoConfiguration extends Configuration<VideoConfiguratio
     }
 
     /**
+     * By default set to "videos"
+     *
+     * @return folder under {@link #getRootFolder()} where videos are stored.
+     */
+    public String getBaseFolder() {
+        return getProperty("baseFolder", baseFolder);
+    }
+
+    /**
      * By default set to "MPEG".
      *
      * @return type of video we want our screenshots to be of
@@ -116,6 +129,15 @@ public abstract class VideoConfiguration extends Configuration<VideoConfiguratio
         return Boolean.parseBoolean(getProperty("startBeforeSuite", startBeforeSuite));
     }
 
+    /**
+     * By default set to 20 fps when not overriden in configuration.
+     *
+     * @return framerate of which videos should be taken
+     */
+    public int getFrameRate() {
+        return Integer.parseInt(getProperty("frameRate", frameRate));
+    }
+
     @Override
     public void validate() throws VideoConfigurationException {
         try {
@@ -125,5 +147,31 @@ public abstract class VideoConfiguration extends Configuration<VideoConfiguratio
                 "Video type you specified in arquillian.xml is not valid video type."
                     + "Supported video types are: " + VideoType.getAll());
         }
+
+        try {
+            if (Integer.parseInt(getProperty("frameRate", this.frameRate)) <= 0) {
+                throw new VideoConfigurationException("It seems you have set framerate to be lower or equal to 0.");
+            }
+        } catch (NumberFormatException ex) {
+            throw new VideoConfigurationException("Provided framerate is not recognized to be an integer number.");
+        }
+
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("%-40s %s\n", "startBeforeSuite", getStartBeforeSuite()));
+        sb.append(String.format("%-40s %s\n", "startBeforeClass", getStartBeforeClass()));
+        sb.append(String.format("%-40s %s\n", "startBeforeTest", getStartBeforeTest()));
+        sb.append(String.format("%-40s %s\n", "takeOnlyOnFail", getTakeOnlyOnFail()));
+        sb.append(String.format("%-40s %s\n", "testTimeOut", getTestTimeout()));
+        sb.append(String.format("%-40s %s\n", "rootFolder", getRootFolder()));
+        sb.append(String.format("%-40s %s\n", "baseFolder", getBaseFolder()));
+        sb.append(String.format("%-40s %s\n", "videoName", getVideoName()));
+        sb.append(String.format("%-40s %s\n", "videoType", getVideoType()));
+        sb.append(String.format("%-40s %s\n", "frameRate", getFrameRate()));
+        return sb.toString();
+    }
+
 }

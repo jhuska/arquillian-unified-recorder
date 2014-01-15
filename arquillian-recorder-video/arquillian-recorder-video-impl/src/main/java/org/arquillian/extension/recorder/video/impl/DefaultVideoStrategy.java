@@ -53,7 +53,7 @@ public class DefaultVideoStrategy implements VideoStrategy {
                 default:
                     break;
             }
-            return configuration.getStartBeforeTest();
+            return configuration.getStartBeforeTest() || configuration.getTakeOnlyOnFail();
         }
         return false;
     }
@@ -66,7 +66,7 @@ public class DefaultVideoStrategy implements VideoStrategy {
             return configuration.getStartBeforeClass();
         } else if (event instanceof Before) {
             return configuration.getStartBeforeTest()
-                    || configuration.getTakeOnlyOnFail();
+                || configuration.getTakeOnlyOnFail();
         } else if (event instanceof AfterSuite) {
             return configuration.getStartBeforeSuite();
         } else if (event instanceof AfterClass) {

@@ -16,10 +16,29 @@
  */
 package org.arquillian.extension.recorder.video.event;
 
+import org.arquillian.extension.recorder.video.VideoMetaData;
+import org.arquillian.extension.recorder.video.VideoType;
+
 /**
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
 public class AfterVideoStop {
+
+    private VideoType videoType;
+    private VideoMetaData videoMetaData;
+
+    public AfterVideoStop(VideoType videoType, VideoMetaData videoMetaData) {
+        this.videoType = videoType;
+        this.videoMetaData = videoMetaData;
+    }
+
+    public VideoType getVideoType() {
+        return videoType;
+    }
+
+    public VideoMetaData getVideoMetaData() {
+        return videoMetaData;
+    }
 
 }

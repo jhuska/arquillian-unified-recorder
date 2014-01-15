@@ -56,11 +56,6 @@ language governing permissions and limitations under the License. -->
             <artifactId>arquillian-recorder-screenshot-impl</artifactId>
             <version>${version.recorder.screenshot}</version>
         </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>${version.commons.io}</version>
-        </dependency>
     </dependencies>
 
 </project>

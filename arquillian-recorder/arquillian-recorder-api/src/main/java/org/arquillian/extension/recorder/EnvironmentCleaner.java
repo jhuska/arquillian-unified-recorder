@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2014, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -17,22 +17,16 @@
 package org.arquillian.extension.recorder;
 
 /**
- *
  * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public abstract class AbstractFileNameBuilder {
+public interface EnvironmentCleaner<CONFIG extends Configuration<CONFIG>> {
 
     /**
-     * @return built file name
-     */
-    public abstract String build();
-
-    /**
-     * Optionally clears underlying builder before next {@link #build()} will be called
+     * Performs abritrary cleaning operation before extension starts to fully work e.g. removes resources from the last run.
      *
-     * @param clear set to true if underlying builder should be cleared after it is called
-     * @return built file name
+     * @param configuration
+     * @throws Exception when cleaning went wrong
      */
-    public abstract String build(boolean clear);
+    void clean(CONFIG configuration) throws Exception;
 }

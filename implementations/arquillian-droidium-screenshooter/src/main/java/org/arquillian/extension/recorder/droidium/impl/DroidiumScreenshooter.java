@@ -24,11 +24,11 @@ import javax.imageio.ImageIO;
 
 import org.arquillian.droidium.container.api.AndroidDevice;
 import org.arquillian.extension.recorder.DefaultFileNameBuilder;
+import org.arquillian.extension.recorder.RecorderFileUtils;
 import org.arquillian.extension.recorder.screenshot.Screenshooter;
 import org.arquillian.extension.recorder.screenshot.ScreenshooterConfiguration;
 import org.arquillian.extension.recorder.screenshot.Screenshot;
 import org.arquillian.extension.recorder.screenshot.ScreenshotType;
-import org.arquillian.extension.recorder.screenshot.impl.ScreenshooterFileUtils;
 import org.jboss.arquillian.core.spi.Validate;
 
 import com.android.ddmlib.RawImage;
@@ -41,9 +41,9 @@ import com.android.ddmlib.RawImage;
  */
 public class DroidiumScreenshooter implements Screenshooter {
 
-    private File screenshotTargetDir = new File("target" + System.getProperty("file.separator"));
+    private File screenshotTargetDir;
 
-    private ScreenshotType screenshotType = ScreenshotType.PNG;
+    private ScreenshotType screenshotType;
 
     private ScreenshooterConfiguration configuration;
 
@@ -56,7 +56,7 @@ public class DroidiumScreenshooter implements Screenshooter {
         if (this.configuration == null) {
             if (configuration != null) {
                 this.configuration = configuration;
-                File root = new File(this.configuration.getRootFolder(), this.configuration.getScreenshotBaseFolder());
+                File root = new File(this.configuration.getRootFolder(), this.configuration.getBaseFolder());
                 setScreenshotTargetDir(root);
                 setScreensthotType(ScreenshotType.valueOf(this.configuration.getScreenshotType()));
             }
@@ -100,14 +100,14 @@ public class DroidiumScreenshooter implements Screenshooter {
             throw new IllegalStateException("Screenshooter was not initialized. Please call init() method first.");
         }
 
-        file = ScreenshooterFileUtils.checkFileExtension(file, type);
+        file = RecorderFileUtils.checkFileExtension(file, type);
 
         if (!device.isOnline()) {
             throw new RuntimeException("Android device is not online, can not take any screenshots.");
         }
 
         file = new File(screenshotTargetDir, file.getPath());
-        ScreenshooterFileUtils.createScreenshotDirectory(file);
+        RecorderFileUtils.createDirectory(file);
 
         RawImage rawImage = null;
 
@@ -155,8 +155,8 @@ public class DroidiumScreenshooter implements Screenshooter {
 
     @Override
     public void setScreenshotTargetDir(File screenshotTargetDir) {
-        Validate.notNull(screenshotType, "File is a null object!");
-        ScreenshooterFileUtils.createScreenshotDirectory(screenshotTargetDir);
+        Validate.notNull(screenshotTargetDir, "File is a null object!");
+        RecorderFileUtils.createDirectory(screenshotTargetDir);
         this.screenshotTargetDir = screenshotTargetDir;
     }
 

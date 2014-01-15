@@ -14,18 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.extension.recorder.screenshot.impl;
+package org.arquillian.extension.recorder;
 
 import java.io.File;
 
-import org.arquillian.extension.recorder.screenshot.ScreenshotType;
 import org.jboss.arquillian.core.spi.Validate;
 
 /**
  * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public class ScreenshooterFileUtils {
+public class RecorderFileUtils {
 
     /**
      *
@@ -35,7 +34,7 @@ public class ScreenshooterFileUtils {
      *         instance with the appended {@code type} file.
      * @throws IllegalArgumentException if name of file is empty string or if file is null
      */
-    public static File checkFileExtension(File file, ScreenshotType type) {
+    public static File checkFileExtension(File file, ResourceType type) {
         Validate.notNull(file, "file to check can not be null");
         Validate.notNull(type, "type can not be null");
 
@@ -49,11 +48,9 @@ public class ScreenshooterFileUtils {
         return file;
     }
 
-    public static void createScreenshotDirectory(File file) {
+    public static void createDirectory(File file) {
         if (!file.exists()) {
-            if (!file.mkdirs()) {
-                throw new RuntimeException("Unable to create directory " + file.getAbsolutePath());
-            }
+            file.mkdirs();
         }
     }
 

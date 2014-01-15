@@ -21,6 +21,7 @@ import org.arquillian.extension.recorder.screenshot.ScreenshootingStrategy;
 import org.jboss.arquillian.core.spi.Validate;
 import org.jboss.arquillian.core.spi.event.Event;
 import org.jboss.arquillian.test.spi.TestResult;
+import org.jboss.arquillian.test.spi.TestResult.Status;
 import org.jboss.arquillian.test.spi.event.suite.After;
 import org.jboss.arquillian.test.spi.event.suite.Before;
 
@@ -41,18 +42,11 @@ public class DefaultScreenshootingStrategy implements ScreenshootingStrategy {
     @Override
     public boolean isTakingAction(Event event, TestResult result) {
         if (event instanceof After) {
-            if(configuration.getTakeAfterTest()) {
+            if (configuration.getTakeAfterTest()) {
                 return true;
             }
-            switch (result.getStatus()) {
-                case FAILED:
-                    return configuration.getTakeWhenTestFailed();
-                case PASSED:
-                    return configuration.getTakeWhenTestPassed();
-                case SKIPPED:
-                    return false;
-                default:
-                    break;
+            if (result.getStatus() == Status.FAILED && configuration.getTakeWhenTestFailed()) {
+                return true;
             }
         }
         return false;

@@ -16,6 +16,9 @@
  */
 package org.arquillian.extension.recorder.droidium.configuration;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.arquillian.extension.recorder.screenshot.ScreenshooterConfiguration;
 import org.arquillian.extension.recorder.screenshot.ScreenshooterConfigurationException;
 import org.arquillian.extension.recorder.screenshot.ScreenshooterConfigurator;
@@ -34,6 +37,8 @@ import org.jboss.arquillian.core.api.annotation.Observes;
  */
 public class DroidiumScreenshooterConfigurator extends ScreenshooterConfigurator {
 
+    private static final Logger logger = Logger.getLogger(DroidiumScreenshooterConfigurator.class.getSimpleName());
+
     @Inject
     @ApplicationScoped
     private InstanceProducer<ScreenshooterConfiguration> configuration;
@@ -50,17 +55,22 @@ public class DroidiumScreenshooterConfigurator extends ScreenshooterConfigurator
             if (extension.getExtensionName().equals(EXTENSION_NAME)) {
                 configuration.setConfiguration(extension.getExtensionProperties());
                 validate(configuration);
+                break;
             }
         }
 
         this.configuration.set(configuration);
-
         screenshotExtensionConfigured.fire(new ScreenshotExtensionConfigured());
     }
 
     @Override
     public void validate(ScreenshooterConfiguration configuration) throws ScreenshooterConfigurationException {
         configuration.validate();
+
+        if (logger.isLoggable(Level.INFO)) {
+            System.out.println("Configuration of Arquillian Droidium Screenshooter:");
+            System.out.println(configuration.toString());
+        }
     }
 
 }

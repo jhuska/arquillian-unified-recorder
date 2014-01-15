@@ -1,1 +1,1 @@
-org.jboss.arquillian.extension.screenRecorder.ScreenRecorderExtension
+org.arquillian.extension.screenRecorder.ScreenRecorderExtension

@@ -19,6 +19,7 @@ package org.arquillian.extension.recorder.video;
 import java.io.File;
 
 /**
+ * Implementations of this interface are capable of recording videos.
  *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
@@ -95,9 +96,28 @@ public interface Recorder {
 
     /**
      *
+     * @return type of video will will be recorder
+     */
+    VideoType getVideoType();
+
+    /**
+     *
      * Stops to record your video after you started it with {@link #startRecording()}
      *
      * @return recorded video
      */
-    <V extends Video> V stopRecording();
+    Video stopRecording();
+
+    /**
+     *
+     * @param framerate of recorder videos
+     */
+    void setFrameRate(int framerate);
+
+    /**
+     *
+     * @return actual framerate
+     */
+    int getFrameRate();
+
 }

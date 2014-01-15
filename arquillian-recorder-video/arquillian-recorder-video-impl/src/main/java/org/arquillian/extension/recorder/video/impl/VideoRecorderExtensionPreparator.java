@@ -17,6 +17,8 @@
 package org.arquillian.extension.recorder.video.impl;
 
 import org.arquillian.extension.recorder.video.VideoConfiguration;
+import org.arquillian.extension.recorder.video.VideoConfigurationException;
+import org.arquillian.extension.recorder.video.VideoRecorderEnvironmentCleaner;
 import org.arquillian.extension.recorder.video.VideoStrategy;
 import org.arquillian.extension.recorder.video.event.VideoExtensionConfigured;
 import org.jboss.arquillian.core.api.Instance;
@@ -30,11 +32,15 @@ import org.jboss.arquillian.core.spi.ServiceLoader;
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public class VideoStrategyCreator {
+public class VideoRecorderExtensionPreparator {
 
     @Inject
     @ApplicationScoped
     private InstanceProducer<VideoStrategy> strategy;
+
+    @Inject
+    @ApplicationScoped
+    private InstanceProducer<VideoRecorderEnvironmentCleaner> cleaner;
 
     @Inject
     private Instance<VideoConfiguration> configuration;
@@ -43,9 +49,20 @@ public class VideoStrategyCreator {
     private Instance<ServiceLoader> serviceLoader;
 
     public void afterExtensionConfigured(@Observes VideoExtensionConfigured event) {
+
         VideoStrategy strategy = serviceLoader.get().onlyOne(VideoStrategy.class, DefaultVideoStrategy.class);
         strategy.setConfiguration(configuration.get());
 
+        VideoRecorderEnvironmentCleaner cleaner = serviceLoader.get().onlyOne(VideoRecorderEnvironmentCleaner.class,
+            DefaultVideoRecorderEnvironmentCleaner.class);
+
         this.strategy.set(strategy);
+        this.cleaner.set(cleaner);
+
+        try {
+            this.cleaner.get().clean(configuration.get());
+        } catch (Exception e) {
+            throw new VideoConfigurationException("Unable to clean before screenshooting extension gets to work.", e);
+        }
     }
 }
