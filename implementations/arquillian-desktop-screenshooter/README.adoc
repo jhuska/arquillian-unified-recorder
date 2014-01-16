@@ -1,0 +1,18 @@
+= Arquillian Desktop Screenshooter
+
+Desktop screenshooter is an extension to Arquillian platform which provides the possibility to take screenshots of your tests. Whole desktop is screened. In order to use it, please place this artifact configuration into Maven dependencies.
+
+== Making it part of your project
+
+[source,xml]
+----
+<dependency>
+    <groupId>org.arquillian.extension</groupId>
+    <artifactId>arquillian-desktop-screenshooter</artifactId>
+    <version>${version.desktop.recorder}</version>
+</dependency>
+----
+
+== Settings
+
+TBD

@@ -1,0 +1,18 @@
+= Arquillian Droidium Screenshooter
+
+Droidium screenshooter is an extension to Arquillian platform which provides the possibility to take screenshots of your Android tests. The emulator window or device's display is screened. In order to use it, please place this artifact configuration into Maven dependencies.
+
+== Making it part of your project
+
+[source,xml]
+----
+<dependency>
+    <groupId>org.arquillian.extension</groupId>
+    <artifactId>arquillian-droidium-screenshooter</artifactId>
+    <version>${version.desktop.recorder}</version>
+</dependency>
+----
+
+== Settings
+
+TBD

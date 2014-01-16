@@ -30,6 +30,10 @@ language governing permissions and limitations under the License. -->
             <name>Petr Mensik</name>
             <email>pmensik@redhat.com</email>
         </developer>
+		<developer>
+			<name>Stefan Miklosovic</name>
+			<email>smikloso@redhat.com</email>
+		</developer>
     </developers>
 
     <prerequisites>
