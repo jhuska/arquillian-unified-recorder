@@ -1,20 +1,76 @@
-== Unified Arquillian Screenshooter
+== Arquillian Unified Recorder
 
-=== arquillian-recorder
+This is home for recorder and screenshooter extensions for Arquillian.
 
-* arquillian-recorder-api
-* arquillian-recorder-build
-* arquillian-recorder-depchain
-* arquillian-recorder-spi
+The repository is organized as follows:
 
-=== arquillian-recorder-screenshooter
+=== API projects
 
-* arquillian-recorder-screenshooter-api
-* arquillian-recorder-screenshooter-depchain
-* arquillian-recorder-screenshooter-spi
+The philosophy behind API of this family of extensions was to provide single API against which all concrete implementations would be coded up. API is organized as follows:
 
-=== arquillian-recorder-video
+* arquillian-recorder
+** This project represents the highest level of abstraction when it comes to recording and taking screenshots. It contains mostly just interfaces against which there are following subprojects implemented.
+* arquillian-recorder-screenshot
+** It implements +arquillian-recorder+ in _screenshot-specific_ way. 
+* arquillian-recorder-video
+** This project implements +arquillian-recorder+ in _video-specific_ way.
 
-* arquillian-recorder-video-api
-* arquillian-recorder-video-depchain
-* arquillian-recorder-video-spi
+It is important to realize that +arquillian-recorder-screenshot+ and +arquillian-recorder-video+ are just proper Arquillian extensions but you do not use them alone. The implementations of core API contained in these projects are further used in concrete implementations below. In the end, when it comes to target extension implementation, you end up with two Arquillian extensions merged together transparently.
+
+The idea behind this is that when you want to code e.g. some specific screenshooter, you have to depend (in Maven point of view) on +arquillian-recorder-screenshot+ project so you use this sub-extension with wired screenshot specific logic for Arquillian lifecycle. By splitting projects in this way, you can code whatever screenshooter and video recorder extension you like, you just have to use the right sub-extension beneath.
+
+=== Implementations
+
+You find all implementations of above API in +implementations+ folder. Right now, there are these implementaions:
+
+* arquillian-desktop-screenshooter
+** Desktop screenshooter takes desktop screenshots of your tests.
+* arquillian-desktop-video-recorder
+** Desktop video recorder extension records your tests and saves them into videos you can later check.
+* arquillian-droidium-screenshooter
+** Droidium screenshooter takes screenshots of tests which are executing on Android device.
+
+=== Documentation for implementations
+
+Please find them in respective implementation projects directories.
+
+=== What does sub-extension do? (TLDR; in-depth Arquillian overview)
+
+For the sake of the argument, lets take +arquillian-recorder-screenshot+ and explain how all fits togehter. It is done very similarly for sub-extension +arquillian-recorder-video+ as well but just in video specific way.
+
+There are three subprojects:
+
+*  arquillian-recorder-screenshot-api
+*  arquillian-recorder-screenshot-spi
+*  arquillian-recorder-screenshot-impl
+
+The most important classes in API project are https://github.com/smiklosovic/arquillian-unified-recorder/blob/master/arquillian-recorder-screenshot/arquillian-recorder-screenshot-api/src/main/java/org/arquillian/extension/recorder/screenshot/Screenshooter.java[Screenshooter] and https://github.com/smiklosovic/arquillian-unified-recorder/blob/master/arquillian-recorder-screenshot/arquillian-recorder-screenshot-api/src/main/java/org/arquillian/extension/recorder/screenshot/ScreenshootingStrategy.java[ScreenshootingStrategy]. You have to implement Screenshooter interface in order to get some concrete Screenshooter into your tests, implementation of Screenshooter will be automatically injected into test class as +@ArquillianResource+. You have to Screenshooter in your target extension but you do not have to do anything in order to get them injecte, it is done automatically by this sub-extension. On the other hand, the way you are taking screenshots during your tests is specified by implementing https://github.com/smiklosovic/arquillian-unified-recorder/blob/master/arquillian-recorder-screenshot/arquillian-recorder-screenshot-api/src/main/java/org/arquillian/extension/recorder/screenshot/ScreenshootingStrategy.java[ScreenshootingStrategy].
+
+SPI project defines events which are available for firing in +arquillian-recorder-screenshot-impl+.
+
+Implementation of sub-extension is placed in +arquillian-recorder-screenshot-impl+. As said previously, this is regular Arquillian extension you further include in your target screenshooter implementations. All common functionality is hidden in this implementation sub-extension so your target implementations are smallest possible.
+
+After you configure your target extension listening to +@ArquillianDescriptor+ event and firing +ScreenshotExtensionConfigured+ event, it is observed by https://github.com/smiklosovic/arquillian-unified-recorder/blob/master/arquillian-recorder-screenshot/arquillian-recorder-screenshot-impl/src/main/java/org/arquillian/extension/recorder/screenshot/impl/ScreenshooterExtensionInitializer.java[ScreenshooterExtensionInitializer] which produces +ScreenshootingStrategy+. Screenshooter strategy is loaded by service loader, when you do not provide your screenshooter strategy in your target extension, https://github.com/smiklosovic/arquillian-unified-recorder/blob/master/arquillian-recorder-screenshot/arquillian-recorder-screenshot-impl/src/main/java/org/arquillian/extension/recorder/screenshot/impl/DefaultScreenshootingStrategy.java[DefaultScreenshootingStrategy] is taken into account.
+
+Screnshooting strategy tells whether you are going to perform some action when you observe some Arquillian +Before+ or +After+ event. Observation of these events is done in https://github.com/smiklosovic/arquillian-unified-recorder/blob/master/arquillian-recorder-screenshot/arquillian-recorder-screenshot-impl/src/main/java/org/arquillian/extension/recorder/screenshot/impl/ScreenshooterLifecycleObserver.java[ScreenshooterLifecycleObserver] which observes mentioned +Before+ and +After+ events. Precedence is used for these observers in order to guarantee that taking of screenshots would be executed as the very last or the very first action for +Before+ and +After+ events respectively. When you decide, according to your strategy, that you want to take screenshot, three events are fired: +BeforeScreenshotTaken+, +AfterScreenshotTaken+ and in the middle, between these two - +TakeScreenshot+ event.
+
++TakeScreenshot+ event is observed in https://github.com/smiklosovic/arquillian-unified-recorder/blob/master/arquillian-recorder-screenshot/arquillian-recorder-screenshot-impl/src/main/java/org/arquillian/extension/recorder/screenshot/impl/ScreenshotTaker.java[ScreenshotTaker] into which there is injected your implementation of Screenshooter interface and screenshot is taken.
+
+Taking of screenshots via Screenshooter can be done not only automatically so you do not have to modify your already existing tests in any way at all, but also manually by injecting Screenshooter into test like:
+
+[source,java]
+----
+@ArquillianResource Screenshooter screenshooter;
+----
+
+You then take screenshots manually via screenshooter methods directly in your test methods. You can inject Screenshooter into methods as well. Screenshooter is injected into test via https://github.com/smiklosovic/arquillian-unified-recorder/tree/master/arquillian-recorder-screenshot/arquillian-recorder-screenshot-impl/src/main/java/org/arquillian/extension/recorder/screenshot/impl[ScreenshooterProvider]
+
+When it comes to Droidium screenshooter - which is concrete and target implementation of screenshooter API - this extension depends on just described +arquillian-recorder-screenshot-impl+. In Droidium screenshooter, there is just configurator which parses configuration from +arquillian.xml+ (you can extend default configuration placed in +arquillian-recorder-screenshot-impl+ so your extension can modify its configuration specifics when defaults are not enough) and the most important +Screenshooter+ implementation. Thats all what it takes to implement your own screenshooter tailored just for your needs.
+
+=== How to build
+
++mvn clean install+
+
+=== How to test
+
++mvn test+
