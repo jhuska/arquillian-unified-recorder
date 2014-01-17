@@ -9,7 +9,7 @@ Droidium screenshooter is an extension to Arquillian platform which provides the
 <dependency>
     <groupId>org.arquillian.extension</groupId>
     <artifactId>arquillian-droidium-screenshooter</artifactId>
-    <version>${version.desktop.recorder}</version>
+    <version>${version.screenshooter}</version>
 </dependency>
 ----
 
