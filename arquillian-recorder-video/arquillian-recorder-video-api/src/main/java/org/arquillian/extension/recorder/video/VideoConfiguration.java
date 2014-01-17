@@ -32,7 +32,7 @@ public class VideoConfiguration extends Configuration<VideoConfiguration> {
 
     private String baseFolder = "videos";
 
-    private String videoType = VideoType.MPEG.toString();
+    private String videoType = VideoType.MPEG.name();
 
     private String startBeforeTest = "false";
 

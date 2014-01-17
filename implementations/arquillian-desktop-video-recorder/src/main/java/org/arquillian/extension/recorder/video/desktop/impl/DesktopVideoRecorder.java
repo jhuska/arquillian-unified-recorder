@@ -54,7 +54,7 @@ public class DesktopVideoRecorder implements Recorder {
                 File root = new File(this.configuration.getRootFolder(), this.configuration.getBaseFolder());
 
                 setVideoTargetDir(root);
-                setVideoType(VideoType.valueOf(this.configuration.getVideoType().toUpperCase()));
+                setVideoType(VideoType.valueOf(this.configuration.getVideoType()));
 
                 recorder = new VideoRecorder(this.configuration);
             }
