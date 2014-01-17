@@ -10,7 +10,7 @@
     OF ANY KIND, either express or implied. See the License for the specific
     language governing permissions and limitations under the License. -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <!-- Model Version -->
     <modelVersion>4.0.0</modelVersion>
@@ -18,15 +18,16 @@
     <!-- Parent -->
     <parent>
         <groupId>org.arquillian.extension</groupId>
-        <artifactId>arquillian-recorder</artifactId>
+        <artifactId>arquillian-recorder-build</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../../pom.xml</relativePath>
+        <relativePath>../../arquillian-recorder/arquillian-recorder-build/pom.xml</relativePath>
     </parent>
-    
+
     <!-- Artifact Configuration -->
-    <artifactId>arquillian-droidium-screenshooter</artifactId>
-    <name>Arquillian Droidium Screenshooter</name>
-    <description>Arquillian Droidium Screenshooter</description>
+    <artifactId>arquillian-recorder-screenshooter-spi</artifactId>
+    <packaging>jar</packaging>
+    <name>Arquillian Recorder Screenshooter SPI</name>
+    <description>Arquillian Recorder Screenshooter SPI</description>
 
     <!-- Developers -->
     <developers>
@@ -34,34 +35,23 @@
             <name>Stefan Miklosovic</name>
             <email>smikloso@redhat.com</email>
         </developer>
+        <developer>
+            <name>Petr Mensik</name>
+            <email>pmensik@redhat.com</email>
+        </developer>
     </developers>
 
-    <prerequisites>
-        <maven>3.0.5</maven>
-    </prerequisites>
-
-    <!-- Properties -->
-    <properties>
-        <version.recorder.screenshooter>0.0.1-SNAPSHOT</version.recorder.screenshooter>
-        <version.droidium.container>1.0.0.Beta1-SNAPSHOT</version.droidium.container>
-    </properties>
-    
     <!-- Dependencies -->
     <dependencies>
         <dependency>
             <groupId>org.arquillian.extension</groupId>
-            <artifactId>arquillian-recorder-screenshooter-impl</artifactId>
-            <version>${version.recorder.screenshooter}</version>
+            <artifactId>arquillian-recorder-spi</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.arquillian.container</groupId>
-            <artifactId>arquillian-droidium-container-api</artifactId>
-            <version>${version.droidium.container}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.arquillian.container</groupId>
-            <artifactId>arquillian-droidium-container-spi</artifactId>
-            <version>${version.droidium.container}</version>
+            <groupId>org.arquillian.extension</groupId>
+            <artifactId>arquillian-recorder-screenshooter-api</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 

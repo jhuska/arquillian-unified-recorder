@@ -14,31 +14,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.extension.recorder;
+package org.arquillian.extension.recorder.screenshooter;
 
-import org.jboss.arquillian.config.descriptor.api.ArquillianDescriptor;
+import org.arquillian.extension.recorder.ResourceType;
 
 /**
- * Configures any extension.
+ * All sensible file extensions for taken screenshots.
  *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public abstract class RecorderConfigurator<T extends Configuration<T>> {
+public enum ScreenshotType implements ResourceType {
+
+    JPEG("jpeg"),
+    PNG("png"),
+    BMP("bmp"),
+    WBMP("wbmp"),
+    GIF("gif");
+
+    private String name;
+
+    private ScreenshotType(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 
     /**
-     * When not shadowed in extended classes, an extension will be identified by this name.
+     *
+     * @return all screenshot types concatenated to one string separated only by one space from each other
      */
-    public static final String EXTENSION_NAME = "recorder";
+    public static String getAll() {
+        StringBuilder sb = new StringBuilder();
 
-    /**
-     * Observes {@link ArquillianDescriptor} event in order to configure some extension implementation.
-     *
-     * It is up to developer of the extension to validate configuration parsed from arquillian.xml in this method on his own.
-     *
-     * @param descriptor
-     * @throws RecorderConfigurationException
-     */
-    public abstract void configureExtension(ArquillianDescriptor descriptor);
+        for (ScreenshotType screenshotType : ScreenshotType.values()) {
+            sb.append(screenshotType.toString());
+            sb.append(" ");
+        }
+
+        return sb.toString().trim();
+    }
 
 }

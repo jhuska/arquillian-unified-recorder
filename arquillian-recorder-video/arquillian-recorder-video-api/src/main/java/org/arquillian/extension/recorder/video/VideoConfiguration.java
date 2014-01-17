@@ -99,7 +99,7 @@ public class VideoConfiguration extends Configuration<VideoConfiguration> {
      * @return type of video we want our screenshots to be of
      */
     public String getVideoType() {
-        return getProperty("videoType", videoType);
+        return getProperty("videoType", videoType).toUpperCase();
     }
 
     /**
@@ -141,7 +141,7 @@ public class VideoConfiguration extends Configuration<VideoConfiguration> {
     @Override
     public void validate() throws VideoConfigurationException {
         try {
-            VideoType.valueOf(VideoType.class, getVideoType().toUpperCase());
+            VideoType.valueOf(VideoType.class, getVideoType());
         } catch (IllegalArgumentException ex) {
             throw new VideoConfigurationException(
                 "Video type you specified in arquillian.xml is not valid video type."

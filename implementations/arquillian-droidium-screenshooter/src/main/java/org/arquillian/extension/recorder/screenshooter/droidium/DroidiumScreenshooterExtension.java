@@ -14,31 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.extension.recorder;
+package org.arquillian.extension.recorder.screenshooter.droidium;
 
-import org.jboss.arquillian.config.descriptor.api.ArquillianDescriptor;
+import org.arquillian.extension.recorder.screenshooter.droidium.configuration.DroidiumScreenshooterConfigurator;
+import org.arquillian.extension.recorder.screenshooter.droidium.impl.DroidiumScreenshooterCreator;
+import org.jboss.arquillian.core.spi.LoadableExtension;
 
 /**
- * Configures any extension.
- *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public abstract class RecorderConfigurator<T extends Configuration<T>> {
+public class DroidiumScreenshooterExtension implements LoadableExtension {
 
-    /**
-     * When not shadowed in extended classes, an extension will be identified by this name.
-     */
-    public static final String EXTENSION_NAME = "recorder";
-
-    /**
-     * Observes {@link ArquillianDescriptor} event in order to configure some extension implementation.
-     *
-     * It is up to developer of the extension to validate configuration parsed from arquillian.xml in this method on his own.
-     *
-     * @param descriptor
-     * @throws RecorderConfigurationException
-     */
-    public abstract void configureExtension(ArquillianDescriptor descriptor);
+    @Override
+    public void register(ExtensionBuilder builder) {
+        builder.observer(DroidiumScreenshooterConfigurator.class);
+        builder.observer(DroidiumScreenshooterCreator.class);
+    }
 
 }

@@ -18,15 +18,16 @@
     <!-- Parent -->
     <parent>
         <groupId>org.arquillian.extension</groupId>
-        <artifactId>arquillian-recorder</artifactId>
+        <artifactId>arquillian-recorder-parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../../pom.xml</relativePath>
+        <relativePath>../arquillian-recorder/pom.xml</relativePath>
     </parent>
-    
+
     <!-- Artifact Configuration -->
-    <artifactId>arquillian-droidium-screenshooter</artifactId>
-    <name>Arquillian Droidium Screenshooter</name>
-    <description>Arquillian Droidium Screenshooter</description>
+    <artifactId>arquillian-recorder-screenshooter-parent</artifactId>
+    <packaging>pom</packaging>
+    <name>Arquillian Recorder Screenshooter Parent</name>
+    <description>Arquillian Recorder Screenshooter Parent</description>
 
     <!-- Developers -->
     <developers>
@@ -34,35 +35,17 @@
             <name>Stefan Miklosovic</name>
             <email>smikloso@redhat.com</email>
         </developer>
+        <developer>
+            <name>Petr Mensik</name>
+            <email>pmensik@redhat.com</email>
+        </developer>
     </developers>
 
-    <prerequisites>
-        <maven>3.0.5</maven>
-    </prerequisites>
-
-    <!-- Properties -->
-    <properties>
-        <version.recorder.screenshooter>0.0.1-SNAPSHOT</version.recorder.screenshooter>
-        <version.droidium.container>1.0.0.Beta1-SNAPSHOT</version.droidium.container>
-    </properties>
-    
-    <!-- Dependencies -->
-    <dependencies>
-        <dependency>
-            <groupId>org.arquillian.extension</groupId>
-            <artifactId>arquillian-recorder-screenshooter-impl</artifactId>
-            <version>${version.recorder.screenshooter}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.arquillian.container</groupId>
-            <artifactId>arquillian-droidium-container-api</artifactId>
-            <version>${version.droidium.container}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.arquillian.container</groupId>
-            <artifactId>arquillian-droidium-container-spi</artifactId>
-            <version>${version.droidium.container}</version>
-        </dependency>
-    </dependencies>
+    <!-- Modules -->
+    <modules>
+        <module>arquillian-recorder-screenshooter-api</module>
+        <module>arquillian-recorder-screenshooter-spi</module>
+        <module>arquillian-recorder-screenshooter-impl</module>
+    </modules>
 
 </project>

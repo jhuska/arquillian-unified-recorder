@@ -46,7 +46,7 @@
     <!-- Modules -->
     <modules>
         <module>arquillian-recorder</module>
-        <module>arquillian-recorder-screenshot</module>
+        <module>arquillian-recorder-screenshooter</module>
         <module>arquillian-recorder-video</module>
         <module>implementations/arquillian-droidium-screenshooter</module>
         <module>implementations/arquillian-desktop-video-recorder</module>
