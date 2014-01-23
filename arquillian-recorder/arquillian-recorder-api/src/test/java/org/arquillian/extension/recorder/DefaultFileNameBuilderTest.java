@@ -32,19 +32,17 @@ import org.junit.runners.JUnit4;
 public class DefaultFileNameBuilderTest {
 
     private DefaultFileNameBuilder fileNameBuilder = DefaultFileNameBuilder.getInstance();
-    
+
     @Test
     public void emptyBuildTest() {
         // produces valid uuid
-        UUID.fromString(DefaultFileNameBuilder.getInstance().build());
+        UUID.fromString(fileNameBuilder.build());
     }
 
     @Test
     public void nonNullMetaDataTest() throws Exception {
         FakeResourceMetaData fmd = new FakeResourceMetaData();
-        fmd
-            .setTestClass(new TestClass(FakeTestClass.class))
-            .setTestMethod(FakeTestClass.class.getMethod("fakeTestMethod"));
+        fmd.setTestClass(new TestClass(FakeTestClass.class)).setTestMethod(FakeTestClass.class.getMethod("fakeTestMethod"));
 
         Assert.assertEquals("fakeTestMethod", fileNameBuilder.withMetaData(fmd).build());
     }
@@ -52,12 +50,9 @@ public class DefaultFileNameBuilderTest {
     @Test
     public void nonNullStageTest() throws Exception {
         FakeResourceMetaData fmd = new FakeResourceMetaData();
-        fmd
-            .setTestClass(new TestClass(FakeTestClass.class))
-            .setTestMethod(FakeTestClass.class.getMethod("fakeTestMethod"));
+        fmd.setTestClass(new TestClass(FakeTestClass.class)).setTestMethod(FakeTestClass.class.getMethod("fakeTestMethod"));
 
-        Assert.assertEquals("fakeTestMethod_after", fileNameBuilder.withMetaData(fmd).withStage(When.AFTER)
-            .build());
+        Assert.assertEquals("fakeTestMethod_after", fileNameBuilder.withMetaData(fmd).withStage(When.AFTER).build());
     }
 
     @Test
@@ -72,6 +67,18 @@ public class DefaultFileNameBuilderTest {
             .withMetaData(fmd)
             .withStage(When.AFTER)
             .build());
+    }
+
+    @Test
+    public void builderIsClearedAfterBuildTest() throws NoSuchMethodException, SecurityException {
+        FakeResourceMetaData fmd = new FakeResourceMetaData();
+        fmd.setTestClass(new TestClass(FakeTestClass.class)).setTestMethod(FakeTestClass.class.getMethod("fakeTestMethod"));
+        fileNameBuilder.withStage(When.AFTER).withMetaData(fmd);
+
+        Assert.assertEquals("fakeTestMethod_after", fileNameBuilder.build());
+
+        // subsequent built is done on cleaned builder so it will produce just UUID
+        UUID.fromString(fileNameBuilder.build());
     }
 
     private static class FakeResourceMetaData extends ResourceMetaData {

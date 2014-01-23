@@ -63,7 +63,7 @@ public class VideoTaker {
         metaData.setResourceType(context.getEvent().getVideoType());
         String fileName = nb
             .withMetaData(metaData)
-            .build(true);
+            .build();
 
         File videoTarget = new File(context.getEvent().getVideoMetaData().getTestClassName(), fileName);
         recorder.get().startRecording(videoTarget, context.getEvent().getVideoType());

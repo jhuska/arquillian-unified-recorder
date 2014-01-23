@@ -18,7 +18,6 @@ package org.arquillian.extension.recorder;
 
 import java.util.UUID;
 
-
 /**
  * Builds a file name of some screenshot resource.
  *
@@ -78,28 +77,27 @@ public class DefaultFileNameBuilder extends AbstractFileNameBuilder {
      * When you do not set meta data or name of test method is null or empty string, random {@link UUID} is generated instead of
      * that. If {@link When} is not set, it is not included into file name generation. When you do not specify resource type,
      * file name will be generated without file format suffix, excluding a dot as well.
+     *
+     * <br>
+     * After you get identifier, builder is cleared so every subsequent call of this method will return just UUID when there are
+     * not used 'when' methods.
      */
     @Override
-    public String build() throws IllegalStateException {
+    public String build() {
         ResourceType resourceType = null;
-        if(metaData != null) {
+        if (metaData != null) {
             resourceType = metaData.getResourceType();
         }
-        return resourceIdentifier.getIdentifier(resourceType);
-    }
-
-    @Override
-    public String build(boolean clear) {
-        String id = build();
-        if (clear) {
-            clear();
-        }
+        String id = resourceIdentifier.getIdentifier(resourceType);
+        clear();
         return id;
     }
 
-    private void clear() {
+    @Override
+    public DefaultFileNameBuilder clear() {
         metaData = null;
         when = null;
+        return this;
     }
 
     private void setDefaultFileIdentifier() {
