@@ -18,7 +18,6 @@ package org.arquillian.extension.recorder.screenshooter.browser.configuration;
 
 import java.util.logging.Logger;
 
-import org.arquillian.extension.recorder.screenshooter.ScreenshooterConfiguration;
 import org.arquillian.extension.recorder.screenshooter.ScreenshooterConfigurator;
 import org.arquillian.extension.recorder.screenshooter.event.ScreenshotExtensionConfigured;
 import org.jboss.arquillian.config.descriptor.api.ArquillianDescriptor;
@@ -39,14 +38,14 @@ public class BrowserScreenshooterConfigurator extends ScreenshooterConfigurator 
 
     @Inject
     @ApplicationScoped
-    private InstanceProducer<ScreenshooterConfiguration> configuration;
+    private InstanceProducer<BrowserScreenshooterConfiguration> configuration;
 
     @Inject
     private Event<ScreenshotExtensionConfigured> extensionConfiguredEvent;
 
     @Override
     public void configureExtension(@Observes ArquillianDescriptor descriptor) {
-        ScreenshooterConfiguration conf = new ScreenshooterConfiguration();
+        BrowserScreenshooterConfiguration conf = new BrowserScreenshooterConfiguration();
 
         for (ExtensionDef extension : descriptor.getExtensions()) {
             if (extension.getExtensionName().equals(EXTENSION_NAME)) {

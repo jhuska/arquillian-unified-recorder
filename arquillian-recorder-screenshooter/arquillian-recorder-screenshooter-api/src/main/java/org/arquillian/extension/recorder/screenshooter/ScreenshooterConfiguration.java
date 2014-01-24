@@ -40,8 +40,6 @@ public class ScreenshooterConfiguration extends Configuration<ScreenshooterConfi
 
     private String takeWhenTestFailed = "true";
 
-    private String takeOnEveryAction = "false";
-
     /**
      * By default set to "target"
      *
@@ -94,15 +92,6 @@ public class ScreenshooterConfiguration extends Configuration<ScreenshooterConfi
      */
     public boolean getTakeWhenTestFailed() {
         return Boolean.parseBoolean(getProperty("takeWhenTestFailed", takeWhenTestFailed));
-    }
-
-    /**
-     * By default set to false.
-     *
-     * @return true if screenshot should be taken on every browser action, false otherwise
-     */
-    public boolean getTakeOnEveryAction() {
-        return Boolean.parseBoolean(getProperty("takeOnEveryAction", takeOnEveryAction));
     }
 
     @Override

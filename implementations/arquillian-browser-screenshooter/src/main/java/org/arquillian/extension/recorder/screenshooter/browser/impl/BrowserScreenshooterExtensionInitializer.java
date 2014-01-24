@@ -17,7 +17,7 @@
 package org.arquillian.extension.recorder.screenshooter.browser.impl;
 
 import org.arquillian.extension.recorder.screenshooter.Screenshooter;
-import org.arquillian.extension.recorder.screenshooter.ScreenshooterConfiguration;
+import org.arquillian.extension.recorder.screenshooter.browser.configuration.BrowserScreenshooterConfiguration;
 import org.arquillian.extension.recorder.screenshooter.event.ScreenshotExtensionConfigured;
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.InstanceProducer;
@@ -45,20 +45,20 @@ public class BrowserScreenshooterExtensionInitializer {
     @Inject
     @ApplicationScoped
     private InstanceProducer<TakeScreenshotBeforeTestInterceptor> takeScreenshotBeforeTestInterceptor;
-    
+
     @Inject
     @ApplicationScoped
     private InstanceProducer<GrapheneContext> grapheneContext;
 
     @Inject
-    private Instance<ScreenshooterConfiguration> configuration;
-    
+    private Instance<BrowserScreenshooterConfiguration> configuration;
+
     @Inject
     private Instance<ServiceLoader> serviceLoader;
 
     /**
      * Creates {@link Screenshooter} instance.
-     * 
+     *
      * @param event
      */
     public void onScreenshooterExtensionConfigured(@Observes(precedence = Integer.MIN_VALUE) ScreenshotExtensionConfigured event) {

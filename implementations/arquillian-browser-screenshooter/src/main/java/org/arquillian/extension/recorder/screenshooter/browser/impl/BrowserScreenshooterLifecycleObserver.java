@@ -18,10 +18,10 @@ package org.arquillian.extension.recorder.screenshooter.browser.impl;
 
 import org.arquillian.extension.recorder.DefaultFileNameBuilder;
 import org.arquillian.extension.recorder.When;
-import org.arquillian.extension.recorder.screenshooter.ScreenshooterConfiguration;
 import org.arquillian.extension.recorder.screenshooter.ScreenshootingStrategy;
 import org.arquillian.extension.recorder.screenshooter.ScreenshotMetaData;
 import org.arquillian.extension.recorder.screenshooter.ScreenshotType;
+import org.arquillian.extension.recorder.screenshooter.browser.configuration.BrowserScreenshooterConfiguration;
 import org.arquillian.extension.recorder.screenshooter.event.AfterScreenshotTaken;
 import org.arquillian.extension.recorder.screenshooter.event.BeforeScreenshotTaken;
 import org.arquillian.extension.recorder.screenshooter.event.TakeScreenshot;
@@ -46,7 +46,7 @@ public class BrowserScreenshooterLifecycleObserver {
     private Instance<ScreenshootingStrategy> strategy;
 
     @Inject
-    private Instance<ScreenshooterConfiguration> configuration;
+    private Instance<BrowserScreenshooterConfiguration> configuration;
 
     @Inject
     private Instance<TakeScreenshotOnEveryActionInterceptor> takeScreenshotOnEveryActionInterceptor;
