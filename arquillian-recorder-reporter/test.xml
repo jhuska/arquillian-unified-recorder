@@ -10,7 +10,7 @@
     OF ANY KIND, either express or implied. See the License for the specific
     language governing permissions and limitations under the License. -->
 <report xmlns:xs="https://github.com/smiklosovic/arquillian-unified-recorder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="https://github.com/smiklosovic/arquillian-unified-recorder/tree/master/arquillian-recorder-reporter/src/main/resources/xsd/report.xsd report.xsd">
+    xsi:schemaLocation="https://raw2.github.com/smiklosovic/arquillian-unified-recorder/reporter/arquillian-recorder-reporter/src/main/resources/xsd/report.xsd report.xsd">
     <suite>
         <class>
             <className>org.aerogear.push.testcase</className>
