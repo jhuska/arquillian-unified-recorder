@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- JBoss, Home of Professional Open Source Copyright 2014, Red Hat, Inc.
+    and/or its affiliates, and individual contributors by the @authors tag. See
+    the copyright.txt in the distribution for a full listing of individual contributors.
+    Licensed under the Apache License, Version 2.0 (the "License"); you may not
+    use this file except in compliance with the License. You may obtain a copy
+    of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required
+    by applicable law or agreed to in writing, software distributed under the
+    License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
+    OF ANY KIND, either express or implied. See the License for the specific
+    language governing permissions and limitations under the License. -->
+<report xmlns:xs="https://github.com/smiklosovic/arquillian-unified-recorder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://github.com/smiklosovic/arquillian-unified-recorder/tree/master/arquillian-recorder-reporter/src/main/resources/xsd/report.xsd report.xsd">
+    <suite>
+        <class>
+            <className>org.aerogear.push.testcase</className>
+            <test>
+                <testName>someFakeTest</testName>
+                <result>passed</result>
+                <duration unit="second">45</duration>
+                <screenshots>
+                    <screenshot>
+                        <when>before</when>
+                        <file>screenshots/someTest/screen.png</file>
+                        <type>png</type>
+                    </screenshot>
+                </screenshots>
+            </test>
+            <test>
+                <testName>someOtherFakeTest</testName>
+                <result>passed</result>
+                <duration unit="minute">20</duration>
+                <screenshots>
+                    <screenshot>
+                        <when>before</when>
+                        <file>screenshots/someTest/screen.png</file>
+                        <type>png</type>
+                    </screenshot>
+                    <screenshot>
+                        <when>after</when>
+                        <file>screenshots/someTest/screen.png</file>
+                        <type>png</type>
+                    </screenshot>
+                </screenshots>
+            </test>
+        </class>
+        <class>
+            <className>org.aerogear.push.other.testcase</className>
+            <test>
+                <testName>someFakeTest2</testName>
+                <result>passed</result>
+                <duration unit="hour">12</duration>
+                <screenshots>
+                    <screenshot>
+                        <when>before</when>
+                        <file>screenshots/someTest/screen.png</file>
+                        <type>png</type>
+                    </screenshot>
+                    <screenshot>
+                        <when>before</when>
+                        <file>screenshots/someTest/screen2.png</file>
+                        <type>png</type>
+                    </screenshot>
+                </screenshots>
+            </test>
+            <test>
+                <testName>someOtherFakeTest3</testName>
+                <result>passed</result>
+                <duration>8</duration>
+            </test>
+        </class>
+    </suite>
+</report>
+

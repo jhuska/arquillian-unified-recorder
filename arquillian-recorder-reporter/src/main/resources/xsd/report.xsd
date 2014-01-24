@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- JBoss, Home of Professional Open Source Copyright 2014, Red Hat, Inc.
+    and/or its affiliates, and individual contributors by the @authors tag. See
+    the copyright.txt in the distribution for a full listing of individual contributors.
+    Licensed under the Apache License, Version 2.0 (the "License"); you may not
+    use this file except in compliance with the License. You may obtain a copy
+    of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required
+    by applicable law or agreed to in writing, software distributed under the
+    License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
+    OF ANY KIND, either express or implied. See the License for the specific
+    language governing permissions and limitations under the License. -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="https://github.com/smiklosovic/arquillian-unified-recorder"
+    xmlns="https://github.com/smiklosovic/arquillian-unified-recorder" elementFormDefault="qualified">
+    <xs:element name="report">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="1" maxOccurs="unbounded" ref="suite" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="suite">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="1" maxOccurs="unbounded" ref="class" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="class">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="className" />
+                <xs:element minOccurs="1" maxOccurs="unbounded" ref="test" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="test">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="testName" />
+                <xs:element ref="result" />
+                <xs:element minOccurs="0" ref="duration" />
+                <xs:element minOccurs="0" ref="screenshots" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="result" type="xs:NCName" />
+    <xs:element name="duration">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer">
+                    <xs:attribute name="unit" use="optional" default="second">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:pattern value="second|minute|hour" />
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="screenshots">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="screenshot" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="screenshot">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="when" />
+                <xs:element ref="file" />
+                <xs:element ref="type" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="when" type="xs:NCName" />
+    <xs:element name="file" type="xs:string" />
+    <xs:element name="type" type="xs:NCName" />
+    <xs:element name="className" type="xs:NCName" />
+    <xs:element name="testName" type="xs:NCName" />
+</xs:schema>
