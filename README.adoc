@@ -27,6 +27,8 @@ You find all implementations of above API in +implementations+ folder. Right now
 ** Desktop screenshooter takes desktop screenshots of your tests.
 * arquillian-desktop-video-recorder
 ** Desktop video recorder extension records your tests and saves them into videos you can later check.
+* arquillian-browser-screenshooter
+** Use this when you are doing testing with WebDriver. You can save screens upon every method interaction with injected WebDriver instance if you want.
 * arquillian-droidium-screenshooter
 ** Droidium screenshooter takes screenshots of tests which are executing on Android device.
 
