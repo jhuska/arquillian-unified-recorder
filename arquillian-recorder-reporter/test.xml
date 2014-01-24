@@ -1,9 +1,9 @@
 <report xmlns="http://jboss.org/schema/arquillian/recorder/reporter" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jboss.org/schema/arquillian/recorder/reporter https://raw2.github.com/smiklosovic/arquillian-unified-recorder/reporter/arquillian-recorder-reporter/src/main/resources/xsd/report.xsd">
     <suite>
-        <class>
-            <className>org.aerogear.push.testcase</className>
-            <test>
-                <testName>someFakeTest</testName>
+        <testClass>
+            <testClassName>org.aerogear.push.testcase</testClassName>
+            <testMethod>
+                <testMethodName>someFakeTest</testMethodName>
                 <result>passed</result>
                 <duration unit="second">45</duration>
                 <screenshots>
@@ -13,9 +13,9 @@
                         <type>png</type>
                     </screenshot>
                 </screenshots>
-            </test>
-            <test>
-                <testName>someOtherFakeTest</testName>
+            </testMethod>
+            <testMethod>
+                <testMethodName>someOtherFakeTest</testMethodName>
                 <result>passed</result>
                 <duration unit="minute">20</duration>
                 <screenshots>
@@ -30,12 +30,12 @@
                         <type>png</type>
                     </screenshot>
                 </screenshots>
-            </test>
-        </class>
-        <class>
-            <className>org.aerogear.push.other.testcase</className>
-            <test>
-                <testName>someFakeTest2</testName>
+            </testMethod>
+        </testClass>
+        <testClass>
+            <testClassName>org.aerogear.push.other.testcase</testClassName>
+            <testMethod>
+                <testMethodName>someFakeTest2</testMethodName>
                 <result>passed</result>
                 <duration unit="hour">12</duration>
                 <screenshots>
@@ -50,12 +50,12 @@
                         <type>png</type>
                     </screenshot>
                 </screenshots>
-            </test>
-            <test>
-                <testName>someOtherFakeTest3</testName>
+            </testMethod>
+            <testMethod>
+                <testMethodName>someOtherFakeTest3</testMethodName>
                 <result>passed</result>
                 <duration>8</duration>
-            </test>
-        </class>
+            </testMethod>
+        </testClass>
     </suite>
 </report>

@@ -9,22 +9,22 @@
     <xs:element name="suite">
         <xs:complexType>
             <xs:sequence>
-                <xs:element minOccurs="1" maxOccurs="unbounded" ref="class" />
+                <xs:element minOccurs="1" maxOccurs="unbounded" ref="testClass" />
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-    <xs:element name="class">
+    <xs:element name="testClass">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="className" />
-                <xs:element minOccurs="1" maxOccurs="unbounded" ref="test" />
+                <xs:element ref="testClassName" />
+                <xs:element minOccurs="1" maxOccurs="unbounded" ref="testMethod" />
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-    <xs:element name="test">
+    <xs:element name="testMethod">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="testName" />
+                <xs:element ref="testMethodName" />
                 <xs:element ref="result" />
                 <xs:element minOccurs="0" ref="duration" />
                 <xs:element minOccurs="0" ref="screenshots" />
@@ -66,6 +66,6 @@
     <xs:element name="when" type="xs:NCName" />
     <xs:element name="file" type="xs:string" />
     <xs:element name="type" type="xs:NCName" />
-    <xs:element name="className" type="xs:NCName" />
-    <xs:element name="testName" type="xs:NCName" />
+    <xs:element name="testClassName" type="xs:NCName" />
+    <xs:element name="testMethodName" type="xs:NCName" />
 </xs:schema>
