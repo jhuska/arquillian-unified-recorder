@@ -15,4 +15,4 @@ Desktop screenshooter is an extension to Arquillian platform which provides the 
 
 == Settings
 
-TBD
+Settings are same as for browser screenshooter. Please consult README file there. The only thing which this screenshooter does not support is obviously 'takeOnEveryAction' option since there is not WebDriver instance which takes screenshots.

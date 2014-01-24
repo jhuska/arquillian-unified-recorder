@@ -1,8 +1,6 @@
-= Arquillian Browser Screenshooter
+== Arquillian Browser Screenshooter
 
-*Browser screenshooter* is an extension to Arquillian platform which provides the possibility to take screenshots of your tests. Only *browser* window is screened. In order to use it, please place this artifact configuration into Maven dependencies.
-
-== Making it part of your project
+*Browser screenshooter* is an extension to Arquillian platform which provides the possibility to take screenshots of your tests. Only *browser* window is screened. In order to use it, please place this artifact configuration into Maven dependencies:
 
 [source,xml]
 ----
