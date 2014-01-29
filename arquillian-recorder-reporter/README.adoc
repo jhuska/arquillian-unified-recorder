@@ -1,3 +1,0 @@
-== Arquillian Recorder - Reporter extension
-
-Makes reports of your tests.

@@ -43,6 +43,12 @@
 
     <!-- Dependencies -->
     <dependencies>
+        <dependency>
+            <groupId>org.arquillian.extension</groupId>
+            <artifactId>arquillian-recorder-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
         <!-- Arquillian dependencies -->
         <dependency>
             <groupId>org.jboss.arquillian.core</groupId>

@@ -44,12 +44,10 @@ public class ScreenshotTaker {
         ScreenshotType type = screenshooter.get().getScreenshotType();
 
         File screenshotTarget = new File(event.getMetaData().getTestClassName() +
-                System.getProperty("file.separator")
-                + event.getMetaData().getTestMethodName(), event.getFileName());
+            System.getProperty("file.separator")
+            + event.getMetaData().getTestMethodName(), event.getFileName());
 
         Screenshot screenshot = screenshooter.get().takeScreenshot(screenshotTarget, type);
         screenshot.setResourceMetaData(event.getMetaData());
-
-        // in case of reporting extension, we can fire event with taken screenshot
     }
 }
