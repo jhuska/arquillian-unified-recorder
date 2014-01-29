@@ -19,9 +19,11 @@ package org.arquillian.recorder.reporter.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import org.arquillian.recorder.reporter.ReportEntry;
 import org.arquillian.recorder.reporter.model.property.PropertyEntry;
@@ -33,6 +35,7 @@ import org.arquillian.recorder.reporter.model.property.PropertyEntry;
 @XmlRootElement(name = "class")
 public class TestClassReport implements ReportEntry {
 
+    @XmlAttribute(name = "name")
     private String testClassName;
 
     @XmlElement(name = "method")
@@ -41,7 +44,8 @@ public class TestClassReport implements ReportEntry {
 
     private final List<PropertyEntry> propertyEntries = new ArrayList<PropertyEntry>();
 
-    public String getTestClass() {
+    @XmlTransient
+    public String getTestClassName() {
         return testClassName;
     }
 
@@ -68,7 +72,7 @@ public class TestClassReport implements ReportEntry {
             .append("\t\t\t");
 
         for (TestMethodReport testMethodReport : testMethodReports) {
-            sb.append(testMethodReport.toString());
+            sb.append(testMethodReport);
             sb.append("\t\t\t");
         }
 

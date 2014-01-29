@@ -19,10 +19,15 @@ package org.arquillian.recorder.reporter.impl;
 import org.arquillian.recorder.reporter.Reporter;
 import org.arquillian.recorder.reporter.event.ExportReport;
 import org.arquillian.recorder.reporter.event.ReportEvent;
+import org.arquillian.recorder.reporter.model.ContainerReport;
+import org.arquillian.recorder.reporter.model.DeploymentReport;
 import org.arquillian.recorder.reporter.model.TestClassReport;
 import org.arquillian.recorder.reporter.model.TestMethodReport;
 import org.arquillian.recorder.reporter.model.TestSuiteReport;
 import org.arquillian.recorder.reporter.spi.Reportable;
+import org.jboss.arquillian.container.spi.Container;
+import org.jboss.arquillian.container.spi.ContainerRegistry;
+import org.jboss.arquillian.container.spi.client.deployment.DeploymentDescription;
 import org.jboss.arquillian.container.spi.event.container.BeforeDeploy;
 import org.jboss.arquillian.container.spi.event.container.BeforeStart;
 import org.jboss.arquillian.core.api.Event;
@@ -57,11 +62,41 @@ public class ReporterLifecycleObserver {
         reporter.get().setTestSuiteReport(testSuiteReport);
     }
 
-    public void observeBeforeStart(@Observes BeforeStart event) {
+    public void observeBeforeStart(@Observes BeforeStart event, ContainerRegistry registry) {
+        ContainerReport containerReport = new ContainerReport();
+
+        for (Container container : registry.getContainers()) {
+            if (container.getDeployableContainer().getConfigurationClass() == event.getDeployableContainer()
+                .getConfigurationClass()) {
+
+                containerReport.setQualifier(container.getName());
+                containerReport.setConfiguration(container.getContainerConfiguration().exportAsString());
+
+                reporter.get().getLastTestSuiteReport().getContainerReports().add(containerReport);
+                reporter.get().setContainer(containerReport);
+                break;
+            }
+        }
 
     }
 
     public void observeBeforeDeploy(@Observes BeforeDeploy event) {
+        DeploymentReport deploymentReport = new DeploymentReport();
+
+        DeploymentDescription description = event.getDeployment();
+
+        deploymentReport.setArchiveName(description.getArchive().toString());
+        deploymentReport.setName(description.getName());
+        deploymentReport.setOrder(description.getOrder());
+        deploymentReport.setProtocol(description.getProtocol().getName());
+        deploymentReport.setTarget(description.getTarget().getName());
+
+        for (ContainerReport containerReport : reporter.get().getLastTestSuiteReport().getContainerReports()) {
+            if (containerReport.getQualifier().equals(deploymentReport.getTarget())) {
+                containerReport.getDeploymentReports().add(deploymentReport);
+            }
+        }
+
     }
 
     public void observeBeforeClass(@Observes BeforeClass event) {
@@ -78,15 +113,11 @@ public class ReporterLifecycleObserver {
 
         reporter.get().getLastTestClassReport().getTestMethodReports().add(testMethodReport);
         reporter.get().setTestMethodReport(testMethodReport);
-
-        // write
     }
 
     public void observeAfterTest(@Observes After event, TestResult result) {
         reporter.get().getLastTestMethodReport().setStatus(result.getStatus());
         reporter.get().getLastTestMethodReport().setDuration(result.getEnd() - result.getStart());
-
-        // write
     }
 
     public void observeAfterSuite(@Observes AfterSuite event) {
@@ -95,5 +126,6 @@ public class ReporterLifecycleObserver {
     }
 
     public void observeReportEvent(@Observes ReportEvent event) {
+        // TODO
     }
 }

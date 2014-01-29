@@ -14,45 +14,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.recorder.reporter.model;
+package org.arquillian.recorder.reporter.exporter.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
-
+import org.arquillian.extension.recorder.Configuration;
+import org.arquillian.recorder.reporter.Exporter;
+import org.arquillian.recorder.reporter.configuration.ReporterConfiguration;
+import org.arquillian.recorder.reporter.impl.type.JSONReport;
+import org.arquillian.recorder.reporter.spi.ReportType;
 import org.arquillian.recorder.reporter.spi.Reportable;
 
 /**
  * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-@XmlRootElement(name = "report")
-public class Report implements Reportable {
+public class JSONExporter implements Exporter {
 
-    @XmlElement(name = "suite")
-    @XmlElementWrapper(name = "suites")
-    private final List<TestSuiteReport> testSuiteReports = new ArrayList<TestSuiteReport>();
+    private ReporterConfiguration configuration;
 
-    /**
-     * @return the testSuiteReports
-     */
-    public List<TestSuiteReport> getTestSuiteReports() {
-        return testSuiteReports;
+    @Override
+    public void export(Reportable report) throws Exception {
+        // TODO
     }
 
     @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("report\n\t");
-
-        for (TestSuiteReport testSuiteReport : testSuiteReports) {
-            sb.append(testSuiteReport);
-        }
-
-        return sb.toString();
+    public Class<? extends ReportType> getReportType() {
+        return JSONReport.class;
     }
+
+    @Override
+    public void setConfiguration(Configuration<?> configuration) {
+        this.configuration = (ReporterConfiguration) configuration;
+    }
+
 }

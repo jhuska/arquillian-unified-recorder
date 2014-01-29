@@ -20,6 +20,7 @@ import org.arquillian.extension.recorder.Configuration;
 import org.arquillian.recorder.reporter.Reporter;
 import org.arquillian.recorder.reporter.configuration.ReporterConfiguration;
 import org.arquillian.recorder.reporter.impl.type.XMLReport;
+import org.arquillian.recorder.reporter.model.ContainerReport;
 import org.arquillian.recorder.reporter.model.Report;
 import org.arquillian.recorder.reporter.model.TestClassReport;
 import org.arquillian.recorder.reporter.model.TestMethodReport;
@@ -42,6 +43,8 @@ public class ReporterImpl implements Reporter {
     private TestClassReport testClassReport = null;
 
     private TestMethodReport testMethodReport = null;
+
+    private ContainerReport containerReport = null;
 
     private ReportType reportType = new XMLReport();
 
@@ -82,6 +85,11 @@ public class ReporterImpl implements Reporter {
     }
 
     @Override
+    public void setContainer(ContainerReport containerReport) {
+        this.containerReport = containerReport;
+    }
+
+    @Override
     public TestSuiteReport getLastTestSuiteReport() {
         return testSuiteReport;
     }
@@ -94,6 +102,11 @@ public class ReporterImpl implements Reporter {
     @Override
     public TestMethodReport getLastTestMethodReport() {
         return testMethodReport;
+    }
+
+    @Override
+    public ContainerReport getLastContainerReport() {
+        return containerReport;
     }
 
     @Override

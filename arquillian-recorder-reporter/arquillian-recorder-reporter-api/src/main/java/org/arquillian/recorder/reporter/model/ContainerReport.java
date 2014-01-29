@@ -16,12 +16,74 @@
  */
 package org.arquillian.recorder.reporter.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
 import org.arquillian.recorder.reporter.ReportEntry;
 
 /**
  * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
+@XmlRootElement(name = "container")
 public class ContainerReport implements ReportEntry {
 
+    @XmlAttribute
+    private String qualifier;
+
+    @XmlElement
+    private String configuration;
+
+    @XmlElementWrapper(name = "deployments")
+    @XmlElement(name = "deployment")
+    private List<DeploymentReport> deploymentReports = new ArrayList<DeploymentReport>();
+
+    public void setQualifier(String qualifier) {
+        this.qualifier = qualifier;
+    }
+
+    @XmlTransient
+    public String getQualifier() {
+        return qualifier;
+    }
+
+    public void setDeploymentReports(List<DeploymentReport> deploymentReports) {
+        this.deploymentReports = deploymentReports;
+    }
+
+    @XmlTransient
+    public List<DeploymentReport> getDeploymentReports() {
+        return deploymentReports;
+    }
+
+    public void setConfiguration(String configuration) {
+        this.configuration = configuration;
+    }
+
+    @XmlTransient
+    public String getConfiguration() {
+        return configuration;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("container\n\t\t\t");
+        sb.append("qualifier: ").append(qualifier != null ? qualifier : "unknown");
+        sb.append("\n\t\t\t");
+
+        for (DeploymentReport deploymentReport : deploymentReports) {
+            sb.append(deploymentReport);
+        }
+
+        sb.append("configuration: ").append(configuration != null ? configuration : "unknown");
+        sb.append("\n\t\t");
+        return sb.toString();
+    }
 }

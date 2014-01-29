@@ -22,6 +22,7 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.arquillian.recorder.reporter.ReportEntry;
 import org.arquillian.recorder.reporter.model.property.PropertyEntry;
@@ -31,13 +32,22 @@ import org.arquillian.recorder.reporter.model.property.PropertyEntry;
  *
  */
 @XmlRootElement(name = "suite")
+@XmlType(propOrder = { "containerReports", "testClassReports" })
 public class TestSuiteReport implements ReportEntry {
+
+    @XmlElement(name = "container")
+    @XmlElementWrapper(name = "containers")
+    private final List<ContainerReport> containerReports = new ArrayList<ContainerReport>();
 
     @XmlElement(name = "class")
     @XmlElementWrapper(name = "classes")
     private final List<TestClassReport> testClassReports = new ArrayList<TestClassReport>();
 
     private final List<PropertyEntry> propertyEntries = new ArrayList<PropertyEntry>();
+
+    public List<ContainerReport> getContainerReports() {
+        return containerReports;
+    }
 
     public List<TestClassReport> getTestClassReports() {
         return testClassReports;
@@ -53,8 +63,12 @@ public class TestSuiteReport implements ReportEntry {
 
         sb.append("testSuiteReport\n\t\t");
 
+        for (ContainerReport containerReport : containerReports) {
+            sb.append(containerReport);
+        }
+
         for (TestClassReport testClassReport : testClassReports) {
-            sb.append(testClassReport.toString());
+            sb.append(testClassReport);
             sb.append("\t\t");
         }
 

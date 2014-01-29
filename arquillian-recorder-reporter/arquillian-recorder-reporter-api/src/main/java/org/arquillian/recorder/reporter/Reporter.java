@@ -17,6 +17,7 @@
 package org.arquillian.recorder.reporter;
 
 import org.arquillian.extension.recorder.Configuration;
+import org.arquillian.recorder.reporter.model.ContainerReport;
 import org.arquillian.recorder.reporter.model.Report;
 import org.arquillian.recorder.reporter.model.TestClassReport;
 import org.arquillian.recorder.reporter.model.TestMethodReport;
@@ -44,6 +45,8 @@ public interface Reporter {
 
     void setTestMethodReport(TestMethodReport testMethodReport);
 
+    void setContainer(ContainerReport containerReport);
+
     Report getReport();
 
     TestSuiteReport getLastTestSuiteReport();
@@ -51,5 +54,7 @@ public interface Reporter {
     TestClassReport getLastTestClassReport();
 
     TestMethodReport getLastTestMethodReport();
+
+    ContainerReport getLastContainerReport();
 
 }

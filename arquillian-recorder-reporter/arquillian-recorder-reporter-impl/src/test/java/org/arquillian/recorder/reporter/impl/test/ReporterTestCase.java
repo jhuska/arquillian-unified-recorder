@@ -19,8 +19,10 @@ package org.arquillian.recorder.reporter.impl.test;
 import org.arquillian.recorder.reporter.Exporter;
 import org.arquillian.recorder.reporter.Reporter;
 import org.arquillian.recorder.reporter.configuration.ReporterConfiguration;
-import org.arquillian.recorder.reporter.exporter.XMLExporter;
+import org.arquillian.recorder.reporter.exporter.impl.XMLExporter;
 import org.arquillian.recorder.reporter.impl.ReporterImpl;
+import org.arquillian.recorder.reporter.model.ContainerReport;
+import org.arquillian.recorder.reporter.model.DeploymentReport;
 import org.arquillian.recorder.reporter.model.Report;
 import org.arquillian.recorder.reporter.model.TestClassReport;
 import org.arquillian.recorder.reporter.model.TestMethodReport;
@@ -45,6 +47,24 @@ public class ReporterTestCase {
         TestSuiteReport testSuiteReport = new TestSuiteReport();
         reporter.getReport().getTestSuiteReports().add(testSuiteReport);
         reporter.setTestSuiteReport(testSuiteReport);
+
+        // containers
+        ContainerReport containerReport = new ContainerReport();
+        containerReport.setQualifier("wildfly");
+        containerReport.setConfiguration("container configuration will be put here");
+        reporter.getLastTestSuiteReport().getContainerReports().add(containerReport);
+        reporter.setContainer(containerReport);
+
+        // deployment
+        DeploymentReport deploymentReport = new DeploymentReport();
+
+        deploymentReport.setArchiveName("some.war");
+        deploymentReport.setName("deploymentName");
+        deploymentReport.setOrder(1);
+        deploymentReport.setProtocol("someProtocol");
+        deploymentReport.setTarget("wildfly");
+
+        reporter.getLastContainerReport().getDeploymentReports().add(deploymentReport);
 
         TestClassReport testClassReport = new TestClassReport();
         testClassReport.setTestClassName(FakeTestClass.class.getName());
@@ -79,9 +99,5 @@ public class ReporterTestCase {
         exporter.setConfiguration(new ReporterConfiguration());
 
         exporter.export(reporter.report());
-    }
-
-    private static class FakeTestClass {
-
     }
 }

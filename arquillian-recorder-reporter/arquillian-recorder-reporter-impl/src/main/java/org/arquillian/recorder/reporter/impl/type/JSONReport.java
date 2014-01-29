@@ -14,27 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.recorder.reporter.exporter;
+package org.arquillian.recorder.reporter.impl.type;
 
-import org.arquillian.recorder.reporter.ExporterRegister;
-import org.arquillian.recorder.reporter.event.ExporterRegisterCreated;
-import org.arquillian.recorder.reporter.exporter.impl.JSONExporter;
-import org.arquillian.recorder.reporter.exporter.impl.XMLExporter;
-import org.jboss.arquillian.core.api.Instance;
-import org.jboss.arquillian.core.api.annotation.Inject;
-import org.jboss.arquillian.core.api.annotation.Observes;
+import org.arquillian.recorder.reporter.spi.ReportType;
 
 /**
  * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public class ExporterRegistrationHandler {
+public class JSONReport implements ReportType {
 
-    @Inject
-    private Instance<ExporterRegister> exporterRegister;
+    private static final String TYPE = "json";
 
-    public void onCreatedReporterRegister(@Observes ExporterRegisterCreated event) {
-        exporterRegister.get().add(new XMLExporter());
-        exporterRegister.get().add(new JSONExporter());
+    @Override
+    public String getType() {
+        return TYPE;
     }
+
 }

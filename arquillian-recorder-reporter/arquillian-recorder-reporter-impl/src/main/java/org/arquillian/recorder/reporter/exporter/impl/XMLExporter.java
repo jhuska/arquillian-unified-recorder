@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.recorder.reporter.exporter;
+package org.arquillian.recorder.reporter.exporter.impl;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -23,6 +23,7 @@ import javax.xml.bind.Marshaller;
 import org.arquillian.extension.recorder.Configuration;
 import org.arquillian.recorder.reporter.Exporter;
 import org.arquillian.recorder.reporter.configuration.ReporterConfiguration;
+import org.arquillian.recorder.reporter.exporter.JAXBContextFactory;
 import org.arquillian.recorder.reporter.impl.type.XMLReport;
 import org.arquillian.recorder.reporter.spi.ReportType;
 import org.arquillian.recorder.reporter.spi.Reportable;
