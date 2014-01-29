@@ -94,6 +94,7 @@ public class ReporterLifecycleObserver {
         for (ContainerReport containerReport : reporter.get().getLastTestSuiteReport().getContainerReports()) {
             if (containerReport.getQualifier().equals(deploymentReport.getTarget())) {
                 containerReport.getDeploymentReports().add(deploymentReport);
+                break;
             }
         }
 
