@@ -14,12 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.recorder.reporter.model.property;
+package org.arquillian.recorder.reporter;
+
+import org.arquillian.recorder.reporter.spi.ReportEntry;
 
 /**
+ * Points to the latest structure where properties would be eventually hooked.
+ *
  * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public class VideoEntry extends FileEntry {
+public class ReporterCursor {
+
+    private ReportEntry reportEntry;
+
+    public ReporterCursor() {
+    }
+
+    public ReporterCursor(ReportEntry reportEntry) {
+        this.reportEntry = reportEntry;
+    }
+
+    public void setCursor(ReportEntry reportEntry) {
+        this.reportEntry = reportEntry;
+    }
+
+    public ReportEntry getCursor() {
+        return reportEntry;
+    }
 
 }

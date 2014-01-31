@@ -14,25 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.recorder.reporter;
+package org.arquillian.recorder.reporter.event;
 
-import java.io.File;
-
-import org.arquillian.extension.recorder.Configuration;
-import org.arquillian.recorder.reporter.spi.ReportType;
-import org.arquillian.recorder.reporter.spi.Reportable;
+import org.arquillian.recorder.reporter.spi.PropertyEntry;
+import org.jboss.arquillian.core.spi.Validate;
 
 /**
- * Exports some previously done report to external resources.
+ * Fire this from your extension in order to report arbitrary resources.
  *
  * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public interface Exporter {
+public class PropertyReportEvent {
 
-    File export(Reportable report) throws Exception;
+    private PropertyEntry propertyEntry;
 
-    Class<? extends ReportType> getReportType();
+    /**
+     *
+     * @param report
+     * @param clazz runtime class of {@code report}
+     * @throws IllegalArgumentException if some argument is a null object
+     */
+    public PropertyReportEvent(PropertyEntry propertyEntry) {
+        Validate.notNull(propertyEntry, "property entry can not be a null object");
+        this.propertyEntry = propertyEntry;
+    }
 
-    void setConfiguration(Configuration<?> configuration);
+    public PropertyEntry getPropertyEntry() {
+        return propertyEntry;
+    }
 }

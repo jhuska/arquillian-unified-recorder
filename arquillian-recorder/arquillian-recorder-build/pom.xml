@@ -80,6 +80,11 @@
                 <version>${version.arquillian.core}</version>
             </dependency>
             <dependency>
+                <groupId>org.jboss.arquillian.container</groupId>
+                <artifactId>arquillian-container-test-api</artifactId>
+                <version>${version.arquillian.core}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>${version.commons.io}</version>

@@ -16,19 +16,26 @@
  */
 package org.arquillian.recorder.reporter.exporter.impl;
 
+import java.io.File;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
 import org.arquillian.extension.recorder.Configuration;
 import org.arquillian.recorder.reporter.Exporter;
+import org.arquillian.recorder.reporter.JAXBContextFactory;
 import org.arquillian.recorder.reporter.configuration.ReporterConfiguration;
-import org.arquillian.recorder.reporter.exporter.JAXBContextFactory;
 import org.arquillian.recorder.reporter.impl.type.XMLReport;
+import org.arquillian.recorder.reporter.model.Report;
 import org.arquillian.recorder.reporter.spi.ReportType;
 import org.arquillian.recorder.reporter.spi.Reportable;
 
 /**
+ * Exports reports to XML file. Output is formatted.
+ *
+ * @see {@link XMLReport}
+ *
  * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
@@ -36,11 +43,13 @@ public class XMLExporter implements Exporter {
 
     private ReporterConfiguration configuration;
 
-    private JAXBContext context = JAXBContextFactory.initContext();
+    private JAXBContext context = JAXBContextFactory.initContext(Report.class);
 
     @Override
-    public void export(Reportable report) throws Exception {
-        getMarshaller().marshal(report, configuration.getFile());
+    public File export(Reportable report) throws Exception {
+        File export = configuration.getFile();
+        getMarshaller().marshal(report, export);
+        return export;
     }
 
     private Marshaller getMarshaller() throws JAXBException {

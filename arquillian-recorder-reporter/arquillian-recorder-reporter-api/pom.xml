@@ -28,6 +28,10 @@
     <name>Arquillian Recorder Reporter API</name>
     <description>Arquillian Recorder Reporter API</description>
 
+    <properties>
+        <version.eclipselink.moxy>2.5.1</version.eclipselink.moxy>
+    </properties>
+    
     <!-- Developers -->
     <developers>
         <developer>
@@ -66,6 +70,44 @@
             <groupId>org.jboss.arquillian.container</groupId>
             <artifactId>arquillian-container-spi</artifactId>
         </dependency>
+        
+        <!-- EclipseLink MOXy provider of JAXB -->
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>org.eclipse.persistence.moxy</artifactId>
+            <version>${version.eclipselink.moxy}</version>
+        </dependency>
     </dependencies>
+
+    <!-- copies jaxb.properties file from resources to model package. 
+        It is necessary for setting another JAXB provider, Eclipse MOXy in this case -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/classes/org/arquillian/recorder/reporter/model</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/src/main/resources/</directory>
+                                    <includes>
+                                        <include>jaxb.properties</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

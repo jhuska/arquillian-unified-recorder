@@ -16,33 +16,50 @@
  */
 package org.arquillian.recorder.reporter.model;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
-import org.arquillian.recorder.reporter.ReportEntry;
+import org.arquillian.recorder.reporter.spi.PropertyEntry;
+import org.arquillian.recorder.reporter.spi.ReportEntry;
 
 /**
+ * Reports deployment being deployed to some container.<br>
+ * <br>
+ * Must hold:
+ * <ul>
+ * <li>deployment name</li>
+ * </ul>
+ * Can hold:
+ * <ul>
+ * <li>name of archive</li>
+ * <li>protocol name</li>
+ * <li>deployment order</li>
+ * </ul>
+ * Can not hold:
+ * <ul>
+ * <li>any {@link PropertyEntry}</li>
+ * </ul>
+ *
  * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
 @XmlRootElement(name = "deployment")
+@XmlType(propOrder = { "name", "archiveName", "protocol", "order" })
 public class DeploymentReport implements ReportEntry {
 
-    @XmlAttribute
     private String name;
 
-    @XmlElement(name = "archive")
     private String archiveName;
 
-    @XmlElement
     private int order;
 
-    @XmlElement
     private String protocol;
 
-    @XmlTransient
     private String target;
 
     public void setName(String name) {
@@ -65,22 +82,22 @@ public class DeploymentReport implements ReportEntry {
         this.target = target;
     }
 
-    @XmlTransient
+    @XmlAttribute(required = true)
     public String getName() {
         return name;
     }
 
-    @XmlTransient
+    @XmlElement(name = "archive")
     public String getArchiveName() {
         return archiveName;
     }
 
-    @XmlTransient
+    @XmlElement
     public int getOrder() {
         return order;
     }
 
-    @XmlTransient
+    @XmlElement
     public String getProtocol() {
         return protocol;
     }
@@ -88,6 +105,11 @@ public class DeploymentReport implements ReportEntry {
     @XmlTransient
     public String getTarget() {
         return target;
+    }
+
+    @Override
+    public List<PropertyEntry> getPropertyEntries() {
+        throw new UnsupportedOperationException("It is not possible to add any properties to deployment report.");
     }
 
 }

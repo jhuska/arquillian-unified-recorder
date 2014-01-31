@@ -19,40 +19,75 @@ package org.arquillian.recorder.reporter.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.XmlType;
 
-import org.arquillian.recorder.reporter.spi.Reportable;
+import org.arquillian.recorder.reporter.model.entry.FileEntry;
+import org.arquillian.recorder.reporter.model.entry.KeyValueEntry;
+import org.arquillian.recorder.reporter.spi.PropertyEntry;
+import org.arquillian.recorder.reporter.spi.ReportEntry;
 
 /**
+ * Root of the reporting structure. <br>
+ * <br>
+ * Must hold:
+ * <ul>
+ * <li>at least one {@link TestSuiteReport}</li>
+ * </ul>
+ * Can hold:
+ * <ul>
+ * <li>list of {@link KeyValueEntry}</li>
+ * <li>list of {@link FileEntry}</li>
+ * </ul>
+ *
  * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
 @XmlRootElement(name = "report")
-public class Report implements Reportable {
+@XmlType(propOrder = { "propertyEntries", "testSuiteReports" })
+public class Report implements ReportEntry {
 
-    @XmlElement(name = "suite")
-    @XmlElementWrapper(name = "suites")
+    @XmlAttribute(required = true)
+    @XmlSchemaType(name = "date")
+    private long start = System.currentTimeMillis();
+
+    @XmlAttribute(required = true)
+    @XmlSchemaType(name = "date")
+    private long stop = start;
+
+    @XmlAttribute(required = true)
+    @XmlSchemaType(name = "time")
+    private long duration = 0;
+
+    @XmlElement(name = "suite", required = true)
     private final List<TestSuiteReport> testSuiteReports = new ArrayList<TestSuiteReport>();
 
-    /**
-     * @return the testSuiteReports
-     */
+    @XmlElements({
+        @XmlElement(name = "property", type = KeyValueEntry.class),
+        @XmlElement(name = "file", type = FileEntry.class)
+    })
+    private final List<PropertyEntry> propertyEntries = new ArrayList<PropertyEntry>();
+
     public List<TestSuiteReport> getTestSuiteReports() {
         return testSuiteReports;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("report\n\t");
-
-        for (TestSuiteReport testSuiteReport : testSuiteReports) {
-            sb.append(testSuiteReport);
-        }
-
-        return sb.toString();
+    public void setStop(long timestamp) {
+        stop = timestamp;
+        setDuration();
     }
+
+    private void setDuration() {
+        duration = stop - start;
+    }
+
+    @Override
+    public List<PropertyEntry> getPropertyEntries() {
+        return propertyEntries;
+    }
+
 }

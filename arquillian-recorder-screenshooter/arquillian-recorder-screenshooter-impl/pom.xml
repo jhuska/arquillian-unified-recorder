@@ -40,24 +40,29 @@
         </developer>
     </developers>
 
-    <!-- Properties -->
-    <properties>
-        <version.arquillian.recorder>0.0.1-SNAPSHOT</version.arquillian.recorder>
-    </properties>
-
     <!-- Dependencies -->
     <dependencies>
         <dependency>
             <groupId>org.arquillian.extension</groupId>
             <artifactId>arquillian-recorder-screenshooter-spi</artifactId>
-            <version>${version.arquillian.recorder}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.arquillian.extension</groupId>
             <artifactId>arquillian-recorder-screenshooter-api</artifactId>
-            <version>${version.arquillian.recorder}</version>
+            <version>${project.parent.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.arquillian.extension</groupId>
+            <artifactId>arquillian-recorder-reporter-spi</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.arquillian.extension</groupId>
+            <artifactId>arquillian-recorder-reporter-api</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        
         <!-- Test dependencies -->
         <dependency>
             <groupId>org.jboss.arquillian.core</groupId>
@@ -84,7 +89,6 @@
             <artifactId>arquillian-test-impl-base</artifactId>
             <classifier>tests</classifier>
         </dependency>
-        
         
         <!-- External dependencies -->
         <dependency>

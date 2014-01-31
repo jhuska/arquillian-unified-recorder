@@ -17,6 +17,8 @@
 package org.arquillian.recorder.reporter.spi;
 
 /**
+ * Type of report.
+ *
  * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */

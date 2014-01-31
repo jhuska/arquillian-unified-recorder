@@ -25,10 +25,22 @@ import org.jboss.arquillian.config.descriptor.api.ArquillianDescriptor;
 import org.jboss.arquillian.config.descriptor.api.ExtensionDef;
 import org.jboss.arquillian.core.api.Event;
 import org.jboss.arquillian.core.api.InstanceProducer;
+import org.jboss.arquillian.core.api.annotation.ApplicationScoped;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.api.annotation.Observes;
 
 /**
+ * Parses configuration from Arquillian descriptor.<br>
+ * <br>
+ * Produces {@link ApplicationScoped}:
+ * <ul>
+ * <li>{@link ReporterConfiguration}</li>
+ * </ul>
+ * Fires:
+ * <ul>
+ * <li>{@link ReporterExtensionConfigured}</li>
+ * </ul>
+ *
  * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
@@ -39,6 +51,7 @@ public class ReporterConfigurator extends RecorderConfigurator<ReporterConfigura
     private static final String EXTENSION_NAME = "reporter";
 
     @Inject
+    @ApplicationScoped
     private InstanceProducer<ReporterConfiguration> configuration;
 
     @Inject

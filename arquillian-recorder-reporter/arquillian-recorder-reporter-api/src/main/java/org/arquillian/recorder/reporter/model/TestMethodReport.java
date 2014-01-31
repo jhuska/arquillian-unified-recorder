@@ -20,75 +20,112 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
-import org.arquillian.recorder.reporter.ReportEntry;
-import org.arquillian.recorder.reporter.model.property.PropertyEntry;
+import org.arquillian.recorder.reporter.model.entry.FileEntry;
+import org.arquillian.recorder.reporter.model.entry.KeyValueEntry;
+import org.arquillian.recorder.reporter.model.entry.ScreenshotEntry;
+import org.arquillian.recorder.reporter.model.entry.VideoEntry;
+import org.arquillian.recorder.reporter.spi.PropertyEntry;
+import org.arquillian.recorder.reporter.spi.ReportEntry;
 import org.jboss.arquillian.test.spi.TestResult.Status;
 
 /**
+ * Reports test method which belongs to some {@link TestClassReport}<br>
+ * <br>
+ * Must hold:
+ * <ul>
+ * <li>name</li>
+ * <li>result status</li>
+ * <li>duration</li>
+ * </ul>
+ * Can hold:
+ * <ul>
+ * <li>exception message</li>
+ * <li>list of {@link KeyValueEntry}</li>
+ * <li>list of {@link FileEntry}</li>
+ * <li>list of {@link VideoEntry}</li>
+ * <li>list of {@link ScreenshotEntry}</li>
+ * </ul>
+ *
  * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
 @XmlRootElement(name = "method")
+@XmlType(propOrder = { "name", "status", "duration", "operatesOnDeployment", "exception", "propertyEntries" })
 public class TestMethodReport implements ReportEntry {
 
-    @XmlAttribute
     private String name;
 
-    @XmlAttribute(name = "result")
     private Status status;
 
-    @XmlAttribute
     private long duration = -1;
 
+    private String exception;
+
+    private String operatesOnDeployment;
+
+    @XmlElements({
+        @XmlElement(name = "property", type = KeyValueEntry.class),
+        @XmlElement(name = "file", type = FileEntry.class),
+        @XmlElement(name = "video", type = VideoEntry.class),
+        @XmlElement(name = "screenshot", type = ScreenshotEntry.class)
+    })
     private final List<PropertyEntry> propertyEntries = new ArrayList<PropertyEntry>();
 
-    @XmlTransient
     public String getName() {
         return name;
     }
 
+    @XmlAttribute(required = true)
     public void setName(String name) {
         this.name = name;
     }
 
-    @XmlTransient
     public Status getStatus() {
         return status;
     }
 
+    @XmlAttribute(name = "result", required = true)
     public void setStatus(Status status) {
         this.status = status;
     }
 
-    @XmlTransient
     public long getDuration() {
         return duration;
     }
 
+    @XmlAttribute(required = true)
     public void setDuration(long duration) {
         if (duration > 0) {
             this.duration = duration;
         }
     }
 
-    public List<PropertyEntry> getPropertyEntries() {
-        return propertyEntries;
+    @XmlElement(required = false)
+    public void setException(String exception) {
+        this.exception = exception;
+    }
+
+    public String getException() {
+        return exception;
+    }
+
+    @XmlAttribute(name = "operatesOnDeployment")
+    public void setOperatesOnDeployment(String operatesOnDeployment) {
+        this.operatesOnDeployment = operatesOnDeployment;
+    }
+
+    public String getOperatesOnDeployment() {
+        return operatesOnDeployment;
     }
 
     @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("testMethodReport\n")
-            .append("\t\t\t\t\tname: ").append(name != null ? name : "unknown").append("\n")
-            .append("\t\t\t\t\tduration: ").append(duration != -1 ? duration : "unknown").append("\n")
-            .append("\t\t\t\t\tresult: ").append(status != null ? status : "unknown").append("\n");
-
-        return sb.toString();
-
+    public List<PropertyEntry> getPropertyEntries() {
+        return propertyEntries;
     }
 
 }

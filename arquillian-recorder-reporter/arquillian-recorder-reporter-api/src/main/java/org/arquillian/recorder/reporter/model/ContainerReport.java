@@ -17,73 +17,80 @@
 package org.arquillian.recorder.reporter.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
-import org.arquillian.recorder.reporter.ReportEntry;
+import org.arquillian.recorder.reporter.spi.PropertyEntry;
+import org.arquillian.recorder.reporter.spi.ReportEntry;
 
 /**
+ * Reports used container. <br>
+ * <br>
+ * Must hold:
+ * <ul>
+ * <li>container qualifier as a String</li>
+ * </ul>
+ * Can hold:
+ * <ul>
+ * <li>container configuration as a String</li>
+ * <li>list of {@link DeploymentReport}
+ * </ul>
+ * Can not hold:
+ * <ul>
+ * <li>any {@link PropertyEntry}</li>
+ * </ul>
+ *
  * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
 @XmlRootElement(name = "container")
+@XmlType(propOrder = { "configuration", "deploymentReports" })
 public class ContainerReport implements ReportEntry {
 
-    @XmlAttribute
     private String qualifier;
 
-    @XmlElement
-    private String configuration;
+    private Map<String, String> configuration = new HashMap<String, String>();
 
-    @XmlElementWrapper(name = "deployments")
-    @XmlElement(name = "deployment")
     private List<DeploymentReport> deploymentReports = new ArrayList<DeploymentReport>();
 
+    @XmlAttribute(required = true)
     public void setQualifier(String qualifier) {
         this.qualifier = qualifier;
     }
 
-    @XmlTransient
     public String getQualifier() {
         return qualifier;
     }
 
+    @XmlElement(name = "deployment")
     public void setDeploymentReports(List<DeploymentReport> deploymentReports) {
         this.deploymentReports = deploymentReports;
     }
 
-    @XmlTransient
     public List<DeploymentReport> getDeploymentReports() {
         return deploymentReports;
     }
 
-    public void setConfiguration(String configuration) {
+    @XmlElement
+    @XmlElementWrapper(name = "configuration")
+    public void setConfiguration(Map<String, String> configuration) {
         this.configuration = configuration;
     }
 
-    @XmlTransient
-    public String getConfiguration() {
+    public Map<String, String> getConfiguration() {
         return configuration;
     }
 
     @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("container\n\t\t\t");
-        sb.append("qualifier: ").append(qualifier != null ? qualifier : "unknown");
-        sb.append("\n\t\t\t");
-
-        for (DeploymentReport deploymentReport : deploymentReports) {
-            sb.append(deploymentReport);
-        }
-
-        sb.append("configuration: ").append(configuration != null ? configuration : "unknown");
-        sb.append("\n\t\t");
-        return sb.toString();
+    public List<PropertyEntry> getPropertyEntries() {
+        throw new UnsupportedOperationException("It is not possible to add any properties to container report.");
     }
+
 }

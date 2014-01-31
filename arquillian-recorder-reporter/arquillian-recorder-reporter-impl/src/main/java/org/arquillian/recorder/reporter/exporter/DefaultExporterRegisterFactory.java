@@ -20,6 +20,8 @@ import org.arquillian.recorder.reporter.ExporterRegister;
 import org.arquillian.recorder.reporter.ExporterRegisterFactory;
 
 /**
+ * Returns {@link ExporterRegister} as a singleton.
+ *
  * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */

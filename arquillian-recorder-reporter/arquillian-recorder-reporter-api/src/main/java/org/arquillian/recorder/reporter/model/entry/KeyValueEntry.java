@@ -14,33 +14,50 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.recorder.reporter.exporter;
+package org.arquillian.recorder.reporter.model.entry;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
-import org.arquillian.recorder.reporter.model.Report;
+import org.arquillian.recorder.reporter.spi.PropertyEntry;
 
 /**
+ * Represents arbitrary key-value property element.<br>
+ * <br>
+ * Must hold:
+ * <ul>
+ * <li>key</li>
+ * <li>value</li>
+ * </ul>
+ *
  * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public final class JAXBContextFactory {
+@XmlRootElement(name = "property")
+@XmlType(propOrder = { "key", "value" })
+public class KeyValueEntry extends PropertyEntry {
 
-    private static volatile JAXBContext context = null;
+    @XmlElement(required = true)
+    private String key;
 
-    private JAXBContextFactory() {
+    @XmlElement(required = true)
+    private String value;
+
+    public String getKey() {
+        return key;
     }
 
-    public static synchronized JAXBContext initContext() {
-        if (context == null) {
-            try {
-                context = JAXBContext.newInstance(Report.class);
-            } catch (JAXBException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return context;
+    public void setKey(String key) {
+        this.key = key;
     }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
 }

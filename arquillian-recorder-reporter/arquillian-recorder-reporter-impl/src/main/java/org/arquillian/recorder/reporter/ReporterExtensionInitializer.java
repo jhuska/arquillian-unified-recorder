@@ -23,7 +23,6 @@ import org.arquillian.recorder.reporter.event.ReporterExtensionConfigured;
 import org.arquillian.recorder.reporter.exporter.DefaultExporterRegisterFactory;
 import org.arquillian.recorder.reporter.impl.ReportTypeRegister;
 import org.arquillian.recorder.reporter.impl.ReporterImpl;
-import org.arquillian.recorder.reporter.impl.type.XMLReport;
 import org.arquillian.recorder.reporter.spi.ReportType;
 import org.jboss.arquillian.core.api.Event;
 import org.jboss.arquillian.core.api.Instance;
@@ -34,6 +33,20 @@ import org.jboss.arquillian.core.api.annotation.Observes;
 import org.jboss.arquillian.core.spi.ServiceLoader;
 
 /**
+ * Initializes reporting extension after it is configured from Arquillian descriptor.<br>
+ * <br>
+ * Produces {@link ApplicationScoped}:
+ * <ul>
+ * <li>{@link ExporterRegister}</li>
+ * <li>{@link ReportTypeRegister}</li>
+ * <li>{@link Exporter}</li>
+ * <li>{@link Reporter}</li>
+ * </ul>
+ * Fires:
+ * <ul>
+ * <li>{@link ExporterRegisterCreated}</li>
+ * </ul>
+ *
  * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
@@ -64,11 +77,19 @@ public class ReporterExtensionInitializer {
     @Inject
     private Event<ExporterRegisterCreated> exporterRegisterCreatedEvent;
 
+    /**
+     * Produces {@link ReportTypeRegister} and default reporter ({@link ReporterImpl}) when another is not present on class
+     * path. Creates default exporter register factory when another is not present on class path. After that,
+     * {@link ExporterRegisterCreated} is fired in order to be able to register all exporters even from 3rd party extension. In
+     * the end, report type from configuration is mapped to supported exporter and when found, it is produced.
+     *
+     * @param event
+     */
     public void onExtensionConfigured(@Observes ReporterExtensionConfigured event) {
 
-        // produce report type register and add default type
+        // produce report type register
+
         reportTypeRegister.set(new ReportTypeRegister());
-        reportTypeRegister.get().add(new XMLReport());
 
         // produce default reporter
 
@@ -88,7 +109,7 @@ public class ReporterExtensionInitializer {
 
         exporterRegisterCreatedEvent.fire(new ExporterRegisterCreated());
 
-        // match reporter type from configuration to registered exporters
+        // match reporter type from configuration to registered exporters according to its report types
 
         String report = configuration.get().getReport();
 

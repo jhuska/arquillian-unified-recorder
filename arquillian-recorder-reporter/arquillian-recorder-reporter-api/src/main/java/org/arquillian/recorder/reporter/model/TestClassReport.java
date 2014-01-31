@@ -21,61 +21,79 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
-import org.arquillian.recorder.reporter.ReportEntry;
-import org.arquillian.recorder.reporter.model.property.PropertyEntry;
+import org.arquillian.recorder.reporter.model.entry.FileEntry;
+import org.arquillian.recorder.reporter.model.entry.KeyValueEntry;
+import org.arquillian.recorder.reporter.model.entry.VideoEntry;
+import org.arquillian.recorder.reporter.spi.PropertyEntry;
+import org.arquillian.recorder.reporter.spi.ReportEntry;
 
 /**
+ * Reports test class in some {@link TestSuiteReport}
+ *
+ * Must hold:
+ * <ul>
+ * <li>class name</li>
+ * <li>at least one {@link TestMethodReport}
+ * <li>
+ * </ul>
+ * Can hold:
+ * <ul>
+ * <li>runAsClient</li>
+ * <li>multiple {@link KeyValueEntry}</li>
+ * <li>multiple {@link FileEntry}</li>
+ * <li>multiple {@link VideoEntry}</li>
+ * </ul>
+ *
  * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
 @XmlRootElement(name = "class")
+@XmlType(propOrder = { "testClassName", "runAsClient", "propertyEntries", "testMethodReports" })
 public class TestClassReport implements ReportEntry {
 
-    @XmlAttribute(name = "name")
     private String testClassName;
 
-    @XmlElement(name = "method")
-    @XmlElementWrapper(name = "methods")
+    private boolean runAsClient;
+
+    @XmlElement(name = "method", required = true)
     private final List<TestMethodReport> testMethodReports = new ArrayList<TestMethodReport>();
 
+    @XmlElements({
+        @XmlElement(name = "property", type = KeyValueEntry.class),
+        @XmlElement(name = "file", type = FileEntry.class),
+        @XmlElement(name = "video", type = VideoEntry.class)
+    })
     private final List<PropertyEntry> propertyEntries = new ArrayList<PropertyEntry>();
 
-    @XmlTransient
     public String getTestClassName() {
         return testClassName;
     }
 
+    @XmlAttribute(name = "name", required = true)
     public void setTestClassName(String testClassName) {
         this.testClassName = testClassName;
+    }
+
+    public boolean getRunAsClient() {
+        return runAsClient;
+    }
+
+    @XmlAttribute(name = "runAsClient", required = false)
+    public void setRunAsClient(boolean runsAsClient) {
+        this.runAsClient = runsAsClient;
     }
 
     public List<TestMethodReport> getTestMethodReports() {
         return testMethodReports;
     }
 
+    @Override
     public List<PropertyEntry> getPropertyEntries() {
         return propertyEntries;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("testClassReport\n")
-            .append("\t\t\tname: ");
-        sb.append(testClassName != null ? testClassName : "unknown");
-        sb.append("\n")
-            .append("\t\t\t");
-
-        for (TestMethodReport testMethodReport : testMethodReports) {
-            sb.append(testMethodReport);
-            sb.append("\t\t\t");
-        }
-
-        return sb.toString();
-    }
 }

@@ -14,14 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.recorder.reporter;
+package org.arquillian.recorder.reporter.spi;
 
-import org.arquillian.recorder.reporter.spi.Reportable;
+import java.util.List;
 
 /**
+ * Represents entry in a reporting tree.
+ *
  * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
 public interface ReportEntry extends Reportable {
 
+    List<PropertyEntry> getPropertyEntries();
 }

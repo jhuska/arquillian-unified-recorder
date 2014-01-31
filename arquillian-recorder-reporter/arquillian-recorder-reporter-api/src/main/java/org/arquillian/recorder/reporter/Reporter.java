@@ -22,22 +22,21 @@ import org.arquillian.recorder.reporter.model.Report;
 import org.arquillian.recorder.reporter.model.TestClassReport;
 import org.arquillian.recorder.reporter.model.TestMethodReport;
 import org.arquillian.recorder.reporter.model.TestSuiteReport;
-import org.arquillian.recorder.reporter.spi.ReportType;
-import org.arquillian.recorder.reporter.spi.Reportable;
 
 /**
+ * Collects data from a test run to arbitrary structure.
+ *
  * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
 public interface Reporter {
 
-    Reportable report();
-
-    ReportType getReportType();
+    /**
+     * @return collected report
+     */
+    Report getReport();
 
     void setConfiguration(Configuration<?> configuration);
-
-    void setReport(Report report);
 
     void setTestSuiteReport(TestSuiteReport testSuiteReport);
 
@@ -45,9 +44,9 @@ public interface Reporter {
 
     void setTestMethodReport(TestMethodReport testMethodReport);
 
-    void setContainer(ContainerReport containerReport);
+    void setContainerReport(ContainerReport containerReport);
 
-    Report getReport();
+    void setReporterCursor(ReporterCursor reporterCursor);
 
     TestSuiteReport getLastTestSuiteReport();
 
@@ -56,5 +55,16 @@ public interface Reporter {
     TestMethodReport getLastTestMethodReport();
 
     ContainerReport getLastContainerReport();
+
+    /**
+     * During test run, we can fire property from 3rd party extensions. That event is fired in some context (e.g. BeforeSuite,
+     * BeforeClass and so on). In order to put this property into right reporter tree section, there is a cursor which holds the
+     * latest context. <br>
+     * <br>
+     * As test proceeds, cursor moves with it, still holding the latest entry where properties would be hooked.
+     *
+     * @return cursor for current context.
+     */
+    ReporterCursor getReporterCursor();
 
 }

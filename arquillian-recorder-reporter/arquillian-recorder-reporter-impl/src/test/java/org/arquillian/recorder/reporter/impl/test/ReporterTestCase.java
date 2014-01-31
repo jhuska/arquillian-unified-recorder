@@ -16,17 +16,25 @@
  */
 package org.arquillian.recorder.reporter.impl.test;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.arquillian.extension.recorder.When;
 import org.arquillian.recorder.reporter.Exporter;
 import org.arquillian.recorder.reporter.Reporter;
 import org.arquillian.recorder.reporter.configuration.ReporterConfiguration;
+import org.arquillian.recorder.reporter.exporter.impl.HTMLExporter;
 import org.arquillian.recorder.reporter.exporter.impl.XMLExporter;
 import org.arquillian.recorder.reporter.impl.ReporterImpl;
 import org.arquillian.recorder.reporter.model.ContainerReport;
 import org.arquillian.recorder.reporter.model.DeploymentReport;
-import org.arquillian.recorder.reporter.model.Report;
 import org.arquillian.recorder.reporter.model.TestClassReport;
 import org.arquillian.recorder.reporter.model.TestMethodReport;
 import org.arquillian.recorder.reporter.model.TestSuiteReport;
+import org.arquillian.recorder.reporter.model.entry.FileEntry;
+import org.arquillian.recorder.reporter.model.entry.KeyValueEntry;
+import org.arquillian.recorder.reporter.model.entry.ScreenshotEntry;
+import org.arquillian.recorder.reporter.model.entry.VideoEntry;
 import org.jboss.arquillian.test.spi.TestResult;
 import org.jboss.arquillian.test.spi.TestResult.Status;
 import org.junit.Test;
@@ -41,19 +49,62 @@ import org.junit.runners.JUnit4;
 public class ReporterTestCase {
 
     @Test
+    public void configurationTest() {
+        ReporterConfiguration configuration = new ReporterConfiguration();
+
+        Map<String, String> configMap = new HashMap<String, String>();
+        configMap.put("report", "xml");
+        configMap.put("file", "report");
+        configuration.setConfiguration(configMap);
+
+        configuration.validate();
+        System.out.println(configuration.toString());
+    }
+
+    @Test
     public void testReporter() throws Exception {
+        ReporterConfiguration configuration = new ReporterConfiguration();
+        Map<String, String> configMap = new HashMap<String, String>();
+        configMap.put("report", "html");
+        configMap.put("file", "report");
+        configuration.setConfiguration(configMap);
+        configuration.validate();
+
         Reporter reporter = new ReporterImpl();
-        reporter.setReport(new Report());
+        reporter.setConfiguration(configuration);
+
+        KeyValueEntry kve3 = new KeyValueEntry();
+        kve3.setKey("key3");
+        kve3.setValue("value3");
+
+        reporter.getReporterCursor().getCursor().getPropertyEntries().add(kve3);
+
         TestSuiteReport testSuiteReport = new TestSuiteReport();
         reporter.getReport().getTestSuiteReports().add(testSuiteReport);
         reporter.setTestSuiteReport(testSuiteReport);
 
+        KeyValueEntry kve = new KeyValueEntry();
+        kve.setKey("key");
+        kve.setValue("value");
+
+        KeyValueEntry kve2 = new KeyValueEntry();
+        kve2.setKey("key2");
+        kve2.setValue("value2");
+
+        FileEntry fe = new FileEntry();
+        fe.setName("someFile");
+        fe.setSize("100MB");
+
+        reporter.getReporterCursor().getCursor().getPropertyEntries().add(kve);
+        reporter.getReporterCursor().getCursor().getPropertyEntries().add(kve2);
+        reporter.getReporterCursor().getCursor().getPropertyEntries().add(fe);
+
         // containers
         ContainerReport containerReport = new ContainerReport();
         containerReport.setQualifier("wildfly");
-        containerReport.setConfiguration("container configuration will be put here");
+        containerReport.setConfiguration(new HashMap<String, String>());
         reporter.getLastTestSuiteReport().getContainerReports().add(containerReport);
-        reporter.setContainer(containerReport);
+        reporter.setContainerReport(containerReport);
 
         // deployment
         DeploymentReport deploymentReport = new DeploymentReport();
@@ -70,6 +121,11 @@ public class ReporterTestCase {
         testClassReport.setTestClassName(FakeTestClass.class.getName());
         reporter.getLastTestSuiteReport().getTestClassReports().add(testClassReport);
         reporter.setTestClassReport(testClassReport);
+
+        VideoEntry videoEntry = new VideoEntry();
+        videoEntry.setName("someVideo.mp4");
+        videoEntry.setSize("54M");
+        reporter.getReporterCursor().getCursor().getPropertyEntries().add(videoEntry);
 
         TestMethodReport testMethodReport = new TestMethodReport();
         testMethodReport.setName("someTestMethod");
@@ -91,13 +147,26 @@ public class ReporterTestCase {
         testResult2.setEnd(testResult2.getStart() + 2000);
         testMethodReport2.setStatus(testResult2.getStatus());
         testMethodReport2.setDuration(testResult2.getEnd() - testResult2.getStart());
+        testMethodReport2.setException("some exception");
 
         reporter.getLastTestClassReport().getTestMethodReports().add(testMethodReport2);
         reporter.setTestMethodReport(testMethodReport2);
 
-        Exporter exporter = new XMLExporter();
-        exporter.setConfiguration(new ReporterConfiguration());
+        ScreenshotEntry sce = new ScreenshotEntry();
+        sce.setName("niceScreenshot.jpg");
+        sce.setSize("56kB");
+        sce.setPhase(When.BEFORE);
 
-        exporter.export(reporter.report());
+        ScreenshotEntry sce2 = new ScreenshotEntry();
+        sce2.setName("niceScreenshotBefore.jpg");
+        sce2.setPhase(When.BEFORE);
+
+        reporter.getReporterCursor().getCursor().getPropertyEntries().add(sce);
+        reporter.getReporterCursor().getCursor().getPropertyEntries().add(sce2);
+
+        Exporter exporter = new HTMLExporter();
+        exporter.setConfiguration(configuration);
+
+        exporter.export(reporter.getReport());
     }
 }

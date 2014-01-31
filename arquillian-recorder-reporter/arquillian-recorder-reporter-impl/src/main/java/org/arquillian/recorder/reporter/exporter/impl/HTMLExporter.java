@@ -19,28 +19,30 @@ package org.arquillian.recorder.reporter.exporter.impl;
 import java.io.File;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
+import javax.xml.bind.util.JAXBSource;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
 import org.arquillian.extension.recorder.Configuration;
 import org.arquillian.recorder.reporter.Exporter;
 import org.arquillian.recorder.reporter.JAXBContextFactory;
 import org.arquillian.recorder.reporter.configuration.ReporterConfiguration;
-import org.arquillian.recorder.reporter.impl.type.JSONReport;
+import org.arquillian.recorder.reporter.impl.type.HTMLReport;
 import org.arquillian.recorder.reporter.model.Report;
 import org.arquillian.recorder.reporter.spi.ReportType;
 import org.arquillian.recorder.reporter.spi.Reportable;
-import org.eclipse.persistence.jaxb.JAXBContextProperties;
 
 /**
- * Exports reports to JSON file. Output is formatted.
+ * Exports reports to HTML file according to XSLT transformation. Template can be set in configuration.
  *
- * @see {@link JSONReport}
+ * @see {@link HTMLReport}
  *
  * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public class JSONExporter implements Exporter {
+public class HTMLExporter implements Exporter {
 
     private ReporterConfiguration configuration;
 
@@ -48,23 +50,23 @@ public class JSONExporter implements Exporter {
 
     @Override
     public File export(Reportable report) throws Exception {
-        File export = configuration.getFile();
-        getMarshaller().marshal(report, export);
-        return export;
-    }
 
-    private Marshaller getMarshaller() throws JAXBException {
-        Marshaller marshaller = context.createMarshaller();
-        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-        marshaller.setProperty(JAXBContextProperties.MEDIA_TYPE, "application/json");
-        marshaller.setProperty(JAXBContextProperties.JSON_INCLUDE_ROOT, false);
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        StreamSource xslt = new StreamSource(configuration.getTemplate());
+        Transformer transformer = transformerFactory.newTransformer(xslt);
 
-        return marshaller;
+        JAXBSource source = new JAXBSource(context, report);
+
+        StreamResult result = new StreamResult(configuration.getFile());
+
+        transformer.transform(source, result);
+
+        return configuration.getFile();
     }
 
     @Override
     public Class<? extends ReportType> getReportType() {
-        return JSONReport.class;
+        return HTMLReport.class;
     }
 
     @Override

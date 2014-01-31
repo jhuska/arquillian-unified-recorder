@@ -17,8 +17,9 @@
 package org.arquillian.recorder.reporter.impl;
 
 import org.arquillian.recorder.reporter.Reporter;
+import org.arquillian.recorder.reporter.ReporterCursor;
 import org.arquillian.recorder.reporter.event.ExportReport;
-import org.arquillian.recorder.reporter.event.ReportEvent;
+import org.arquillian.recorder.reporter.event.PropertyReportEvent;
 import org.arquillian.recorder.reporter.model.ContainerReport;
 import org.arquillian.recorder.reporter.model.DeploymentReport;
 import org.arquillian.recorder.reporter.model.TestClassReport;
@@ -30,19 +31,28 @@ import org.jboss.arquillian.container.spi.ContainerRegistry;
 import org.jboss.arquillian.container.spi.client.deployment.DeploymentDescription;
 import org.jboss.arquillian.container.spi.event.container.BeforeDeploy;
 import org.jboss.arquillian.container.spi.event.container.BeforeStart;
+import org.jboss.arquillian.container.test.api.OperateOnDeployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.core.api.Event;
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.api.annotation.Observes;
 import org.jboss.arquillian.test.spi.TestResult;
+import org.jboss.arquillian.test.spi.TestResult.Status;
 import org.jboss.arquillian.test.spi.event.suite.After;
+import org.jboss.arquillian.test.spi.event.suite.AfterClass;
 import org.jboss.arquillian.test.spi.event.suite.AfterSuite;
 import org.jboss.arquillian.test.spi.event.suite.Before;
 import org.jboss.arquillian.test.spi.event.suite.BeforeClass;
 import org.jboss.arquillian.test.spi.event.suite.BeforeSuite;
 
 /**
- * Observes events from Arquillian and delegates them to {@link Reporter} implementation.
+ * Observes events from Arquillian and delegates them to {@link Reporter} implementation.<br>
+ * <br>
+ * Fires:
+ * <ul>
+ * <li>{@link ExportReport} on observing {@link AfterSuite}</li>
+ * </ul>
  *
  * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
@@ -55,7 +65,7 @@ public class ReporterLifecycleObserver {
     @Inject
     private Event<ExportReport> exportReportEvent;
 
-    public void observeBeforeSuite(@Observes BeforeSuite event) {
+    public void observeBeforeSuite(@Observes(precedence = Integer.MAX_VALUE) BeforeSuite event) {
         TestSuiteReport testSuiteReport = new TestSuiteReport();
 
         reporter.get().getReport().getTestSuiteReports().add(testSuiteReport);
@@ -70,10 +80,10 @@ public class ReporterLifecycleObserver {
                 .getConfigurationClass()) {
 
                 containerReport.setQualifier(container.getName());
-                containerReport.setConfiguration(container.getContainerConfiguration().exportAsString());
+                containerReport.setConfiguration(container.getContainerConfiguration().getContainerProperties());
 
                 reporter.get().getLastTestSuiteReport().getContainerReports().add(containerReport);
-                reporter.get().setContainer(containerReport);
+                reporter.get().setContainerReport(containerReport);
                 break;
             }
         }
@@ -85,10 +95,19 @@ public class ReporterLifecycleObserver {
 
         DeploymentDescription description = event.getDeployment();
 
-        deploymentReport.setArchiveName(description.getArchive().toString());
+        deploymentReport.setArchiveName(description.getArchive().getName());
         deploymentReport.setName(description.getName());
-        deploymentReport.setOrder(description.getOrder());
-        deploymentReport.setProtocol(description.getProtocol().getName());
+
+        int order = description.getOrder();
+        if (order != -1) {
+            deploymentReport.setOrder(order);
+        }
+
+        String protocol = description.getProtocol().getName();
+        if (!protocol.equals("_DEFAULT_")) {
+            deploymentReport.setProtocol(protocol);
+        }
+
         deploymentReport.setTarget(description.getTarget().getName());
 
         for (ContainerReport containerReport : reporter.get().getLastTestSuiteReport().getContainerReports()) {
@@ -101,8 +120,10 @@ public class ReporterLifecycleObserver {
     }
 
     public void observeBeforeClass(@Observes BeforeClass event) {
+
         TestClassReport testClassReport = new TestClassReport();
-        testClassReport.setTestClassName(event.getClass().getName());
+        testClassReport.setTestClassName(event.getTestClass().getName());
+        testClassReport.setRunAsClient(event.getTestClass().isAnnotationPresent(RunAsClient.class));
 
         reporter.get().getLastTestSuiteReport().getTestClassReports().add(testClassReport);
         reporter.get().setTestClassReport(testClassReport);
@@ -112,21 +133,38 @@ public class ReporterLifecycleObserver {
         TestMethodReport testMethodReport = new TestMethodReport();
         testMethodReport.setName(event.getTestMethod().getName());
 
+        if (event.getTestMethod().isAnnotationPresent(OperateOnDeployment.class)) {
+            OperateOnDeployment ood = event.getTestMethod().getAnnotation(OperateOnDeployment.class);
+            testMethodReport.setOperatesOnDeployment(ood.value());
+        }
+
         reporter.get().getLastTestClassReport().getTestMethodReports().add(testMethodReport);
         reporter.get().setTestMethodReport(testMethodReport);
     }
 
     public void observeAfterTest(@Observes After event, TestResult result) {
-        reporter.get().getLastTestMethodReport().setStatus(result.getStatus());
-        reporter.get().getLastTestMethodReport().setDuration(result.getEnd() - result.getStart());
+        TestMethodReport testMethodReport = reporter.get().getLastTestMethodReport();
+
+        testMethodReport.setStatus(result.getStatus());
+        testMethodReport.setDuration(result.getEnd() - result.getStart());
+
+        if (result.getStatus() == Status.FAILED) {
+            testMethodReport.setException(result.getThrowable().getMessage());
+        }
+
+        reporter.get().setReporterCursor(new ReporterCursor(reporter.get().getLastTestClassReport()));
+    }
+
+    public void observeAfterClass(@Observes AfterClass event) {
+        reporter.get().setReporterCursor(new ReporterCursor(reporter.get().getLastTestSuiteReport()));
     }
 
     public void observeAfterSuite(@Observes AfterSuite event) {
-        Reportable report = reporter.get().report();
+        Reportable report = reporter.get().getReport();
         exportReportEvent.fire(new ExportReport(report));
     }
 
-    public void observeReportEvent(@Observes ReportEvent event) {
-        // TODO
+    public void observeReportEvent(@Observes PropertyReportEvent event) {
+        reporter.get().getReporterCursor().getCursor().getPropertyEntries().add(event.getPropertyEntry());
     }
 }

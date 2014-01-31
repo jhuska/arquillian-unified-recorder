@@ -14,40 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.recorder.reporter.event;
+package org.arquillian.recorder.reporter.impl.type;
 
 import org.arquillian.recorder.reporter.spi.ReportType;
-import org.arquillian.recorder.reporter.spi.Reportable;
-import org.jboss.arquillian.core.spi.Validate;
 
 /**
  * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public class ReportEvent {
+public class HTMLReport implements ReportType {
 
-    private Class<? extends ReportType> reportType;
+    private static final String TYPE = "html";
 
-    private Reportable report;
-
-    /**
-     *
-     * @param report
-     * @param clazz runtime class of {@code report}
-     * @throws IllegalArgumentException if some argument is a null object
-     */
-    public ReportEvent(Reportable report, Class<? extends ReportType> reportType) {
-        Validate.notNull(report, "report can not be a null object");
-        Validate.notNull(reportType, "reportType can not be a null object");
-        this.report = report;
-        this.reportType = reportType;
+    @Override
+    public String getType() {
+        return TYPE;
     }
 
-    public Class<? extends ReportType> getReportType() {
-        return reportType;
-    }
-
-    public Reportable getReport() {
-        return report;
-    }
 }

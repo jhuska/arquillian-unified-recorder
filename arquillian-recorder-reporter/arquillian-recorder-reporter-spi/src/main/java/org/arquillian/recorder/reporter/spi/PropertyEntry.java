@@ -14,13 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.recorder.reporter.model.property;
+package org.arquillian.recorder.reporter.spi;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
+ * Entry which does not belong to Arquillian report itself but represents some custom property for it.
+ *
  * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public class KeyValueEntry implements PropertyEntry {
+public abstract class PropertyEntry implements ReportEntry {
 
+    @XmlTransient
+    private List<PropertyEntry> propertyEntries = new ArrayList<PropertyEntry>();
+
+    @Override
+    public List<PropertyEntry> getPropertyEntries() {
+        return propertyEntries;
+    }
 }

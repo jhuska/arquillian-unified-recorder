@@ -25,6 +25,13 @@ import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.api.annotation.Observes;
 
 /**
+ * Observes {@link ExportReport} event in order to pass a report to some {@link Exporter}.<br>
+ * <br>
+ * Fires:
+ * <ul>
+ * <li>{@link ReportExported}</li>
+ * </ul>
+ *
  * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */

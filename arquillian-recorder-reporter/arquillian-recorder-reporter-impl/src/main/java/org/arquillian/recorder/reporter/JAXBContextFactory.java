@@ -14,14 +14,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.recorder.reporter.model.property;
+package org.arquillian.recorder.reporter;
 
-import org.arquillian.recorder.reporter.ReportEntry;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 
 /**
+ * Creates {@link JAXBContext}s for model classes.
+ *
  * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public interface PropertyEntry extends ReportEntry {
+public final class JAXBContextFactory {
 
+    private static final Map<Class<?>, JAXBContext> contexts = new ConcurrentHashMap<Class<?>, JAXBContext>();
+
+    private JAXBContextFactory() {
+    }
+
+    public static synchronized JAXBContext initContext(Class<?> modelRoot) {
+        if (!contexts.containsKey(modelRoot)) {
+            try {
+                contexts.put(modelRoot, JAXBContext.newInstance(modelRoot));
+            } catch (JAXBException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return contexts.get(modelRoot);
+    }
 }

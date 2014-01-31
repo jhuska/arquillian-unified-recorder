@@ -14,12 +14,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.recorder.reporter.model.property;
+package org.arquillian.recorder.reporter.model.entry;
+
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import org.arquillian.extension.recorder.When;
 
 /**
+ * Represents video being taken during test.<br>
+ * <br>
+ * Can hold:
+ * <ul>
+ * <li>phase as {@link When}</li>
+ * </ul>
+ *
+ * @see {@link FileEntry}
  * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public class ScreenshotEntry extends FileEntry {
+@XmlRootElement(name = "video")
+public class VideoEntry extends FileEntry {
 
+    private When phase;
+
+    @XmlAttribute(required = false)
+    public When getPhase() {
+        return phase;
+    }
+
+    public void setPhase(When phase) {
+        this.phase = phase;
+    }
 }

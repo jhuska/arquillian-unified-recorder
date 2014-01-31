@@ -20,29 +20,49 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.arquillian.recorder.reporter.ReportEntry;
-import org.arquillian.recorder.reporter.model.property.PropertyEntry;
+import org.arquillian.recorder.reporter.model.entry.FileEntry;
+import org.arquillian.recorder.reporter.model.entry.KeyValueEntry;
+import org.arquillian.recorder.reporter.model.entry.VideoEntry;
+import org.arquillian.recorder.reporter.spi.PropertyEntry;
+import org.arquillian.recorder.reporter.spi.ReportEntry;
 
 /**
+ * Reports test suite for some {@link Report} <br>
+ * </br>
+ * Must hold:
+ * <ul>
+ * <li>at least one {@link ContainerReport}</li>
+ * <li>at least one {@link TestClassReport}</li>
+ * </ul>
+ * Can hold:
+ * <ul>
+ * <li>list of {@link KeyValueEntry}</li>
+ * <li>list of {@link FileEntry}</li>
+ * <li>list of {@link VideoEntry}</li>
+ * </ul>
+ *
  * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
 @XmlRootElement(name = "suite")
-@XmlType(propOrder = { "containerReports", "testClassReports" })
+@XmlType(propOrder = { "propertyEntries", "containerReports", "testClassReports" })
 public class TestSuiteReport implements ReportEntry {
 
-    @XmlElement(name = "container")
-    @XmlElementWrapper(name = "containers")
+    @XmlElement(name = "container", required = true)
     private final List<ContainerReport> containerReports = new ArrayList<ContainerReport>();
 
-    @XmlElement(name = "class")
-    @XmlElementWrapper(name = "classes")
+    @XmlElement(name = "class", required = true)
     private final List<TestClassReport> testClassReports = new ArrayList<TestClassReport>();
 
+    @XmlElements({
+        @XmlElement(name = "property", type = KeyValueEntry.class),
+        @XmlElement(name = "file", type = FileEntry.class),
+        @XmlElement(name = "video", type = VideoEntry.class)
+    })
     private final List<PropertyEntry> propertyEntries = new ArrayList<PropertyEntry>();
 
     public List<ContainerReport> getContainerReports() {
@@ -53,26 +73,9 @@ public class TestSuiteReport implements ReportEntry {
         return testClassReports;
     }
 
+    @Override
     public List<PropertyEntry> getPropertyEntries() {
         return propertyEntries;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("testSuiteReport\n\t\t");
-
-        for (ContainerReport containerReport : containerReports) {
-            sb.append(containerReport);
-        }
-
-        for (TestClassReport testClassReport : testClassReports) {
-            sb.append(testClassReport);
-            sb.append("\t\t");
-        }
-
-        return sb.toString();
     }
 
 }

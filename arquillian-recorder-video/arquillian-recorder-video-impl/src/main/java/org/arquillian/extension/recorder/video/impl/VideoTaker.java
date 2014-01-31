@@ -29,6 +29,10 @@ import org.arquillian.extension.recorder.video.event.StartRecordSuiteVideo;
 import org.arquillian.extension.recorder.video.event.StartRecordVideo;
 import org.arquillian.extension.recorder.video.event.StopRecordSuiteVideo;
 import org.arquillian.extension.recorder.video.event.StopRecordVideo;
+import org.arquillian.recorder.reporter.event.PropertyReportEvent;
+import org.arquillian.recorder.reporter.model.entry.VideoEntry;
+import org.arquillian.recorder.reporter.spi.PropertyEntry;
+import org.jboss.arquillian.core.api.Event;
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.api.annotation.Observes;
@@ -47,6 +51,9 @@ public class VideoTaker {
 
     @Inject
     private Instance<VideoConfiguration> configuration;
+
+    @Inject
+    private Event<PropertyReportEvent> propertyReportEvent;
 
     private DefaultFileNameBuilder nb = DefaultFileNameBuilder.getInstance();
 
@@ -75,7 +82,7 @@ public class VideoTaker {
         Video video = recorder.get().stopRecording();
         video.setResourceMetaData(context.getEvent().getVideoMetaData());
 
-        // in case of reporting extension, we can fire event with taken video
+        propertyReportEvent.fire(new PropertyReportEvent(getVideoEntry(video)));
 
         context.proceed();
     }
@@ -89,7 +96,7 @@ public class VideoTaker {
             Status status = testResult.getStatus();
             appendStatus(video, status);
             if (!status.equals(Status.FAILED) && configuration.get().getTakeOnlyOnFail()) {
-                if(!video.getResource().getAbsoluteFile().delete()) {
+                if (!video.getResource().getAbsoluteFile().delete()) {
                     System.out.println("video was not deleted: " + video.getResource().getAbsolutePath());
                 }
                 File directory = video.getResource().getParentFile();
@@ -99,7 +106,16 @@ public class VideoTaker {
             }
         }
 
+        propertyReportEvent.fire(new PropertyReportEvent(getVideoEntry(video)));
+
         context.proceed();
+    }
+
+    private PropertyEntry getVideoEntry(Video video) {
+        VideoEntry videoEntry = new VideoEntry();
+        videoEntry.setName(video.getResource().getPath());
+        videoEntry.setSize(Long.toString(video.getResource().length()));
+        return videoEntry;
     }
 
     private void appendStatus(Video video, Status status) {

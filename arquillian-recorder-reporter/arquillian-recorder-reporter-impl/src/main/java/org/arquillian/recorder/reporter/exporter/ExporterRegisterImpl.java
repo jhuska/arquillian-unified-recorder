@@ -32,10 +32,11 @@ public class ExporterRegisterImpl implements ExporterRegister {
     private final List<Exporter> exporters = new ArrayList<Exporter>();
 
     @Override
-    public void add(Exporter exporter) {
+    public ExporterRegister add(Exporter exporter) {
         if (get(exporter.getReportType()) == null) {
             exporters.add(exporter);
         }
+        return this;
     }
 
     @Override

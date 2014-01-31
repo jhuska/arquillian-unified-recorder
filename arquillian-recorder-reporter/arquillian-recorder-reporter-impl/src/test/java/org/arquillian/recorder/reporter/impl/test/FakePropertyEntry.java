@@ -14,34 +14,52 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.arquillian.recorder.reporter.impl;
+package org.arquillian.recorder.reporter.impl.test;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.arquillian.recorder.reporter.spi.ReportType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import org.arquillian.recorder.reporter.spi.PropertyEntry;
 
 /**
- * Registers all supported report types.
- *
  * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
  */
-public class ReportTypeRegister {
+@XmlRootElement(name = "property")
+public class FakePropertyEntry extends PropertyEntry {
 
-    private final List<ReportType> reportTypes = new ArrayList<ReportType>();
+    @XmlElement(name = "key")
+    private String myKey;
 
-    public ReportTypeRegister add(ReportType reportType) {
-        reportTypes.add(reportType);
-        return this;
+    @XmlElement(name = "value")
+    private String myValue;
+
+    public FakePropertyEntry(String key, String value) {
+        myKey = key;
+        myValue = value;
     }
 
-    public ReportType get(String report) {
-        for (ReportType reportType : reportTypes) {
-            if (reportType.getType().equalsIgnoreCase(report)) {
-                return reportType;
-            }
-        }
+    public String getMyKey() {
+        return myKey;
+    }
+
+    public void setMyKey(String myKey) {
+        this.myKey = myKey;
+    }
+
+    public String getMyValue() {
+        return myValue;
+    }
+
+    public void setMyValue(String myValue) {
+        this.myValue = myValue;
+    }
+
+    @Override
+    public List<PropertyEntry> getPropertyEntries() {
+        // TODO Auto-generated method stub
         return null;
     }
 

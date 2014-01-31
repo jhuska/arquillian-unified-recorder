@@ -18,15 +18,13 @@ package org.arquillian.recorder.reporter.impl;
 
 import org.arquillian.extension.recorder.Configuration;
 import org.arquillian.recorder.reporter.Reporter;
+import org.arquillian.recorder.reporter.ReporterCursor;
 import org.arquillian.recorder.reporter.configuration.ReporterConfiguration;
-import org.arquillian.recorder.reporter.impl.type.XMLReport;
 import org.arquillian.recorder.reporter.model.ContainerReport;
 import org.arquillian.recorder.reporter.model.Report;
 import org.arquillian.recorder.reporter.model.TestClassReport;
 import org.arquillian.recorder.reporter.model.TestMethodReport;
 import org.arquillian.recorder.reporter.model.TestSuiteReport;
-import org.arquillian.recorder.reporter.spi.ReportType;
-import org.arquillian.recorder.reporter.spi.Reportable;
 
 /**
  * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
@@ -36,56 +34,58 @@ public class ReporterImpl implements Reporter {
 
     private ReporterConfiguration configuration;
 
-    private Report report = null;
+    private final Report report = new Report();
 
-    private TestSuiteReport testSuiteReport = null;
+    private TestSuiteReport testSuiteReport;
 
-    private TestClassReport testClassReport = null;
+    private TestClassReport testClassReport;
 
-    private TestMethodReport testMethodReport = null;
+    private TestMethodReport testMethodReport;
 
-    private ContainerReport containerReport = null;
+    private ContainerReport containerReport;
 
-    private ReportType reportType = new XMLReport();
-
-    @Override
-    public Reportable report() {
-        System.out.println(report.toString());
-        return report;
-    }
-
-    @Override
-    public ReportType getReportType() {
-        return reportType;
-    }
-
-    @Override
-    public void setReport(Report report) {
-        this.report = report;
-    }
+    private ReporterCursor reporterCursor = new ReporterCursor();
 
     @Override
     public Report getReport() {
+        report.setStop(System.currentTimeMillis());
         return report;
+    }
+
+    public ReporterImpl() {
+        reporterCursor.setCursor(report);
+    }
+
+    @Override
+    public void setReporterCursor(ReporterCursor reporterCursor) {
+        this.reporterCursor = reporterCursor;
+    }
+
+    @Override
+    public ReporterCursor getReporterCursor() {
+        return reporterCursor;
     }
 
     @Override
     public void setTestSuiteReport(TestSuiteReport testSuiteReport) {
         this.testSuiteReport = testSuiteReport;
+        this.reporterCursor.setCursor(this.testSuiteReport);
     }
 
     @Override
     public void setTestClassReport(TestClassReport testClassReport) {
         this.testClassReport = testClassReport;
+        this.reporterCursor.setCursor(this.testClassReport);
     }
 
     @Override
     public void setTestMethodReport(TestMethodReport testMethodReport) {
         this.testMethodReport = testMethodReport;
+        this.reporterCursor.setCursor(this.testMethodReport);
     }
 
     @Override
-    public void setContainer(ContainerReport containerReport) {
+    public void setContainerReport(ContainerReport containerReport) {
         this.containerReport = containerReport;
     }
 
