@@ -1,3 +1,72 @@
-== Arquillian Recorder - Reporter extension
+= Arquillian Reporter
 
-Makes reports of your tests.
+Arquillian Reporter is an extension to Arquillian platform which provides the possibility to make reports of your Arquillian tests. In order to use it, please place this artifact configuration into Maven dependencies:
+
+The examples of how reports are taken can be seen http://t.co/y1akpZVIOI[here] for JSON and http://t.co/0JXVy0VlUJ[here] for XML type of reporting.
+
+== Making it part of your project
+
+[source,xml]
+----
+<dependency>
+    <groupId>org.arquillian.extension</groupId>
+    <artifactId>arquillian-recorder-reporter-impl</artifactId>
+    <version>${version.reporter}</version>
+</dependency>
+----
+
+== Settings
+
+Please put this extension definition into +arquillian.xml+ in order to bootstrap the configuration:
+
+[source, xml]
+----
+<extension qualifier="reporter">
+    <property ... />
+</extension>
+----
+
+|===
+|Configuration property|Description|Default value
+
+|+report+
+|type of report you want to get, possible values are _xml_, _json_ or _html_
+|xml
+|+file+
+|file where to export the report
+|report (plus report type as a file extension)
+|+rootDir+
+|root directory which prepends +file+
+|target
+|+template+
+|template for transforming XML to HTML when using "html" report type
+|template.xsl
+
+|===
+
+== How does it work?
+
+There is a lifecycle observer which listens to all important Arquillian lifecycle events like BeforeSuite, AfterClass, Before and so on. There is JAXB model which gets filled as test is proceeding. After all suite(s) are finished, reporting is delegated to https://github.com/smiklosovic/arquillian-unified-recorder/blob/master/arquillian-recorder-reporter/arquillian-recorder-reporter-api/src/main/java/org/arquillian/recorder/reporter/Exporter.java[Exporter]. You can register your own exporter by observing https://github.com/smiklosovic/arquillian-unified-recorder/blob/master/arquillian-recorder-reporter/arquillian-recorder-reporter-impl/src/main/java/org/arquillian/recorder/reporter/exporter/ExporterRegistrationHandler.java#L53[ExporterRegisterCreated] event and specifying https://github.com/smiklosovic/arquillian-unified-recorder/blob/master/arquillian-recorder-reporter/arquillian-recorder-reporter-spi/src/main/java/org/arquillian/recorder/reporter/spi/ReportType.java[report type] for that exporter. The example how it is done for XML are https://github.com/smiklosovic/arquillian-unified-recorder/blob/master/arquillian-recorder-reporter/arquillian-recorder-reporter-impl/src/main/java/org/arquillian/recorder/reporter/impl/type/XMLReport.java[here] and https://github.com/smiklosovic/arquillian-unified-recorder/blob/master/arquillian-recorder-reporter/arquillian-recorder-reporter-impl/src/main/java/org/arquillian/recorder/reporter/exporter/impl/XMLExporter.java[here].
+
+JAXB is after all marshalled to various formats depending of what you want. There is one underlying model which just marshalls to the format you need by some specific exporter.
+
+== You say what to report
+
+It is impossible to know in advance what some particular Arquillian extension will need to report. For that matter, you can report you own properties into report tree by firing ordinary Arquillian event. Let's see an example:
+
+[source, java]
+----
+@Inject private Event<PropertyReportEvent> propertyReportEvent;
+
+ScreenshotEntry propertyEntry = new ScreenshotEntry();
+
+propertyReportEvent.fire(new PropertyReportEvent(propertyEntry));
+----
+
+Full example is https://github.com/smiklosovic/arquillian-unified-recorder/blob/master/arquillian-recorder-screenshooter/arquillian-recorder-screenshooter-impl/src/main/java/org/arquillian/extension/recorder/screenshooter/impl/ScreenshotTaker.java#L59-L64[here]. You see that you have to fire +PropertyReportEvent+ from reporter's SPI with an object which extends PropertyEntry from SPI. Reporting extension does not report screenshot entries on its own. That is the job of screenshooting extension itself so it just passes the event to reporting extension. Reporter just collects it and export to specified format.
+ 
+All possible entries you can fire are https://github.com/smiklosovic/arquillian-unified-recorder/tree/master/arquillian-recorder-reporter/arquillian-recorder-reporter-api/src/main/java/org/arquillian/recorder/reporter/model/entry[here].
+
+After firing the property, it gets hooked into the right place of report tree. So when I fired screenshot property event in +Before+, it will appear in method subtree. When I takes videos and I fire +VideoEntry+ event in AfterClass or AfterSuite, it will be added into the right subtree as seen in the example.
+
+Due to JAXB restrictions, you can not fire nor marshall interfaces so it can not be done totally generic.
