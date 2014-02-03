@@ -31,6 +31,8 @@ You find all implementations of above API in +implementations+ folder. Right now
 ** Use this when you are doing testing with WebDriver. You can save screens upon every method interaction with injected WebDriver instance if you want.
 * arquillian-droidium-screenshooter
 ** Droidium screenshooter takes screenshots of tests which are executing on Android device.
+* arquillian-recorder-reporter
+** Makes pretty reports of your your tests e.g. to XML or to JSON format or event HTML. You can report your own properties if you want from your extension.
 
 === Documentation for implementations
 
