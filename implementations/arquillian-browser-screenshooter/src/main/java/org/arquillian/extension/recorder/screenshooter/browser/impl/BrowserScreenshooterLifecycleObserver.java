@@ -18,6 +18,7 @@ package org.arquillian.extension.recorder.screenshooter.browser.impl;
 
 import org.arquillian.extension.recorder.DefaultFileNameBuilder;
 import org.arquillian.extension.recorder.When;
+import org.arquillian.extension.recorder.screenshooter.ScreenshooterConfiguration;
 import org.arquillian.extension.recorder.screenshooter.ScreenshootingStrategy;
 import org.arquillian.extension.recorder.screenshooter.ScreenshotMetaData;
 import org.arquillian.extension.recorder.screenshooter.ScreenshotType;
@@ -46,7 +47,7 @@ public class BrowserScreenshooterLifecycleObserver {
     private Instance<ScreenshootingStrategy> strategy;
 
     @Inject
-    private Instance<BrowserScreenshooterConfiguration> configuration;
+    private Instance<ScreenshooterConfiguration> configuration;
 
     @Inject
     private Instance<TakeScreenshotOnEveryActionInterceptor> takeScreenshotOnEveryActionInterceptor;
@@ -76,7 +77,7 @@ public class BrowserScreenshooterLifecycleObserver {
 
         WebDriver browser = grapheneContext.get().getWebDriver();
 
-        if (configuration.get().getTakeOnEveryAction()) {
+        if (((BrowserScreenshooterConfiguration) configuration.get()).getTakeOnEveryAction()) {
             takeScreenshotInterceptor = takeScreenshotOnEveryActionInterceptor.get();
             takeScreenshotInterceptor.registerThis(browser);
             takeScreenshotInterceptor.setupThis(configuration.get(), beforeScreenshotTaken, afterScreenshotTaken,
